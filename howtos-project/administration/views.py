@@ -1,3 +1,9 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
-# Create your views here.
+
+def test(request):
+    return HttpResponse("Hello World")
+
+def dashboard(request):
+	return render(request, 'pages/dashboard.html')
