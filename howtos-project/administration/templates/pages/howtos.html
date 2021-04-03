@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div id="content">
+        <h1>How-to's</h1>
+        <br><br><br>
+        <a href="#"><s>Create New How To +</s></a>
+        <br><br><br>
+        {% for howto in howtos %}
+            <div class="list-box">
+                <div class="list-box-clickable" onclick="showChangeBox('change-box-{{ howto.id }}');">
+                    <div class="list-box-title">{{ howto.title }}</div>
+                    <div class="list-box-added">{{ howto.created }}</div>
+                    <div class="list-box-last-edit">{{ howto.updated }}</div>
+                    <div id="change-box-{{ howto.id }}" class="change-box">
+                        <a href="{% url 'howtos_edit' howto.id%}" class="change-box-edit">edit</a>
+                        <a href="#" class="change-box-tag"><s>tag</s></a>
+                        <a href="#" class="change-box-delete"><s>delete</s></a>
+                    </div>
+                </div>
+            <a href="{% url 'howtos_edit' howto.id%}" class="list-box-edit">✎</a>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

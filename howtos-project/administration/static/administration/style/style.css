@@ -1,0 +1,553 @@
+/*  ____________________________________
+ * |    _   _             _ _           |
+ * |   | |_(_)   _ __ _ _(_) |_ ____    |
+ * |   | __| |\ / /_ \ '_| | __|_  /    |
+ * |   | |_| | ' / __/ | | | |__/ /_    |
+ * |    \__|_|\_/\___|_| |_|\__/___/    |
+ * |____________________________________|
+ *
+ * 1.  Normalize
+ * 2.  Font
+ * 3.  Color
+ * 4.  General Classes
+ * 5.  General Layout
+ * 6.  Menu
+ * 7.  General Content
+ * 8.  List View
+ * 8.1 Sortable and List
+ * 8.2 Sortable
+ * 8.3 List
+ * 8.4 Change Box
+ * 9.  Alert Box
+ * 10. Form
+ *
+ * 99. Message for Unsupported Browsers
+ */
+
+/* ---------------------------------------------------------------------
+ *    1. Normalize
+ * ------------------------------------------------------------------ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /*includes any margin and padding for sizing*/
+}
+
+a {
+  color: var(--textcolor);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* ---------------------------------------------------------------------
+ *    2. Font
+ * ------------------------------------------------------------------ */
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+body {
+  font-family: Roboto, Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ---------------------------------------------------------------------
+ *    3. Color
+ * ------------------------------------------------------------------ */
+:root {
+	--bgdark: rgb(38,38,38);
+	--bgbrighter: rgb(48,48,48);
+	--maincolor: rgb(0,146,223);
+	--maincolordarker: rgb(0,126,203);
+	--maincolordarkest: rgb(0,105,170);
+	--maincolorshadow: rgba(0,126,203,0.3);
+  
+	--navlinkcolor: rgb(255,255,255);
+	--textcolor: rgb(255,255,255);
+	--white: rgb(255,255,255);
+  }
+
+/* ---------------------------------------------------------------------
+ *    4. General Classes
+ * ------------------------------------------------------------------ */
+ .void-xs {height:  6px;}
+ .void-s  {height: 12px;}
+ .void-m  {height: 24px;}
+ .void-l  {height: 36px;}
+ .void-xl {height: 48px;}
+
+ h1 {
+  position: relative;
+  top: -6px;
+ }
+
+/* ---------------------------------------------------------------------
+ *    5. Layout
+ * ------------------------------------------------------------------ */
+body {
+  color: var(--textcolor);
+  background: var(--bgdark);
+
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "menu content"
+    "menu content";
+  grid-template-columns: 296px auto;
+  grid-template-rows: 80px auto 1fr;
+}
+
+#header {grid-area: header;}
+#menu {grid-area: menu;}
+#content {grid-area: content;}
+
+/* ---------------------------------------------------------------------
+ *    6. Menu
+ * ------------------------------------------------------------------ */
+#menu {
+  min-height: 82vh;
+  margin: 0 20px;
+  padding: 40px 8px 20px 8px;
+  border-radius: 6px;
+  background: var(--maincolor);
+  background: linear-gradient(
+    128deg,
+    var(--maincolor) 0%,
+    var(--maincolordarker) 100%
+  );
+  box-shadow: 0 0 10px var(--maincolorshadow);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.menu-entry,
+.menu-entry-noclick {
+  margin-bottom: 12px;
+  border-radius: 4px;
+}
+
+.menu-entry:hover {
+  background: var(--maincolordarkest);
+}
+
+.menu-entry-active {
+  background: var(--maincolordarkest);
+  border-radius: 4px;
+}
+
+.entry {
+  padding: 6px;
+  display: flex;
+  align-items: center;
+}
+
+.menu-icon {
+  height: 24px;
+  width: 24px;
+  margin: 0 12px;
+  background-size: contain;
+}
+
+.menu-sub {
+  margin-left: 20px;
+}
+
+.menu-divider {
+  height: 2px;
+  margin: 42px 0 22px 0;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+#icon-dashboard {background-image: url("../icons/dashboard.png");}
+#icon-howtos {background-image: url("../icons/howtos.png");}
+#icon-steps {background-image: url("../icons/steps.png");}
+#icon-supersteps {background-image: url("../icons/supersteps.png");}
+#icon-substeps {background-image: url("../icons/substeps.png");}
+#icon-modules {background-image: url("../icons/modules.png");}
+#icon-pictures {background-image: url("../icons/pictures.png");}
+#icon-explanations {background-image: url("../icons/explanations.png");}
+#icon-codes {background-image: url("../icons/codes.png");}
+#icon-links {background-image: url("../icons/links.png");}
+#icon-tags {background-image: url("../icons/tags.png");}
+#icon-information {background-image: url("../icons/information.png");}
+#icon-settings {background-image: url("../icons/settings.png");}
+
+/* ---------------------------------------------------------------------
+ *    7. General Content
+ * ------------------------------------------------------------------ */
+#content {
+  margin: 0 12px;
+  max-width: 1000px;
+  padding-bottom: 60vh;
+  overflow: auto;
+}
+
+/* ---------------------------------------------------------------------
+ *    8.   List View
+ *    8.1 Sortable and List
+ * ------------------------------------------------------------------ */
+.sortable-box,
+.list-box {
+	min-height: 56px;
+	border: 1px solid var(--bgbrighter);
+	display: grid;
+	background: rgb(42,42,42);
+	cursor: pointer;
+}
+
+.box:hover,
+.sortable-box:hover,
+.list-box:hover {
+	background: var(--bgbrighter);
+}
+
+.sortable-edit,
+.list-box-edit {
+	grid-area: edit;
+	background: var(--bgbrighter);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 20px;
+}
+
+.sortable-edit:hover,
+.list-box-edit:hover {
+	background: var(--maincolor);
+}
+
+.noselect {
+	/* Fix accidental text selection */
+	-webkit-touch-callout: none; /* iOS Safari */
+	user-select: none;
+}
+
+.sortable-title,
+.list-box-title {
+	padding: 12px;
+	display: flex;
+	align-items: center;
+}
+
+/* ---------------------------------------------------------------------
+ *    8.2  Sortable
+ * ------------------------------------------------------------------ */
+ .sortable-box {
+	grid-template-columns: auto 36px;
+	grid-template-areas: "sortable-box-clickable edit";
+}
+
+.sortable-box-clickable {
+	display: grid;
+	grid-area: sortable-box-clickable;
+	grid-template-columns: 42px 36px auto;
+	grid-template-areas: "drag position content";
+}
+
+.sortable-drag {grid-area: drag;}
+.sortable-position {grid-area: position;}
+.sortable-title {grid-area: content;}
+.sortable-edit {grid-area: edit;}
+
+
+#sortable > :first-child {
+	border-radius: 5px 5px 0 0;
+}
+
+#sortable > :last-child {
+	border-radius: 0 0 5px 5px;
+}
+
+.sortable-drag {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-right: 2px solid var(--bgbrighter);
+}
+
+.sortable-drag:hover {
+	cursor: -webkit-grab;
+	cursor: grab;
+}
+
+.sortable-drag .drag {
+	width: 3px;
+	height: 3px;
+	margin: 5px;
+	background: white;
+}
+
+.sortable-position {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	padding-left: 12px;
+}
+
+.sortable-title {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.sortable-chosen > * {
+	display: none;
+}
+
+/* ---------------------------------------------------------------------
+ *    8.3  List
+ * ------------------------------------------------------------------ */
+.list-box {
+	grid-template-columns: auto 36px;
+	grid-template-areas: "list-box-clickable edit";
+}
+
+.list-box-clickable {
+	display: grid;
+	grid-area: list-box-clickable;
+	grid-template-columns: 3fr 1fr 1fr;
+	grid-template-areas: "title added last-edit";
+}
+
+.list-box-edit {grid-area: edit;}
+.list-box-title {grid-area: title;}
+.list-box-added {grid-area: added;}
+.list-box-last-edit {grid-area: last-edit;}
+
+.list-box-added,
+.list-box-last-edit {
+	display: flex;
+	align-items: center;
+}
+
+.list-box-add {
+	display: grid;
+	grid-template-columns: 42px 3fr 1fr 1fr;
+	grid-template-areas: "add title added last-edit";
+}
+
+.list-box-select {
+	grid-area: add;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.5rem;
+}
+
+.list-box-select:hover {
+	background-color: var(--maincolor);
+}
+
+.list-box-info {
+	display: grid;
+	grid-template-columns: 3fr 1fr 1fr;
+	grid-template-areas: "title added last-edit";
+}
+
+.list-box-edit:hover {
+	cursor: pointer;
+}
+
+/* ---------------------------------------------------------------------
+ *    8.4  Change Box
+ * ------------------------------------------------------------------ */
+ .change-box {
+	grid-template-columns: 100px 100px 100px;
+	grid-template-areas: "edit tag delete";
+	display: none;
+	background: var(--bgbrighter);
+}
+
+.change-box-main {
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-areas: ". delete edit";
+	display: none;
+}
+
+.change-box-active {
+	display: grid;
+	grid-column: 1/-1;
+	grid-row: 1;
+}
+
+.edit-box-active {
+	display: grid;
+	grid-column: 1/-1;
+	grid-row: 1;
+}
+
+.change-box-delete,
+.change-box-tag,
+.change-box-edit {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+
+.change-box-delete {
+	grid-area: delete;
+	background: rgb(120,0,0);
+	margin: 2px 4px;
+	border-radius: 4px;
+	z-index: 10;
+}
+
+.change-box-tag {
+	grid-area: tag;
+	background: var(--maincolor);
+	margin: 2px 4px;
+	border-radius: 4px;
+	z-index: 10;
+}
+
+.change-box-edit {
+	grid-area: edit;
+	background: var(--maincolor);
+	margin: 2px 4px;
+	border-radius: 4px;
+	z-index: 10;
+}
+
+/* ---------------------------------------------------------------------
+ *    9. Alert Box
+ * ------------------------------------------------------------------ */
+ .info-box {
+	border-radius: 12px;
+	padding: 12px;
+	min-height: 120px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.error {
+	background: rgb(120,0,0);
+}
+
+.warning {
+	background: rgb(170, 105, 0);
+}
+
+.warning button {
+	background: rgb(124, 77, 1);
+}
+
+/* ---------------------------------------------------------------------
+ *    10. Form
+ * ------------------------------------------------------------------ */
+ .title-form {
+	display: flex;
+	justify-content: space-between;
+}
+
+.title-form .input-submit {
+	visibility: hidden;
+}
+
+.title-form-new {
+	display: flex;
+	justify-content: space-between;
+}
+
+.input-submit {
+	background-color: var(--maincolor);
+	margin: 0px 0px 0px 6px;
+	padding: 12px;
+	color: white;
+	border: none;
+	outline: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.input-text{
+	padding: 12px;
+	background: rgb(38,38,38);
+	flex-grow: 1;
+	color: white;
+	border: none;
+	outline: none;
+	border-radius: 4px;
+	font-size: 20px;
+}
+
+.title-form-new .input-text {
+	box-shadow: 0 0 0 2pt var(--bgbrighter);
+}
+
+.input-text:hover {
+	box-shadow: 0 0 0 2pt var(--bgbrighter);
+}
+
+.input-text:focus {
+	box-shadow: none;
+	background: var(--bgbrighter);
+}
+
+.input-submit:hover {
+	visibility: visible;
+}
+
+.input-text:focus~.input-submit {
+	visibility: visible;
+}
+
+/* ---------------------------------------------------------------------
+ *    99. Message for Unsupported Browsers
+*         (does not require any JavaScript)
+ * ------------------------------------------------------------------ */
+#ie-message {
+  background: rgb(190, 0, 0);
+  color: white;
+  padding: 50px;
+  margin-bottom: 50px;
+}
+
+@supports (display: grid) {
+  #ie-message {
+    display: none;
+  }
+}
+
+/* TO CLEAN */
+.hovering-background-class {
+	background: var(--maincolor);
+	background: linear-gradient(90deg, rgba(0,198,255,1) 0%, rgba(125,227,255,1) 100%);
+}
+
+/* Buttons */
+button {
+	padding: 12px;
+	background: var(--bgbrighter);
+	color: white;
+	border: none;
+	outline: none;
+	border-radius: 4px;
+	min-width: 62px;
+	margin: 6px;
+	cursor: pointer;
+}
+
+.divider {
+	height: 2px;
+	background-color: var(--maincolor);
+}
+
+/* site message */
+#site-message {
+	display: flex;
+	flex-direction: column;
+	max-height: 90%;
+	overflow-y: hidden;
+}
+
+.message {
+	opacity: 0;
+	transition: opacity 1s;
+}
+
+.message-active {
+	opacity: 1;
+	display: initial;
+}

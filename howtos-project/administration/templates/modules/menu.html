@@ -1,0 +1,87 @@
+<div id="menu">
+    <div id="menu-top-section">
+        <div class="menu-entry">
+            <a href="{% url 'dashboard' %}" class="entry{% if menu == 'dashboard' %} menu-entry-active{% endif %}">
+                <div id="icon-dashboard" class="menu-icon"></div>
+                <div>Dashboard</div>
+            </a>
+        </div>
+        <div class="menu-entry">
+            <a href="{% url 'howtos' %}" class="entry{% if menu == 'howtos' %} menu-entry-active{% endif %}">
+                <div id="icon-howtos" class="menu-icon"></div>
+                <div>How To's</div>
+            </a>
+        </div>
+        <div class="menu-entry-noclick">
+            <div class="entry">
+                <div id="icon-steps" class="menu-icon"></div>
+                <div>Steps</div>
+            </div>
+        </div>
+        <div class="menu-entry menu-sub">
+            <a href="#" class="entry">
+                <div id="icon-supersteps" class="menu-icon"></div>
+                <div><s>Supersteps</s></div>
+            </a>
+        </div>
+        <div class="menu-entry menu-sub">
+            <a href="#" class="entry">
+                <div id="icon-substeps" class="menu-icon"></div>
+                <div><s>Substeps</s></div>
+            </a>
+        </div>
+        <div class="void-m"></div>
+        <div class="menu-entry-noclick">
+            <div class="entry">
+                <div id="icon-modules" class="menu-icon"></div>
+                <div>Modules</div>
+            </div>
+        </div>
+        <div class="menu-entry menu-sub">
+            <a href="#" class="entry">
+                <div id="icon-pictures" class="menu-icon"></div>
+                <div><s>Pictures</s></div>
+            </a>
+        </div>
+        <div class="menu-entry menu-sub">
+            <a href="#" class="entry">
+                <div id="icon-explanations" class="menu-icon"></div>
+                <div><s>Explanations</s></div>
+            </a>
+        </div>
+        <div class="menu-entry menu-sub">
+            <a href="#" class="entry">
+                <div id="icon-codes" class="menu-icon"></div>
+                <div><s>Codes</s></div>
+            </a>
+        </div>
+        <div class="menu-entry menu-sub">
+            <a href="#" class="entry">
+                <div id="icon-links" class="menu-icon"></div>
+                <div><s>Links</s></div>
+            </a>
+        </div>
+        <div class="void-m"></div>
+        <div class="menu-entry">
+            <a href="#" class="entry">
+                <div id="icon-tags" class="menu-icon"></div>
+                <div><s>Tags</s></div>
+            </a>
+        </div>
+    </div>
+    <div id="menu-bottom-section">
+        <div class="menu-divider"></div>
+        <div class="menu-entry">
+            <a href="#" class="entry">
+                <div id="icon-settings" class="menu-icon"></div>
+                <div><s>Settings</s></div>
+            </a>
+        </div>
+        <div class="menu-entry">
+            <a href="{% url 'information' %}" class="entry{% if menu == 'information' %} menu-entry-active{% endif %}">
+                <div id="icon-information" class="menu-icon"></div>
+                <div>Information</div>
+            </a>
+        </div>
+    </div>
+</div>
