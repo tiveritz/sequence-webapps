@@ -119,3 +119,4 @@ media/
 pyvenv.cfg
 settings.py
 settings_prod.py
+secrets/
