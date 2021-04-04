@@ -14,11 +14,10 @@ A Website that allows users to view the How To's. Consumes the Core API.
 
 # Administration
 The How To's Administration is a Python powered Website on the Django Framework.
-
-URL: [https://ht.tiveritz.at](https://ht.tiveritz.at/)
+URL: [https://ht.tiveritz.at/administration](https://ht.tiveritz.at/administration)
 
 ### Dependencies
-Django==3.1.4
-python-dotenv==0.17.0 #for environment variables in settings.py
-mysqlclient==2.0.3 #for database connection
-requests==2.25.1 #for consuming the core API
+Django==3.1.4<br/>
+python-dotenv==0.17.0 #for environment variables in settings.py<br/>
+mysqlclient==2.0.3 #for database connection<br/>
+requests==2.25.1 #for consuming the core API<br/>
