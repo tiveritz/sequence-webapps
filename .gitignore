@@ -117,6 +117,4 @@ media/
 # Own stuff --------------------------------------------------------------------
 /bin
 pyvenv.cfg
-settings.py
-settings_prod.py
 secrets/
