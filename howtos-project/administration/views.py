@@ -5,11 +5,17 @@ from datetime import datetime
 
 
 def dashboard(request):
-	return render(request, 'pages/dashboard.html', {'menu' : 'dashboard'})
+	api_response = requests.get('https://api.tiveritz.at/hwts/v1/statistics')
+	statistics = api_response.json()
+
+	return render(request, 'pages/dashboard.html', {
+		'menu' : 'dashboard',
+		'statistics' : statistics
+		})
 
 def howtos(request):
-	response = requests.get('https://api.tiveritz.at/hwts/v1/howtos')
-	howtos = response.json()
+	api_response = requests.get('https://api.tiveritz.at/hwts/v1/howtos')
+	howtos = api_response.json()
 
 	for howto in howtos:
 		howto['created'] = convert_api_time(howto['created'])
@@ -22,8 +28,8 @@ def howtos(request):
 	})
 
 def howtos_edit(request, uri_id):
-	response = requests.get('https://api.tiveritz.at/hwts/v1/howtos/' + uri_id)
-	howto = response.json()
+	api_response = requests.get('https://api.tiveritz.at/hwts/v1/howtos/' + uri_id)
+	howto = api_response.json()
 
 	return render(request, 'pages/howtos_edit.html', {
 		'menu' : 'howtos',

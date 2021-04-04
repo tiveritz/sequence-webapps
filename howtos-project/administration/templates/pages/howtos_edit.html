@@ -6,8 +6,33 @@
     <h1>Edit How To</h1>
     <p>Rearrange, add and edit steps.</p>
     <div class="void-s"></div>
-    <p>{{ howto.id }}</p>
-    <p>{{ howto.title }}</p>
+    <p>Id: {{ howto.id }}</p>
+    <p>Title: {{ howto.title }}</p>
+    <p>Link: {{ howto.link }}</p>
+    <div class="void-l"></div>
+    
+    <div id="sortable" class="noselect">
+        {% for step in howto.steps %}
+            <div id="{{step.id}}" class="list-group-item sortable-box">
+                <div class="sortable-box-clickable" onclick="showChangeBox('change-box-{{ step.id }}');">		
+                    <div class="sortable-drag">
+                        <div>
+                            <div class="drag"></div>
+                            <div class="drag"></div>
+                            <div class="drag"></div>
+                        </div>
+                    </div>
+                    <div class="sortable-position">{{step.pos}}</div>
+                    <div class="sortable-title">{{step.title}}</div>
+                    <div id="change-box-{{ step.id }}" class="change-box change-box-main">
+                        <a href="#" class="change-box-delete"><s>remove</s></a>
+                        <a href="#" class="change-box-edit"><s>edit</s></a>
+                    </div>
+                </div>
+                <a href="#" class="list-box-edit">✎</a>
+            </div>
+        {% endfor %}
+    </div>
 
 </div>
 
