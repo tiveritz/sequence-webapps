@@ -1,48 +1,71 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-import requests
 from datetime import datetime
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+import requests
+
+from .forms import EditHowTo
+
+
+# API URLs
+API_STATISTICS = 'https://api.tiveritz.at/hwts/v1/statistics'
+API_HOWTOS = 'https://api.tiveritz.at/hwts/v1/howtos'
+API_HOWTOS_EDIT = 'https://api.tiveritz.at/hwts/v1/howtos/{}'
 
 
 def dashboard(request):
-	api_response = requests.get('https://api.tiveritz.at/hwts/v1/statistics')
-	statistics = api_response.json()
+    api_response = requests.get(API_STATISTICS)
+    statistics = api_response.json()
 
-	return render(request, 'pages/dashboard.html', {
-		'menu' : 'dashboard',
-		'statistics' : statistics
-		})
+    return render(request, 'pages/dashboard.html', {
+        'menu' : 'dashboard',
+        'statistics' : statistics
+        })
+
 
 def howtos(request):
-	api_response = requests.get('https://api.tiveritz.at/hwts/v1/howtos')
-	howtos = api_response.json()
+    r = requests.get(API_HOWTOS)
+    howtos = r.json()
 
-	for howto in howtos:
-		howto['created'] = convert_api_time(howto['created'])
-		howto['updated'] = convert_api_time(howto['updated'])
+    for howto in howtos:
+        howto['created'] = convert_api_time(howto['created'])
+        howto['updated'] = convert_api_time(howto['updated'])
 
-	return render(request, 'pages/howtos.html',
-	{
-		'menu' : 'howtos',
-		'howtos' : howtos
-	})
+    return render(request, 'pages/howtos.html',
+    {
+        'menu' : 'howtos',
+        'howtos' : howtos
+    })
+
 
 def howtos_edit(request, uri_id):
-	api_response = requests.get('https://api.tiveritz.at/hwts/v1/howtos/' + uri_id)
-	howto = api_response.json()
 
-	return render(request, 'pages/howtos_edit.html', {
-		'menu' : 'howtos',
-		'howto' : howto
-	})
+    if request.method == 'POST':
+        form = EditHowTo(request.POST)
+        if form.is_valid():
+            howto_title = form.cleaned_data['howto_title']
+            # Make POST request to API
+        return HttpResponseRedirect(reverse('howtos_edit', args=[uri_id]))
+        
+    else:
+        r = requests.get(API_HOWTOS_EDIT.format(uri_id))
+        howto = r.json()
+        form = EditHowTo(initial={'howto_title': howto["title"]})
+
+    return render(request, 'pages/howtos_edit.html', {
+        'menu' : 'howtos',
+        'howto' : howto,
+        'form' : form
+    })
+
 
 def information(request):
-	return render(request, 'pages/information.html', {'menu' : 'information'})
+    return render(request, 'pages/information.html', {'menu' : 'information'})
 
 
 # Helper functions
 def convert_api_time(api_time):
-	api_time_format = '%Y-%m-%dT%H:%M:%S+00:00'
-	app_time_format = '%Y.%m.%d %H:%M'
-	time = datetime.strptime(api_time, api_time_format)
-	return time.strftime(app_time_format)
+    api_time_format = '%Y-%m-%dT%H:%M:%S+00:00'
+    app_time_format = '%Y.%m.%d %H:%M'
+    time = datetime.strptime(api_time, api_time_format)
+    return time.strftime(app_time_format)

@@ -70,11 +70,11 @@ body {
 /* ----------------------------------------------------------------------------
  *    4. General Classes
  * ------------------------------------------------------------------------- */
- .void-xs {height:  3px;}
- .void-s  {height: 6px;}
- .void-m  {height: 12px;}
+ .void-xs {height:  6px;}
+ .void-s  {height: 12px;}
+ .void-m  {height: 18px;}
  .void-l  {height: 24px;}
- .void-xl {height: 36px;}
+ .void-xl {height: 30px;}
 
  h1 {
   position: relative;
@@ -116,10 +116,6 @@ body {
     var(--maincolordarker) 100%
   );
   box-shadow: 0 0 10px var(--maincolorshadow);
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .menu-entry,
@@ -181,8 +177,7 @@ body {
 #content {
   margin: 0 12px;
   max-width: 1000px;
-  padding-bottom: 60vh;
-  overflow: auto;
+  padding-bottom: 200px;
 }
 
 /* ----------------------------------------------------------------------------
@@ -293,6 +288,7 @@ body {
 .sortable-drag .drag {
 	width: 3px;
 	height: 3px;
+	border-radius: 50%;
 	margin: 5px;
 	background: white;
 }
@@ -497,7 +493,7 @@ body {
 }
 
 .input-text:hover {
-	box-shadow: 0 0 0 2pt var(--bgbrighter);
+	background: var(--bgbrighter);
 }
 
 .input-text:focus {
