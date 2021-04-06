@@ -325,6 +325,10 @@ body {
 	grid-template-areas: "title added last-edit";
 }
 
+.is-super {
+	box-shadow: -2px 0px 0px 0px var(--maincolor);
+}
+
 .list-box-edit {grid-area: edit;}
 .list-box-title {grid-area: title;}
 .list-box-added {grid-area: added;}

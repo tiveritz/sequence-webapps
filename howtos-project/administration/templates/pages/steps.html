@@ -9,7 +9,7 @@
         <br><br><br>
         {% for step in steps %}
             <div class="list-box">
-                <div class="list-box-clickable" onclick="showChangeBox('change-box-{{ step.id }}');">
+                <div class="list-box-clickable{% if step.isSuper %} is-super{% endif %}" onclick="showChangeBox('change-box-{{ step.id }}');">
                     <div class="list-box-title">{{ step.title }}</div>
                     <div class="list-box-added">{{ step.created }}</div>
                     <div class="list-box-last-edit">{{ step.updated }}</div>

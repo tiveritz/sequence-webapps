@@ -5,7 +5,7 @@
     <div id="content">
         <h1>How-to's</h1>
         <br><br><br>
-        <a href="#"><s>Create New How To +</s></a>
+        <a href="{% url 'howtos_create' %}">Create New How To +</a>
         <br><br><br>
         {% for howto in howtos %}
             <div class="list-box">

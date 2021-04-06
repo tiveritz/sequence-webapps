@@ -19,8 +19,8 @@ new Sortable.create(sortable, {
     ghostClass: 'hovering-background-class',
     handle: ".sortable-drag",
     onUpdate: function (/**Event*/evt) {
-        updateDatabase(evt.to.children);
-        updateDomOrder(evt.to.children); // The order was already stored in db
+        updateDatabase(evt.oldIndex, evt.newIndex);
+        updateDomOrder(evt.to.children);
         updateInnerHtmlPosition(evt.to.children);
     },
 });
@@ -47,17 +47,10 @@ function getIdList(newIndexes) {
         return items;
 };
 
-function updateDatabase(newIndexes) {
-    console.log(getIdList(newIndexes));
-}
-
-/*
-function updateDatabase(newIndexes) {
-    newIndexes = getIdList(newIndexes);
-    
+function updateDatabase(oldIndex, newIndex) {
     var xhttp = new XMLHttpRequest();
     var url = UPDATE_DATABASE_URL; // from Django (see html template)
-    var data = JSON.stringify({'new_indexes': newIndexes, 'main' : main_id} );
+    var data = JSON.stringify({'old_index': oldIndex, 'new_index' : newIndex} );
     xhttp.open('POST', url, true);
 
     xhttp.setRequestHeader('X-CSRFToken', csrftoken); // for Django
@@ -67,12 +60,12 @@ function updateDatabase(newIndexes) {
         if(xhttp.readyState == 4 && xhttp.status == 200) {
             var response = JSON.parse(xhttp.responseText);
             var message = response.message;
-            displayMessage(message);
+            /* displayMessage(message); */
         };
     };
     xhttp.send(data);
 };
-*/
+
 
 /* ----------------------------------------------------------------------------
  *    2. Message

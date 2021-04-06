@@ -14,3 +14,9 @@ class EditStep(forms.Form):
         label='',
         max_length=100,
         widget=forms.TextInput(attrs={'class': "input-text"}))
+
+class CreateHowTo(forms.Form):
+    howto_title = forms.CharField(
+		label='',
+		max_length=100,
+		widget=forms.TextInput(attrs={'class': "input-text", 'autofocus' : "autofocus"}))

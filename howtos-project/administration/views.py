@@ -1,10 +1,12 @@
+from django.http.response import JsonResponse
 from django.shortcuts import render
 from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 import requests
+import json
 
-from .forms import EditHowTo, EditStep
+from .forms import EditHowTo, CreateHowTo, EditStep
 
 
 # API URLs
@@ -60,6 +62,18 @@ def howtos_edit(request, uri_id):
         'form' : form
     })
 
+def howtos_create(request):
+	if request.method == 'POST':
+		form = CreateHowTo(request.POST)
+		if form.is_valid():
+			howto_title = form.cleaned_data['howto_title']
+			print(howto_title)
+			return HttpResponseRedirect(reverse('howtos'))
+
+	else:
+		form = CreateHowTo()
+	return render(request, 'pages/howtos_create.html', {'form': form})
+
 
 def steps(request):
     r = requests.get(API_STEPS)
@@ -101,9 +115,21 @@ def information(request):
     return render(request, 'pages/information.html', {'menu' : 'information'})
 
 
+# AJAX
+def save_howto_order(request, uri_id):
+    r_body = json.loads(request.body)
+    old_index = r_body['old_index']
+    new_index = r_body['new_index']
+
+    print(old_index)
+    print(new_index)
+
+    return JsonResponse({'message' : 'Saving order successful'})
+
 # Helper functions
 def convert_api_time(api_time):
     api_time_format = '%Y-%m-%dT%H:%M:%S+00:00'
     app_time_format = '%Y.%m.%d %H:%M'
     time = datetime.strptime(api_time, api_time_format)
     return time.strftime(app_time_format)
+    
