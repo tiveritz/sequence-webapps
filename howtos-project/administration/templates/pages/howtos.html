@@ -14,12 +14,12 @@
                     <div class="list-box-added">{{ howto.created }}</div>
                     <div class="list-box-last-edit">{{ howto.updated }}</div>
                     <div id="change-box-{{ howto.id }}" class="change-box">
-                        <a href="{% url 'howtos_edit' howto.id%}" class="change-box-edit">edit</a>
+                        <a href="{% url 'howtos_edit' howto.id %}" class="change-box-edit">edit</a>
                         <a href="#" class="change-box-tag"><s>tag</s></a>
                         <a href="#" class="change-box-delete"><s>delete</s></a>
                     </div>
                 </div>
-            <a href="{% url 'howtos_edit' howto.id%}" class="list-box-edit">✎</a>
+            <a href="{% url 'howtos_edit' howto.id %}" class="list-box-edit">✎</a>
         </div>
         {% endfor %}
     </div>

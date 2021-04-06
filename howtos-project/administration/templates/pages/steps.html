@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div id="content">
+        <h1>Steps</h1>
+        <br><br><br>
+        <a href="#"><s>Create Step +</s></a>
+        <br><br><br>
+        {% for step in steps %}
+            <div class="list-box">
+                <div class="list-box-clickable" onclick="showChangeBox('change-box-{{ step.id }}');">
+                    <div class="list-box-title">{{ step.title }}</div>
+                    <div class="list-box-added">{{ step.created }}</div>
+                    <div class="list-box-last-edit">{{ step.updated }}</div>
+                    <div id="change-box-{{ step.id }}" class="change-box">
+                        <a href="{% url 'steps_edit' step.id %}" class="change-box-edit">edit</a>
+                        <a href="#" class="change-box-tag"><s>tag</s></a>
+                        <a href="#" class="change-box-delete"><s>delete</s></a>
+                    </div>
+                </div>
+            <a href="{% url 'steps_edit' step.id %}" class="list-box-edit">✎</a>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

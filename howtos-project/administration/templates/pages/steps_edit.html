@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="content">
+    <h1>Edit Step</h1>
+    <div class="void-l"></div>
+    <form class="title-form" action="" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input class="input-submit" type="submit" value="Change">
+    </form>
+    <div class="void-xs"></div>
+    <div class="divider"></div>
+    <div class="void-m"></div>
+</div>
+
+{% endblock %}

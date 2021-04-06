@@ -4,13 +4,15 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 import requests
 
-from .forms import EditHowTo
+from .forms import EditHowTo, EditStep
 
 
 # API URLs
 API_STATISTICS = 'https://api.tiveritz.at/hwts/v1/statistics'
 API_HOWTOS = 'https://api.tiveritz.at/hwts/v1/howtos'
 API_HOWTOS_EDIT = 'https://api.tiveritz.at/hwts/v1/howtos/{}'
+API_STEPS = 'https://api.tiveritz.at/hwts/v1/steps'
+API_STEPS_EDIT = 'https://api.tiveritz.at/hwts/v1/steps/{}'
 
 
 def dashboard(request):
@@ -55,6 +57,42 @@ def howtos_edit(request, uri_id):
     return render(request, 'pages/howtos_edit.html', {
         'menu' : 'howtos',
         'howto' : howto,
+        'form' : form
+    })
+
+
+def steps(request):
+    r = requests.get(API_STEPS)
+    steps = r.json()
+
+    for step in steps:
+        step['created'] = convert_api_time(step['created'])
+        step['updated'] = convert_api_time(step['updated'])
+
+    return render(request, 'pages/steps.html',
+    {
+        'menu' : 'steps',
+        'steps' : steps
+    })
+
+
+def steps_edit(request, uri_id):
+
+    if request.method == 'POST':
+        form = EditStep(request.POST)
+        if form.is_valid():
+            step_title = form.cleaned_data['step_title']
+            # Make POST request to API
+        return HttpResponseRedirect(reverse('steps_edit', args=[uri_id]))
+        
+    else:
+        r = requests.get(API_STEPS_EDIT.format(uri_id))
+        step = r.json()
+        form = EditStep(initial={'step_title': step["title"]})
+
+    return render(request, 'pages/steps_edit.html', {
+        'menu' : 'steps',
+        'step' : step,
         'form' : form
     })
 
