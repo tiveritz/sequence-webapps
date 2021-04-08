@@ -7,6 +7,7 @@
  * |____________________________________|
  *
  * 1.  List Boxes
+ * 2.  Mobile Menu Button
  * 
  */
 
@@ -30,3 +31,14 @@ function showEditBox(editBoxId) {
     selectedBox = document.querySelector('#change-box-' + editBoxId);
     selectedBox.classList.toggle('edit-box-active');
 }
+
+
+/* ----------------------------------------------------------------------------
+ *    2.  Mobile Menu Button
+ * ------------------------------------------------------------------------- */
+document.querySelector('#toggle-menu-button').addEventListener('click', toggleMobileMenu);
+
+function toggleMobileMenu() {
+	document.querySelector('#menu').classList.toggle('active');
+	document.querySelector('#toggle-menu-button').classList.toggle('menu-active');
+};

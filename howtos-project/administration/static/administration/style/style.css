@@ -22,6 +22,7 @@
  *  8.4  Change Box
  * 9.  Alert Box
  * 10. Form
+ * 11. Mobile View
  *
  * 99. Message for Unsupported Browsers
  */
@@ -236,7 +237,6 @@ body {
 	user-select: none;
 }
 
-.sortable-title,
 .list-box-title {
 	padding: 12px;
 	display: flex;
@@ -275,8 +275,8 @@ body {
 .sortable-drag {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
+	padding: 12px;
 	border-right: 2px solid var(--bgbrighter);
 }
 
@@ -294,20 +294,39 @@ body {
 }
 
 .sortable-position {
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
-	padding-left: 12px;
+	display:flex;
+	justify-content: center;
+	padding: 12px;
 }
 
 .sortable-title {
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
+	padding: 12px;
+}
+
+.step-title {
+	margin-bottom: 6px;
+}
+
+.tree {
+	color:rgb(128,128,128);
+	font-size: .6rem;
+}
+
+.tree ul * {
+	list-style-type: none;
+}
+
+.tree ul:first-child {
+	margin-left: 6px;
 }
 
 .sortable-chosen > * {
 	display: none;
+}
+
+.hovering-background-class {
+	background: var(--maincolor);
+	background: linear-gradient(90deg, var(--maincolor) 0%, var(--maincolordarker) 100%);
 }
 
 /* ----------------------------------------------------------------------------
@@ -373,6 +392,7 @@ body {
  * ------------------------------------------------------------------------- */
  .change-box {
 	grid-template-columns: 100px 100px 100px;
+	grid-template-rows: 50px;
 	grid-template-areas: "edit tag delete";
 	display: none;
 	background: var(--bgbrighter);
@@ -492,6 +512,11 @@ body {
 	font-size: 20px;
 }
 
+.form-underline {
+	height: 2px;
+	background-color: var(--maincolor);
+}
+
 .title-form-new .input-text {
 	box-shadow: 0 0 0 2pt var(--bgbrighter);
 }
@@ -513,6 +538,71 @@ body {
 	visibility: visible;
 }
 
+
+/* ----------------------------------------------------------------------------
+ *    11. Mobile view
+ * ------------------------------------------------------------------------- */
+@media (max-width: 800px) {
+	body {
+		grid-template-rows: 20px auto ;
+		grid-template-areas:
+		"header header"
+		"content content";
+	}
+
+	#mobile-menu-button {
+		position: fixed;
+		bottom: 14vh;
+		right: 0;
+		border-radius: 12px 0 0 12px;
+		background: var(--maincolor);
+		padding: 12px 18px;
+		z-index: 20;
+	}
+	
+	#toggle-menu-button {
+		display: initial;
+	}
+	
+	#toggle-menu-button > div {
+		width: 42px;
+		height: 4px;
+		background-color: white;
+		border-radius: 2px;
+		margin: 10px 0;
+		transition: all 300ms ease-in-out;
+	}
+	
+	.menu-active > div:nth-child(1) {
+			transform: translateY(14px) rotate(-45deg);
+	}
+	
+	.menu-active > div:nth-child(2) {
+		opacity: 0;
+	}
+	
+	.menu-active > div:nth-child(3) {
+			transform: translateY(-14px) rotate(45deg);
+	}
+	
+	#menu {
+		margin: 0;
+		border-radius: 0;
+		box-shadow: none;
+		grid-area: content;
+		position: relative;
+		left: -100%;
+		transition: left .2s ease-in-out;
+		background: var(--maincolor);
+		z-index: 10;
+	}
+	
+	#menu.active {
+		left: 0;
+	}
+
+}
+
 /* ----------------------------------------------------------------------------
  *    99. Message for Unsupported Browsers
 *         (does not require any JavaScript)
@@ -530,12 +620,9 @@ body {
   }
 }
 
-/* TO CLEAN */
-.hovering-background-class {
-	background: var(--maincolor);
-	background: linear-gradient(90deg, rgba(0,198,255,1) 0%, rgba(125,227,255,1) 100%);
-}
 
+
+/* TO CLEAN */
 /* Buttons */
 button {
 	padding: 12px;
@@ -549,10 +636,7 @@ button {
 	cursor: pointer;
 }
 
-.divider {
-	height: 2px;
-	background-color: var(--maincolor);
-}
+
 
 /* site message */
 #site-message {

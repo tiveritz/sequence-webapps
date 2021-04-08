@@ -18,6 +18,16 @@
 
         {% block content %}
         {% endblock content %}
+
+        <div id="mobile-menu-button">
+            <div id="toggle-menu-button">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div id="site-message"></div>
+        </div>
+
         <script src="{% static 'administration/js/functions.js' %}" type="text/javascript"></script>
         {% block site-specific-script %}
 	    {% endblock site-specific-script %}

@@ -55,6 +55,9 @@ def howtos_edit(request, uri_id):
         r = requests.get(API_HOWTOS_EDIT.format(uri_id))
         howto = r.json()
         form = EditHowTo(initial={'howto_title': howto["title"]})
+    
+    for step in howto['steps']:
+        step['substeps'] = get_simple_nested_list(step['substeps'])
 
     return render(request, 'pages/howtos_edit.html', {
         'menu' : 'howtos',
@@ -67,7 +70,6 @@ def howtos_create(request):
 		form = CreateHowTo(request.POST)
 		if form.is_valid():
 			howto_title = form.cleaned_data['howto_title']
-			print(howto_title)
 			return HttpResponseRedirect(reverse('howtos'))
 
 	else:
@@ -103,6 +105,9 @@ def steps_edit(request, uri_id):
         r = requests.get(API_STEPS_EDIT.format(uri_id))
         step = r.json()
         form = EditStep(initial={'step_title': step["title"]})
+    
+    for substep in step['steps']:
+        substep['substeps'] = get_simple_nested_list(substep['substeps'])
 
     return render(request, 'pages/steps_edit.html', {
         'menu' : 'steps',
@@ -126,10 +131,34 @@ def save_howto_order(request, uri_id):
 
     return JsonResponse({'message' : 'Saving order successful'})
 
+def save_step_order(request, uri_id):
+    r_body = json.loads(request.body)
+    old_index = r_body['old_index']
+    new_index = r_body['new_index']
+
+    print(old_index)
+    print(new_index)
+
+    return JsonResponse({'message' : 'Saving order successful'})
+
 # Helper functions
 def convert_api_time(api_time):
     api_time_format = '%Y-%m-%dT%H:%M:%S+00:00'
     app_time_format = '%Y.%m.%d %H:%M'
     time = datetime.strptime(api_time, api_time_format)
     return time.strftime(app_time_format)
+
+def get_simple_nested_list(substeps):
+    #print(substeps)
+    temp = []
     
+    if not substeps:
+        return ""
+    
+    for substep in substeps:
+        temp.append(substep['title'])
+        substeps = get_simple_nested_list(substep['substeps'])
+        if substeps:
+            temp.append(substeps)
+
+    return temp

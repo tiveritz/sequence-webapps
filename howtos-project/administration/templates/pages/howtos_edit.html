@@ -2,46 +2,54 @@
 {% load static %}
 
 {% block content %}
-<div id="content">
-    <h1>Edit How To</h1>
-    <div class="void-l"></div>
-    <form class="title-form" action="" method="post">
-        {% csrf_token %}
-        {{ form }}
-        <input class="input-submit" type="submit" value="Change">
-    </form>
-    <div class="void-xs"></div>
-    <div class="divider"></div>
-    <div class="void-l"></div>
-    
-    <div id="sortable" class="noselect">
-        {% for step in howto.steps %}
-            <div id="{{step.id}}" class="list-group-item sortable-box{% if step.isSuper %} is-super{% endif %}">
-                <div class="sortable-box-clickable" onclick="showChangeBox('change-box-{{ step.id }}');">		
-                    <div class="sortable-drag">
-                        <div>
-                            <div class="drag"></div>
-                            <div class="drag"></div>
-                            <div class="drag"></div>
+    <div id="content">
+        <h1>Edit How To</h1>
+        <div class="void-l"></div>
+        <form class="title-form" action="" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input class="input-submit" type="submit" value="Change">
+        </form>
+        <div class="void-xs"></div>
+        <div class="form-underline"></div>
+        <div class="void-l"></div>
+        
+        <div id="sortable" class="noselect">
+            {% for step in howto.steps %}
+                <div id="{{step.id}}" class="list-group-item sortable-box">
+                    <div class="sortable-box-clickable" onclick="showChangeBox('change-box-{{ step.id }}');">		
+                        <div class="sortable-drag">
+                            <div>
+                                <div class="drag"></div>
+                                <div class="drag"></div>
+                                <div class="drag"></div>
+                            </div>
+                        </div>
+                        <div class="sortable-position">
+                            {{ forloop.counter }}
+                        </div>
+                        <div class="sortable-title">
+                            <div class="step-title">{{ step.title }}</div>
+                            <div class="tree">
+                                <ul>
+                                    {{ step.substeps|unordered_list }}
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="change-box-{{ step.id }}" class="change-box change-box-main">
+                            <a href="#" class="change-box-delete"><s>remove</s></a>
+                            <a href="{% url 'steps_edit' step.id %}" class="change-box-edit">edit</a>
                         </div>
                     </div>
-                    <div class="sortable-position">{{step.pos}}</div>
-                    <div class="sortable-title">{{step.title}}</div>
-                    <div id="change-box-{{ step.id }}" class="change-box change-box-main">
-                        <a href="#" class="change-box-delete"><s>remove</s></a>
-                        <a href="{% url 'steps_edit' step.id %}" class="change-box-edit">edit</a>
-                    </div>
+                    <a href="{% url 'steps_edit' step.id %}" class="list-box-edit">✎</a>
                 </div>
-                <a href="{% url 'steps_edit' step.id %}" class="list-box-edit">✎</a>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
+        <div>
+            <div class="void-m"></div>
+            <a href="#"><s>LINK STEP</s></a>
+        </div>
     </div>
-    <div>
-        <div class="void-m"></div>
-        <a href="#"><s>LINK STEP</s></a>
-    </div>
-
-</div>
 
 {% endblock %}
 

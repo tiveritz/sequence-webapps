@@ -14,4 +14,5 @@ urlpatterns = [
     
     #AJAX
     path('howtos/<str:uri_id>/save-order', views.save_howto_order, name = 'save_howto_order'),
+    path('steps/<str:uri_id>/save-order', views.save_step_order, name = 'save_step_order'),
 ]
