@@ -1,20 +1,12 @@
 # How To's
 This Project consists of a collection of Web Applications that allow you to manage, edit and view How To's in the form of Step-By-Step procedures. An important key aspect is the modularity of the documentation. Reusable steps, pictures, explanations, links and so on are a core concept and the database is designed with that in mind.
 
-The project documentation is done in the [Core API Repository](https://github.com/tiveritz/how-tos-api)
+### [Core API](https://github.com/tiveritz/how-tos-api)
+The REST API that handles all database interactions on the documentation database.<br>
+[Swagger API documentation](https://api.tiveritz.at)
 
-#### [Core API](https://github.com/tiveritz/how-tos-api)
-The REST API that handles all database interactions on the documentation database.
-
-#### [Administration](https://github.com/tiveritz/how-tos-administration)
-A Website that allows users to manage the content. Consumes the Core API.
-
-#### [Viewer](https://github.com/tiveritz/how-tos-viewer)
-A Website that allows users to view the How To's. Consumes the Core API.
-
-# Administration
-The How To's Administration is a Python powered Website on the Django Framework.
-URL: [https://ht.tiveritz.at/administration](https://ht.tiveritz.at/administration)
+### [Webapps](https://github.com/tiveritz/how-tos-webapps)
+Webapplications that allow content management and a viewer for the users. Consume the Core API.
 
 ### Dependencies
 Django==3.1.4<br/>
