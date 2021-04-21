@@ -453,7 +453,7 @@ body {
  *    9. Alert Box
  * ------------------------------------------------------------------------- */
  .info-box {
-	border-radius: 12px;
+	border-radius: 6px;
 	padding: 12px;
 	min-height: 120px;
 	display: flex;
