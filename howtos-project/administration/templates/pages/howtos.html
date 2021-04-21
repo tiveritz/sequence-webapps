@@ -16,7 +16,7 @@
                     <div id="change-box-{{ howto.id }}" class="change-box">
                         <a href="{% url 'howtos_edit' howto.id %}" class="change-box-edit">edit</a>
                         <a href="#" class="change-box-tag"><s>tag</s></a>
-                        <a href="#" class="change-box-delete"><s>delete</s></a>
+                        <a href="{% url 'howtos_delete' howto.id %}" class="change-box-delete">delete</a>
                     </div>
                 </div>
             <a href="{% url 'howtos_edit' howto.id %}" class="list-box-edit">✎</a>

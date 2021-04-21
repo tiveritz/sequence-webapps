@@ -6,15 +6,15 @@ from django.urls import reverse
 import requests
 import json
 
-from .forms import EditHowTo, CreateHowTo, EditStep
+from .forms import EditHowTo, CreateHowTo, EditStep, CreateStep
 
 
 # API URLs
 API_STATISTICS = 'https://api.tiveritz.at/hwts/v1/statistics'
 API_HOWTOS = 'https://api.tiveritz.at/hwts/v1/howtos'
-API_HOWTOS_EDIT = 'https://api.tiveritz.at/hwts/v1/howtos/{}'
+API_HOWTO = 'https://api.tiveritz.at/hwts/v1/howtos/{}'
 API_STEPS = 'https://api.tiveritz.at/hwts/v1/steps'
-API_STEPS_EDIT = 'https://api.tiveritz.at/hwts/v1/steps/{}'
+API_STEP = 'https://api.tiveritz.at/hwts/v1/steps/{}'
 
 
 def dashboard(request):
@@ -35,26 +35,25 @@ def howtos(request):
         howto['created'] = convert_api_time(howto['created'])
         howto['updated'] = convert_api_time(howto['updated'])
 
-    return render(request, 'pages/howtos.html',
-    {
+    return render(request, 'pages/howtos.html', {
         'menu' : 'howtos',
         'howtos' : howtos
-    })
+        })
 
 
-def howtos_edit(request, uri_id):
-
+def howtos_edit(request, id):
     if request.method == 'POST':
         form = EditHowTo(request.POST)
         if form.is_valid():
             howto_title = form.cleaned_data['howto_title']
-            # Make POST request to API
-        return HttpResponseRedirect(reverse('howtos_edit', args=[uri_id]))
+            url = API_HOWTO.format(id)
+            requests.patch(url, json = {"title": howto_title})
+
+        return HttpResponseRedirect(reverse('howtos_edit', args=[id]))
         
-    else:
-        r = requests.get(API_HOWTOS_EDIT.format(uri_id))
-        howto = r.json()
-        form = EditHowTo(initial={'howto_title': howto["title"]})
+    r = requests.get(API_HOWTO.format(id))
+    howto = r.json()
+    form = EditHowTo(initial={'howto_title': howto["title"]})
     
     for step in howto['steps']:
         step['substeps'] = get_simple_nested_list(step['substeps'])
@@ -63,19 +62,37 @@ def howtos_edit(request, uri_id):
         'menu' : 'howtos',
         'howto' : howto,
         'form' : form
-    })
+        })
 
 def howtos_create(request):
-	if request.method == 'POST':
-		form = CreateHowTo(request.POST)
-		if form.is_valid():
-			howto_title = form.cleaned_data['howto_title']
-			return HttpResponseRedirect(reverse('howtos'))
+    if request.method == 'POST':
+        form = CreateHowTo(request.POST)
+        if form.is_valid():
+            howto_title = form.cleaned_data['howto_title']
+            r = requests.post(API_HOWTOS, json = {"title": howto_title})
+            id = r.json()['id']
 
-	else:
-		form = CreateHowTo()
-	return render(request, 'pages/howtos_create.html', {'form': form})
+            return HttpResponseRedirect(reverse('howtos_edit', args=[id]))
+    
+    form = CreateHowTo()
 
+    return render(request, 'pages/howtos_create.html', {'form': form})
+
+def howtos_delete(request, id):
+    r = requests.get(API_HOWTO.format(id))
+    id = r.json()['id']
+    title = r.json()['title']
+    
+    return render(request, 'pages/howtos_delete.html',
+        {'id' : id,
+         'title': title,
+         })
+
+def howtos_delete_confirm(request, id):
+    url = API_HOWTO.format(id)
+    requests.delete(url)
+
+    return HttpResponseRedirect(reverse('howtos'))
 
 def steps(request):
     r = requests.get(API_STEPS)
@@ -85,26 +102,25 @@ def steps(request):
         step['created'] = convert_api_time(step['created'])
         step['updated'] = convert_api_time(step['updated'])
 
-    return render(request, 'pages/steps.html',
-    {
+    return render(request, 'pages/steps.html', {
         'menu' : 'steps',
         'steps' : steps
-    })
+        })
 
 
-def steps_edit(request, uri_id):
-
+def steps_edit(request, id):
     if request.method == 'POST':
         form = EditStep(request.POST)
         if form.is_valid():
             step_title = form.cleaned_data['step_title']
-            # Make POST request to API
-        return HttpResponseRedirect(reverse('steps_edit', args=[uri_id]))
-        
-    else:
-        r = requests.get(API_STEPS_EDIT.format(uri_id))
-        step = r.json()
-        form = EditStep(initial={'step_title': step["title"]})
+            url = API_STEP.format(id)
+            requests.patch(url, json = {"title": step_title})
+
+        return HttpResponseRedirect(reverse('steps_edit', args=[id]))
+
+    r = requests.get(API_STEP.format(id))
+    step = r.json()
+    form = EditStep(initial={'step_title': step["title"]})
     
     for substep in step['steps']:
         substep['substeps'] = get_simple_nested_list(substep['substeps'])
@@ -113,15 +129,28 @@ def steps_edit(request, uri_id):
         'menu' : 'steps',
         'step' : step,
         'form' : form
-    })
+        })
 
+def steps_create(request):
+    if request.method == 'POST':
+        form = CreateStep(request.POST)
+        if form.is_valid():
+            step_title = form.cleaned_data['step_title']
+            r = requests.post(API_STEPS, json = {"title": step_title})
+            id = r.json()['id']
+
+            return HttpResponseRedirect(reverse('steps_edit', args=[id]))
+    
+    form = CreateStep()
+
+    return render(request, 'pages/steps_create.html', {'form': form})
 
 def information(request):
     return render(request, 'pages/information.html', {'menu' : 'information'})
 
 
 # AJAX
-def save_howto_order(request, uri_id):
+def save_howto_order(request, id):
     r_body = json.loads(request.body)
     old_index = r_body['old_index']
     new_index = r_body['new_index']
@@ -131,7 +160,7 @@ def save_howto_order(request, uri_id):
 
     return JsonResponse({'message' : 'Saving order successful'})
 
-def save_step_order(request, uri_id):
+def save_step_order(request, id):
     r_body = json.loads(request.body)
     old_index = r_body['old_index']
     new_index = r_body['new_index']

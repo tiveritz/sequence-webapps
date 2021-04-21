@@ -55,7 +55,7 @@
 
 {% block site-specific-script %}
     <script>
-        const UPDATE_DATABASE_URL = "{% url 'save_howto_order' uri_id=howto.id %}";
+        const UPDATE_DATABASE_URL = "{% url 'save_howto_order' id=howto.id %}";
     </script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.10.2/Sortable.min.js" type="text/javascript"></script>
 	<script src="{% static './administration/js/sortable.js' %}" type="text/javascript"></script>
