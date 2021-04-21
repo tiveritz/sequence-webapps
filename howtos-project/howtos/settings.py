@@ -13,28 +13,18 @@ def parse_env_boolean(variable_name):
 
 load_dotenv()
 
-ENV_DEBUG = parse_env_boolean('DEBUG')
-ENV_ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
-ENV_SECURE_SSL_REDIRECT = parse_env_boolean('SECURE_SSL_REDIRECT')
-ENV_DB_NAME = os.getenv('DB_NAME')
-ENV_DB_USER = os.getenv('DB_USER')
-ENV_DB_PASS = os.getenv('DB_PASS')
-ENV_DB_HOST = os.getenv('DB_HOST')
-ENV_SECRET_KEY = os.getenv('SECRET_KEY')
-
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ENV_SECRET_KEY
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = ENV_DEBUG
+DEBUG = parse_env_boolean('DEBUG')
 
-ALLOWED_HOSTS = ENV_ALLOWED_HOSTS
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
-SECURE_SSL_REDIRECT = ENV_SECURE_SSL_REDIRECT
+SECURE_SSL_REDIRECT = parse_env_boolean('SECURE_SSL_REDIRECT')
 
     
 # Application definition
@@ -86,10 +76,10 @@ WSGI_APPLICATION = 'howtos.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': ENV_DB_NAME,
-        'USER': ENV_DB_USER,
-        'PASSWORD': ENV_DB_PASS,
-        'HOST': ENV_DB_HOST,
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASS'),
+        'HOST': os.getenv('DB_HOST'),
         'PORT': '3306',
     }
 }
