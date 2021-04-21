@@ -27,6 +27,7 @@
  * 99. Message for Unsupported Browsers
  */
 
+ @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 /* ----------------------------------------------------------------------------
  *    1. Normalize
  * ------------------------------------------------------------------------- */
@@ -45,7 +46,6 @@ a {
 /* ----------------------------------------------------------------------------
  *    2. Font
  * ------------------------------------------------------------------------- */
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
 body {
   font-family: Roboto, Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
