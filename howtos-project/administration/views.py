@@ -13,6 +13,7 @@ from .forms import EditHowTo, CreateHowTo, EditStep, CreateStep
 API_STATISTICS = 'https://api.tiveritz.at/hwts/v1/statistics'
 API_HOWTOS = 'https://api.tiveritz.at/hwts/v1/howtos'
 API_HOWTO = 'https://api.tiveritz.at/hwts/v1/howtos/{}'
+API_HOWTO_STEPS = 'https://api.tiveritz.at/hwts/v1/howtos/{}/steps'
 API_STEPS = 'https://api.tiveritz.at/hwts/v1/steps'
 API_STEP = 'https://api.tiveritz.at/hwts/v1/steps/{}'
 
@@ -94,6 +95,18 @@ def howtos_delete_confirm(request, id):
 
     return HttpResponseRedirect(reverse('howtos'))
 
+def howtos_delete_step(request, id, step_id):
+    url = API_HOWTO_STEPS.format(id)
+    r = requests.delete(url, json = {"id": step_id})
+
+    return HttpResponseRedirect(reverse('howtos_edit', args=[id]))
+
+def howtos_add_step(request, id, step_id):
+    url = API_HOWTO_STEPS.format(id)
+    r = requests.post(url, json = {"id": step_id})
+
+    return HttpResponseRedirect(reverse('howtos_edit', args=[id]))
+
 def steps(request):
     r = requests.get(API_STEPS)
     steps = r.json()
@@ -173,7 +186,7 @@ def save_step_order(request, id):
 # Helper functions
 def convert_api_time(api_time):
     api_time_format = '%Y-%m-%dT%H:%M:%S+00:00'
-    app_time_format = '%Y.%m.%d %H:%M'
+    app_time_format = '%d.%m.%Y %H:%M'
     time = datetime.strptime(api_time, api_time_format)
     return time.strftime(app_time_format)
 

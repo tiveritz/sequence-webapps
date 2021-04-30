@@ -12,6 +12,9 @@ urlpatterns = [
     path('howtos/<str:id>/', views.howtos_edit, name = 'howtos_edit'),
     path('howtos/<str:id>/delete/', views.howtos_delete, name = 'howtos_delete'),
     path('howtos/<str:id>/delete/confirm/', views.howtos_delete_confirm, name = 'howtos_delete_confirm'),
+    path('howtos/<str:id>/deletestep/<str:step_id>', views.howtos_delete_step, name = 'howtos_delete_step'),
+    path('howtos/<str:id>/addstep/', views.howtos_add_step, name = 'howtos_add_step'),
+    #path('howtos/<str:id>/addstep/<str:step_id>', views.howtos_add_step, name = 'howtos_add_step'),
     
     path('steps', views.steps, name = 'steps'),
     path('steps/create/', views.steps_create, name = 'steps_create'),

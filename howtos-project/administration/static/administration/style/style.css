@@ -13,7 +13,7 @@
  * 5.  General Layout
  * 6.  Menu
  * 7.  Content
- *  7.2  General Content
+ *  7.1  General Content
  *  7.2  Dashboard
  * 8.    List View
  *  8.1  Sortable and List
@@ -179,6 +179,16 @@ body {
   margin: 0 12px;
   max-width: 1000px;
   padding-bottom: 200px;
+}
+
+.add-button {
+	width: 42px;
+	height: 42px;
+	border-radius: 6px;
+	background: var(--bgbrighter);
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 /* ----------------------------------------------------------------------------
@@ -399,7 +409,7 @@ body {
 }
 
 .change-box-main {
-	grid-template-columns: 100px 100px;
+	grid-template-columns: 58px 58px;
 	grid-template-areas: "edit delete";
 	display: none;
 }
