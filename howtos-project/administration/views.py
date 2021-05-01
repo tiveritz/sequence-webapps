@@ -16,6 +16,7 @@ API_HOWTO = 'https://api.tiveritz.at/hwts/v1/howtos/{}'
 API_HOWTO_STEPS = 'https://api.tiveritz.at/hwts/v1/howtos/{}/steps'
 API_STEPS = 'https://api.tiveritz.at/hwts/v1/steps'
 API_STEP = 'https://api.tiveritz.at/hwts/v1/steps/{}'
+API_SUPER_STEPS = 'https://api.tiveritz.at/hwts/v1/steps/{}/steps'
 
 
 def dashboard(request):
@@ -48,13 +49,13 @@ def howtos_edit(request, id):
         if form.is_valid():
             howto_title = form.cleaned_data['howto_title']
             url = API_HOWTO.format(id)
-            requests.patch(url, json = {"title": howto_title})
+            requests.patch(url, json = {'title': howto_title})
 
         return HttpResponseRedirect(reverse('howtos_edit', args=[id]))
         
     r = requests.get(API_HOWTO.format(id))
     howto = r.json()
-    form = EditHowTo(initial={'howto_title': howto["title"]})
+    form = EditHowTo(initial={'howto_title': howto['title']})
     
     for step in howto['steps']:
         step['substeps'] = get_simple_nested_list(step['substeps'])
@@ -70,7 +71,7 @@ def howtos_create(request):
         form = CreateHowTo(request.POST)
         if form.is_valid():
             howto_title = form.cleaned_data['howto_title']
-            r = requests.post(API_HOWTOS, json = {"title": howto_title})
+            r = requests.post(API_HOWTOS, json = {'title': howto_title})
             id = r.json()['id']
 
             return HttpResponseRedirect(reverse('howtos_edit', args=[id]))
@@ -97,13 +98,13 @@ def howtos_delete_confirm(request, id):
 
 def howtos_delete_step(request, id, step_id):
     url = API_HOWTO_STEPS.format(id)
-    r = requests.delete(url, json = {"id": step_id})
+    r = requests.delete(url, json = {'id': step_id})
 
     return HttpResponseRedirect(reverse('howtos_edit', args=[id]))
 
 def howtos_add_step(request, id, step_id):
     url = API_HOWTO_STEPS.format(id)
-    r = requests.post(url, json = {"id": step_id})
+    r = requests.post(url, json = {'id': step_id})
 
     return HttpResponseRedirect(reverse('howtos_edit', args=[id]))
 
@@ -120,6 +121,32 @@ def steps(request):
         'steps' : steps
         })
 
+def supersteps(request):
+    r = requests.get(API_STEPS)
+    steps = r.json()
+
+    for step in steps:
+        step['created'] = convert_api_time(step['created'])
+        step['updated'] = convert_api_time(step['updated'])
+
+    return render(request, 'pages/supersteps.html', {
+        'menu' : 'steps',
+        'steps' : steps
+        })
+
+def substeps(request):
+    r = requests.get(API_STEPS)
+    steps = r.json()
+
+    for step in steps:
+        step['created'] = convert_api_time(step['created'])
+        step['updated'] = convert_api_time(step['updated'])
+
+    return render(request, 'pages/substeps.html', {
+        'menu' : 'steps',
+        'steps' : steps
+        })
+
 
 def steps_edit(request, id):
     if request.method == 'POST':
@@ -127,13 +154,13 @@ def steps_edit(request, id):
         if form.is_valid():
             step_title = form.cleaned_data['step_title']
             url = API_STEP.format(id)
-            requests.patch(url, json = {"title": step_title})
+            requests.patch(url, json = {'title': step_title})
 
         return HttpResponseRedirect(reverse('steps_edit', args=[id]))
 
     r = requests.get(API_STEP.format(id))
     step = r.json()
-    form = EditStep(initial={'step_title': step["title"]})
+    form = EditStep(initial={'step_title': step['title']})
     
     for substep in step['steps']:
         substep['substeps'] = get_simple_nested_list(substep['substeps'])
@@ -149,7 +176,7 @@ def steps_create(request):
         form = CreateStep(request.POST)
         if form.is_valid():
             step_title = form.cleaned_data['step_title']
-            r = requests.post(API_STEPS, json = {"title": step_title})
+            r = requests.post(API_STEPS, json = {'title': step_title})
             id = r.json()['id']
 
             return HttpResponseRedirect(reverse('steps_edit', args=[id]))
@@ -168,8 +195,10 @@ def save_howto_order(request, id):
     old_index = r_body['old_index']
     new_index = r_body['new_index']
 
-    print(old_index)
-    print(new_index)
+    url = API_HOWTO_STEPS.format(id)
+    r = requests.patch(url, json = {
+        'oldIndex': old_index,
+        'newIndex' : new_index})
 
     return JsonResponse({'message' : 'Saving order successful'})
 
@@ -178,8 +207,10 @@ def save_step_order(request, id):
     old_index = r_body['old_index']
     new_index = r_body['new_index']
 
-    print(old_index)
-    print(new_index)
+    url = API_SUPER_STEPS.format(id)
+    r = requests.patch(url, json = {
+        'oldIndex': old_index,
+        'newIndex' : new_index})
 
     return JsonResponse({'message' : 'Saving order successful'})
 
@@ -191,11 +222,10 @@ def convert_api_time(api_time):
     return time.strftime(app_time_format)
 
 def get_simple_nested_list(substeps):
-    #print(substeps)
     temp = []
     
     if not substeps:
-        return ""
+        return ''
     
     for substep in substeps:
         temp.append(substep['title'])

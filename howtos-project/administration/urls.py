@@ -20,6 +20,9 @@ urlpatterns = [
     path('steps/create/', views.steps_create, name = 'steps_create'),
     path('steps/<str:id>/', views.steps_edit, name = 'steps_edit'),
     
+    path('supersteps', views.supersteps, name = 'supersteps'),
+    path('substeps', views.substeps, name = 'substeps'),
+
     #AJAX
     path('howtos/<str:id>/save-order', views.save_howto_order, name = 'save_howto_order'),
     path('steps/<str:id>/save-order', views.save_step_order, name = 'save_step_order'),

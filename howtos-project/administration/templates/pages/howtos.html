@@ -4,9 +4,7 @@
 {% block content %}
     <div id="content">
         <h1>How-to's</h1>
-        <br><br><br>
-        <a href="{% url 'howtos_create' %}">Create New How To +</a>
-        <br><br><br>
+        <a href="{% url 'howtos_create' %}" class="add-button">+</a>
         {% for howto in howtos %}
             <div class="list-box">
                 <div class="list-box-clickable" onclick="showChangeBox('change-box-{{ howto.id }}');">
