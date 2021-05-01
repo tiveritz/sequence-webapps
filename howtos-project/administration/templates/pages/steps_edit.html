@@ -37,8 +37,8 @@
                             </div>
                         </div>
                         <div id="change-box-{{ substep.id }}" class="change-box change-box-main">
-                            <a href="#" class="change-box-delete"><s>remove</s></a>
-                            <a href="{% url 'steps_edit' substep.id %}" class="change-box-edit">edit</a>
+                            <a href="{% url 'steps_delete_step' step.id substep.id %}" class="change-box-delete">x</a>
+                            <a href="{% url 'steps_edit' substep.id %}" class="change-box-edit">✎</a>
                         </div>
                     </div>
                     <a href="{% url 'steps_edit' substep.id %}" class="list-box-edit">✎</a>

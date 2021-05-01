@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="content">
+    <h1>Delete Step</h1>
+    <p>Step title: {{ title }}</p>
+    
+    <div class="void-s"></div>
+    <div class="info-box warning">
+        <h3>Warning</h3>
+        <p>Are you sure you wan't to delete this step?</p>
+        <div class="void-s"></div>
+        <div>
+            <a href="{% url 'substeps_delete_confirm' id %}">
+                <button>Yes</button>
+            </a>
+            <a href="{% url 'substeps' %}">
+                <button>No</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

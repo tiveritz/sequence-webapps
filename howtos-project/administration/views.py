@@ -14,6 +14,7 @@ API_STATISTICS = 'https://api.tiveritz.at/hwts/v1/statistics'
 API_HOWTOS = 'https://api.tiveritz.at/hwts/v1/howtos'
 API_HOWTO = 'https://api.tiveritz.at/hwts/v1/howtos/{}'
 API_HOWTO_STEPS = 'https://api.tiveritz.at/hwts/v1/howtos/{}/steps'
+
 API_STEPS = 'https://api.tiveritz.at/hwts/v1/steps'
 API_STEP = 'https://api.tiveritz.at/hwts/v1/steps/{}'
 API_SUPER_STEPS = 'https://api.tiveritz.at/hwts/v1/steps/{}/steps'
@@ -184,6 +185,61 @@ def steps_create(request):
     form = CreateStep()
 
     return render(request, 'pages/steps_create.html', {'form': form})
+
+def steps_delete(request, id):
+    r = requests.get(API_STEP.format(id))
+    id = r.json()['id']
+    title = r.json()['title']
+    
+    return render(request, 'pages/steps_delete.html',
+        {'id' : id,
+         'title': title,
+         })
+
+def steps_delete_confirm(request, id):
+    url = API_STEP.format(id)
+    requests.delete(url)
+    print(id)
+
+    return HttpResponseRedirect(reverse('steps'))
+
+def supersteps_delete(request, id):
+    r = requests.get(API_STEP.format(id))
+    id = r.json()['id']
+    title = r.json()['title']
+    
+    return render(request, 'pages/supersteps_delete.html',
+        {'id' : id,
+         'title': title,
+         })
+
+def supersteps_delete_confirm(request, id):
+    url = API_STEP.format(id)
+    requests.delete(url)
+
+    return HttpResponseRedirect(reverse('supersteps'))
+
+def substeps_delete(request, id):
+    r = requests.get(API_STEP.format(id))
+    id = r.json()['id']
+    title = r.json()['title']
+    
+    return render(request, 'pages/steps_delete.html',
+        {'id' : id,
+         'title': title,
+         })
+
+def substeps_delete_confirm(request, id):
+    url = API_STEP.format(id)
+    requests.delete(url)
+
+    return HttpResponseRedirect(reverse('substeps'))
+
+def steps_delete_step(request, id, step_id):
+    url = API_SUPER_STEPS.format(id)
+    r = requests.delete(url, json = {'id': step_id})
+
+    return HttpResponseRedirect(reverse('steps_edit', args=[id]))
 
 def information(request):
     return render(request, 'pages/information.html', {'menu' : 'information'})
