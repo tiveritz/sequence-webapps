@@ -13,7 +13,8 @@ urlpatterns = [
     path('howtos/<str:id>/delete/', views.howtos_delete, name = 'howtos_delete'),
     path('howtos/<str:id>/delete/confirm/', views.howtos_delete_confirm, name = 'howtos_delete_confirm'),
     path('howtos/<str:id>/deletestep/<str:step_id>', views.howtos_delete_step, name = 'howtos_delete_step'),
-    path('howtos/<str:id>/addstep/', views.howtos_add_step, name = 'howtos_add_step'),
+    path('howtos/<str:id>/addsteps/', views.howtos_add_steps, name = 'howtos_add_steps'),
+    path('howtos/<str:id>/addsteps/<str:step_id>', views.howtos_add_steps_confirm, name = 'howtos_add_steps_confirm'),
     
     path('steps', views.steps, name = 'steps'),
     path('steps/create/', views.steps_create, name = 'steps_create'),
@@ -21,6 +22,8 @@ urlpatterns = [
     path('steps/<str:id>/delete/', views.steps_delete, name = 'steps_delete'),
     path('steps/<str:id>/delete/confirm/', views.steps_delete_confirm, name = 'steps_delete_confirm'),
     path('steps/<str:id>/deletestep/<str:step_id>', views.steps_delete_step, name = 'steps_delete_step'),
+    path('steps/<str:id>/addsteps/', views.steps_add_steps, name = 'steps_add_steps'),
+    path('steps/<str:id>/addsteps/<str:step_id>', views.steps_add_steps_confirm, name = 'steps_add_steps_confirm'),
     
     path('supersteps', views.supersteps, name = 'supersteps'),
     path('supersteps/<str:id>/delete/', views.supersteps_delete, name = 'supersteps_delete'),

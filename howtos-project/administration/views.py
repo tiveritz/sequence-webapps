@@ -14,10 +14,12 @@ API_STATISTICS = 'https://api.tiveritz.at/hwts/v1/statistics'
 API_HOWTOS = 'https://api.tiveritz.at/hwts/v1/howtos'
 API_HOWTO = 'https://api.tiveritz.at/hwts/v1/howtos/{}'
 API_HOWTO_STEPS = 'https://api.tiveritz.at/hwts/v1/howtos/{}/steps'
+API_HOWTOS_LINKABLE = 'https://api.tiveritz.at/hwts/v1/howtos/{}/linkable'
 
 API_STEPS = 'https://api.tiveritz.at/hwts/v1/steps'
 API_STEP = 'https://api.tiveritz.at/hwts/v1/steps/{}'
 API_SUPER_STEPS = 'https://api.tiveritz.at/hwts/v1/steps/{}/steps'
+API_STEPS_LINKABLE = 'https://api.tiveritz.at/hwts/v1/steps/{}/linkable'
 
 
 def dashboard(request):
@@ -103,11 +105,26 @@ def howtos_delete_step(request, id, step_id):
 
     return HttpResponseRedirect(reverse('howtos_edit', args=[id]))
 
-def howtos_add_step(request, id, step_id):
+def howtos_add_steps(request, id):
+    r = requests.get(API_HOWTOS_LINKABLE.format(id))
+    steps = r.json()
+
+    for step in steps:
+        step['created'] = convert_api_time(step['created'])
+        step['updated'] = convert_api_time(step['updated'])
+
+    return render(request, 'pages/howtos_add_steps.html', {
+        'id' : id,
+        'menu' : 'steps',
+        'steps' : steps
+        })
+
+def howtos_add_steps_confirm(request, id, step_id):
     url = API_HOWTO_STEPS.format(id)
     r = requests.post(url, json = {'id': step_id})
 
-    return HttpResponseRedirect(reverse('howtos_edit', args=[id]))
+    return HttpResponseRedirect(reverse(howtos_add_steps, args=[id]))
+
 
 def steps(request):
     r = requests.get(API_STEPS)
@@ -244,6 +261,25 @@ def steps_delete_step(request, id, step_id):
 def information(request):
     return render(request, 'pages/information.html', {'menu' : 'information'})
 
+def steps_add_steps(request, id):
+    r = requests.get(API_STEPS_LINKABLE.format(id))
+    steps = r.json()
+
+    for step in steps:
+        step['created'] = convert_api_time(step['created'])
+        step['updated'] = convert_api_time(step['updated'])
+
+    return render(request, 'pages/steps_add_steps.html', {
+        'id' : id,
+        'menu' : 'steps',
+        'steps' : steps
+        })
+
+def steps_add_steps_confirm(request, id, step_id):
+    url = API_SUPER_STEPS.format(id)
+    r = requests.post(url, json = {'id': step_id})
+
+    return HttpResponseRedirect(reverse(steps_add_steps, args=[id]))
 
 # AJAX
 def save_howto_order(request, id):
