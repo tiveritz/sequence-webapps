@@ -6,8 +6,8 @@
  * |    \__|_|\_/\___|_| |_|\__/___/    |
  * |____________________________________|
  *
- * 1.  Normalize
- * 2.  Font
+ * 1.  Font
+ * 2.  Normalize
  * 3.  Color
  * 4.  General Classes
  * 5.  General Layout
@@ -27,9 +27,19 @@
  * 99. Message for Unsupported Browsers
  */
 
- @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+ 
 /* ----------------------------------------------------------------------------
- *    1. Normalize
+ *    1. Font
+ * ------------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+	font-family: Roboto, Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 14px;
+}
+
+/* ----------------------------------------------------------------------------
+ *    2. Normalize
  * ------------------------------------------------------------------------- */
 * {
   margin: 0;
@@ -41,15 +51,6 @@ a {
   color: var(--white);
   text-decoration: none;
   cursor: pointer;
-}
-
-/* ----------------------------------------------------------------------------
- *    2. Font
- * ------------------------------------------------------------------------- */
-
-body {
-  font-family: Roboto, Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 14px;
 }
 
 /* ----------------------------------------------------------------------------
@@ -239,7 +240,6 @@ body {
 	cursor: pointer;
 }
 
-.box:hover,
 .sortable-box:hover,
 .list-box:hover {
 	background: var(--shade72);
@@ -481,25 +481,38 @@ body {
 /* ----------------------------------------------------------------------------
  *    9. Alert Box
  * ------------------------------------------------------------------------- */
- .info-box {
-	border-radius: 6px;
-	padding: 12px;
-	min-height: 120px;
+ .box-wrapper {
+    margin: 40px 0;
+    border-radius: 4px;
+    border: 1px solid white;
+}
+
+.box {
+    min-height: 200px;
+    padding: 20px;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: space-around;
 }
 
-.error {
-	background: rgb(120,0,0);
+.box-header {
+    border-radius: 3px 3px 0 0;
+    padding: 12px;
 }
 
-.warning {
-	background: rgb(170, 105, 0);
+.border-warn {
+	border-color: var(--warning);
+}
+.bg-warn {
+	background: var(--warning);
 }
 
-.warning button {
-	background: rgb(124, 77, 1);
+.btn-warn {
+	background: var(--warning);
+}
+
+.btn-warn:hover {
+	opacity: .9;
 }
 
 /* ----------------------------------------------------------------------------
