@@ -4,6 +4,9 @@ from dotenv import load_dotenv
 
 # Prepare environment variables
 def parse_env_boolean(variable_name):
+    if not os.getenv(variable_name):
+        raise ImportError(f'Variable name "{variable_name}" not found in .env')
+
     var = os.getenv(variable_name).lower()
 
     if (var == 'true'): return True
@@ -26,6 +29,9 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
 SECURE_SSL_REDIRECT = parse_env_boolean('SECURE_SSL_REDIRECT')
 
+REQUESTS_SSL_VERIFICATION = parse_env_boolean('REQUESTS_SSL_VERIFICATION')
+
+API_URL = os.getenv('API_URL')
     
 # Application definition
 

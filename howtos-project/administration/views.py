@@ -3,27 +3,30 @@ from django.shortcuts import render
 from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.conf import settings
 import requests
 import json
 
 from .forms import EditHowTo, CreateHowTo, EditStep, CreateStep
 
+API_URL = settings.API_URL
+RSV = settings.REQUESTS_SSL_VERIFICATION
 
 # API URLs
-API_STATISTICS = 'https://api.tiveritz.at/hwts/v1/statistics'
-API_HOWTOS = 'https://api.tiveritz.at/hwts/v1/howtos'
-API_HOWTO = 'https://api.tiveritz.at/hwts/v1/howtos/{}'
-API_HOWTO_STEPS = 'https://api.tiveritz.at/hwts/v1/howtos/{}/steps'
-API_HOWTOS_LINKABLE = 'https://api.tiveritz.at/hwts/v1/howtos/{}/linkable'
+API_STATISTICS =      API_URL + '/hwts/v1/Statistics'
+API_HOWTOS =          API_URL + '/hwts/v1/howtos'
+API_HOWTO =           API_URL + '/hwts/v1/howtos/{}'
+API_HOWTO_STEPS =     API_URL + '/hwts/v1/howtos/{}/steps'
+API_HOWTOS_LINKABLE = API_URL + '/hwts/v1/howtos/{}/linkable'
 
-API_STEPS = 'https://api.tiveritz.at/hwts/v1/steps'
-API_STEP = 'https://api.tiveritz.at/hwts/v1/steps/{}'
-API_SUPER_STEPS = 'https://api.tiveritz.at/hwts/v1/steps/{}/steps'
-API_STEPS_LINKABLE = 'https://api.tiveritz.at/hwts/v1/steps/{}/linkable'
+API_STEPS =           API_URL + '/hwts/v1/steps'
+API_STEP =            API_URL + '/hwts/v1/steps/{}'
+API_SUPER_STEPS =     API_URL + '/hwts/v1/steps/{}/steps'
+API_STEPS_LINKABLE =  API_URL + '/hwts/v1/steps/{}/linkable'
 
 
 def dashboard(request):
-    api_response = requests.get(API_STATISTICS)
+    api_response = requests.get(API_STATISTICS, verify = RSV)
     statistics = api_response.json()
 
     return render(request, 'pages/dashboard.html', {
@@ -33,7 +36,7 @@ def dashboard(request):
 
 
 def howtos(request):
-    r = requests.get(API_HOWTOS)
+    r = requests.get(API_HOWTOS, verify = RSV)
     howtos = r.json()
 
     for howto in howtos:
@@ -52,11 +55,11 @@ def howtos_edit(request, id):
         if form.is_valid():
             howto_title = form.cleaned_data['howto_title']
             url = API_HOWTO.format(id)
-            requests.patch(url, json = {'title': howto_title})
+            requests.patch(url, json = {'title': howto_title}, verify = RSV)
 
         return HttpResponseRedirect(reverse('howtos_edit', args=[id]))
         
-    r = requests.get(API_HOWTO.format(id))
+    r = requests.get(API_HOWTO.format(id), verify = RSV)
     howto = r.json()
     form = EditHowTo(initial={'howto_title': howto['title']})
     
@@ -74,7 +77,7 @@ def howtos_create(request):
         form = CreateHowTo(request.POST)
         if form.is_valid():
             howto_title = form.cleaned_data['howto_title']
-            r = requests.post(API_HOWTOS, json = {'title': howto_title})
+            r = requests.post(API_HOWTOS, json = {'title': howto_title}, verify = RSV)
             id = r.json()['id']
 
             return HttpResponseRedirect(reverse('howtos_edit', args=[id]))
@@ -84,7 +87,7 @@ def howtos_create(request):
     return render(request, 'pages/howtos_create.html', {'form': form})
 
 def howtos_delete(request, id):
-    r = requests.get(API_HOWTO.format(id))
+    r = requests.get(API_HOWTO.format(id), verify = RSV)
     id = r.json()['id']
     title = r.json()['title']
     
@@ -95,18 +98,18 @@ def howtos_delete(request, id):
 
 def howtos_delete_confirm(request, id):
     url = API_HOWTO.format(id)
-    requests.delete(url)
+    requests.delete(url, verify = RSV)
 
     return HttpResponseRedirect(reverse('howtos'))
 
 def howtos_delete_step(request, id, step_id):
     url = API_HOWTO_STEPS.format(id)
-    r = requests.delete(url, json = {'id': step_id})
+    r = requests.delete(url, json = {'id': step_id}, verify = RSV)
 
     return HttpResponseRedirect(reverse('howtos_edit', args=[id]))
 
 def howtos_add_steps(request, id):
-    r = requests.get(API_HOWTOS_LINKABLE.format(id))
+    r = requests.get(API_HOWTOS_LINKABLE.format(id), verify = RSV)
     steps = r.json()
 
     for step in steps:
@@ -121,13 +124,13 @@ def howtos_add_steps(request, id):
 
 def howtos_add_steps_confirm(request, id, step_id):
     url = API_HOWTO_STEPS.format(id)
-    r = requests.post(url, json = {'id': step_id})
+    r = requests.post(url, json = {'id': step_id}, verify = RSV)
 
     return HttpResponseRedirect(reverse(howtos_add_steps, args=[id]))
 
 
 def steps(request):
-    r = requests.get(API_STEPS)
+    r = requests.get(API_STEPS, verify = RSV)
     steps = r.json()
 
     for step in steps:
@@ -140,7 +143,7 @@ def steps(request):
         })
 
 def supersteps(request):
-    r = requests.get(API_STEPS)
+    r = requests.get(API_STEPS, verify = RSV)
     steps = r.json()
 
     for step in steps:
@@ -153,7 +156,7 @@ def supersteps(request):
         })
 
 def substeps(request):
-    r = requests.get(API_STEPS)
+    r = requests.get(API_STEPS, verify = RSV)
     steps = r.json()
 
     for step in steps:
@@ -172,11 +175,11 @@ def steps_edit(request, id):
         if form.is_valid():
             step_title = form.cleaned_data['step_title']
             url = API_STEP.format(id)
-            requests.patch(url, json = {'title': step_title})
+            requests.patch(url, json = {'title': step_title}, verify = RSV)
 
         return HttpResponseRedirect(reverse('steps_edit', args=[id]))
 
-    r = requests.get(API_STEP.format(id))
+    r = requests.get(API_STEP.format(id), verify = RSV)
     step = r.json()
     form = EditStep(initial={'step_title': step['title']})
     
@@ -194,7 +197,7 @@ def steps_create(request):
         form = CreateStep(request.POST)
         if form.is_valid():
             step_title = form.cleaned_data['step_title']
-            r = requests.post(API_STEPS, json = {'title': step_title})
+            r = requests.post(API_STEPS, json = {'title': step_title}, verify = RSV)
             id = r.json()['id']
 
             return HttpResponseRedirect(reverse('steps_edit', args=[id]))
@@ -204,7 +207,7 @@ def steps_create(request):
     return render(request, 'pages/steps_create.html', {'form': form})
 
 def steps_delete(request, id):
-    r = requests.get(API_STEP.format(id))
+    r = requests.get(API_STEP.format(id), verify = RSV)
     id = r.json()['id']
     title = r.json()['title']
     
@@ -215,13 +218,13 @@ def steps_delete(request, id):
 
 def steps_delete_confirm(request, id):
     url = API_STEP.format(id)
-    requests.delete(url)
+    requests.delete(url, verify = RSV)
     print(id)
 
     return HttpResponseRedirect(reverse('steps'))
 
 def supersteps_delete(request, id):
-    r = requests.get(API_STEP.format(id))
+    r = requests.get(API_STEP.format(id), verify = RSV)
     id = r.json()['id']
     title = r.json()['title']
     
@@ -232,12 +235,12 @@ def supersteps_delete(request, id):
 
 def supersteps_delete_confirm(request, id):
     url = API_STEP.format(id)
-    requests.delete(url)
+    requests.delete(url, verify = RSV)
 
     return HttpResponseRedirect(reverse('supersteps'))
 
 def substeps_delete(request, id):
-    r = requests.get(API_STEP.format(id))
+    r = requests.get(API_STEP.format(id), verify = RSV)
     id = r.json()['id']
     title = r.json()['title']
     
@@ -248,13 +251,13 @@ def substeps_delete(request, id):
 
 def substeps_delete_confirm(request, id):
     url = API_STEP.format(id)
-    requests.delete(url)
+    requests.delete(url, verify = RSV)
 
     return HttpResponseRedirect(reverse('substeps'))
 
 def steps_delete_step(request, id, step_id):
     url = API_SUPER_STEPS.format(id)
-    r = requests.delete(url, json = {'id': step_id})
+    r = requests.delete(url, json = {'id': step_id}, verify = RSV)
 
     return HttpResponseRedirect(reverse('steps_edit', args=[id]))
 
@@ -262,7 +265,7 @@ def information(request):
     return render(request, 'pages/information.html', {'menu' : 'information'})
 
 def steps_add_steps(request, id):
-    r = requests.get(API_STEPS_LINKABLE.format(id))
+    r = requests.get(API_STEPS_LINKABLE.format(id), verify = RSV)
     steps = r.json()
 
     for step in steps:
@@ -277,7 +280,7 @@ def steps_add_steps(request, id):
 
 def steps_add_steps_confirm(request, id, step_id):
     url = API_SUPER_STEPS.format(id)
-    r = requests.post(url, json = {'id': step_id})
+    r = requests.post(url, json = {'id': step_id}, verify = RSV)
 
     return HttpResponseRedirect(reverse(steps_add_steps, args=[id]))
 
@@ -290,7 +293,8 @@ def save_howto_order(request, id):
     url = API_HOWTO_STEPS.format(id)
     r = requests.patch(url, json = {
         'oldIndex': old_index,
-        'newIndex' : new_index})
+        'newIndex' : new_index},
+        verify = RSV)
 
     return JsonResponse({'message' : 'Saving order successful'})
 
@@ -302,15 +306,16 @@ def save_step_order(request, id):
     url = API_SUPER_STEPS.format(id)
     r = requests.patch(url, json = {
         'oldIndex': old_index,
-        'newIndex' : new_index})
+        'newIndex' : new_index},
+        verify = RSV)
 
     return JsonResponse({'message' : 'Saving order successful'})
 
 # Helper functions
 def convert_api_time(api_time):
-    api_time_format = '%Y-%m-%dT%H:%M:%S+00:00'
+    api_time_format = '%Y-%m-%dT%H:%M:%S'
     app_time_format = '%d.%m.%Y %H:%M'
-    time = datetime.strptime(api_time, api_time_format)
+    time = datetime.strptime(api_time[0:18], api_time_format)
     return time.strftime(app_time_format)
 
 def get_simple_nested_list(substeps):
