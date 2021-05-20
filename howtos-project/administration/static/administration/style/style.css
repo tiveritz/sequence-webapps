@@ -38,7 +38,7 @@
 }
 
 a {
-  color: var(--textcolor);
+  color: var(--white);
   text-decoration: none;
   cursor: pointer;
 }
@@ -56,16 +56,30 @@ body {
  *    3. Color
  * ------------------------------------------------------------------------- */
 :root {
-	--bgdark: rgb(38,38,38);
-	--bgbrighter: rgb(48,48,48);
 	--maincolor: rgb(0,146,223);
 	--maincolordarker: rgb(0,126,203);
 	--maincolordarkest: rgb(0,105,170);
 	--maincolorshadow: rgba(0,126,203,0.3);
-  
-	--navlinkcolor: rgb(255,255,255);
-	--textcolor: rgb(255,255,255);
 	--white: rgb(255,255,255);
+
+	--shade32: rgb(32,36,40);
+	--shade42: rgb(42,46,50);
+	--shade52: rgb(52,56,60);
+	--shade72: rgb(72,76,80);
+	--shade92: rgb(92,96,100);
+	--shade112: rgb(112,116,120);
+	--shade132: rgb(132,136,140);
+	--shade152: rgb(152,156,160);
+	--shade172: rgb(172,176,180);
+	--shade192: rgb(192,196,200);
+	--shade212: rgb(212,216,220);
+	--shade232: rgb(232,236,240);
+
+	--info: rgb(30,99,167);
+	--ok: rgb(5,166,58);
+	--warning: rgb(238,83,7);
+	--error: rgb(208,37,14);
+	--delete: rgb(208,37,14);
   }
 
 /* ----------------------------------------------------------------------------
@@ -86,8 +100,8 @@ body {
  *    5. Layout
  * ------------------------------------------------------------------------- */
 body {
-  color: var(--textcolor);
-  background: var(--bgdark);
+  color: var(--white);
+  background: var(--shade32);
 
   display: grid;
   grid-template-areas:
@@ -186,10 +200,14 @@ body {
 	height: 42px;
 	margin: 12px 0;
 	border-radius: 6px;
-	background: var(--bgbrighter);
+	background: var(--shade52);
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.add-button:hover {
+	background: var(--shade72);
 }
 
 /* ----------------------------------------------------------------------------
@@ -215,22 +233,22 @@ body {
 .sortable-box,
 .list-box {
 	min-height: 56px;
-	border: 1px solid var(--bgbrighter);
+	border: 1px solid var(--shade32);
 	display: grid;
-	background: rgb(42,42,42);
+	background: var(--shade42);
 	cursor: pointer;
 }
 
 .box:hover,
 .sortable-box:hover,
 .list-box:hover {
-	background: var(--bgbrighter);
+	background: var(--shade72);
 }
 
 .sortable-edit,
 .list-box-edit {
 	grid-area: edit;
-	background: var(--bgbrighter);
+	background: var(--shade52);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -288,7 +306,7 @@ body {
 	flex-direction: column;
 	align-items: center;
 	padding: 12px;
-	border-right: 2px solid var(--bgbrighter);
+	border-right: 2px solid var(--shade52);
 }
 
 .sortable-drag:hover {
@@ -319,7 +337,7 @@ body {
 }
 
 .tree {
-	color:rgb(128,128,128);
+	color: var(--shade152);
 	font-size: .6rem;
 }
 
@@ -406,7 +424,7 @@ body {
 	grid-template-rows: 50px;
 	grid-template-areas: "edit tag delete";
 	display: none;
-	background: var(--bgbrighter);
+	background: var(--shade52);
 }
 
 .change-box-main {
@@ -438,7 +456,7 @@ body {
 
 .change-box-delete {
 	grid-area: delete;
-	background: rgb(120,0,0);
+	background: var(--delete);
 	margin: 2px 4px;
 	border-radius: 4px;
 	z-index: 10;
@@ -514,7 +532,7 @@ body {
 
 .input-text{
 	padding: 12px;
-	background: rgb(38,38,38);
+	background: transparent;
 	flex-grow: 1;
 	color: white;
 	border: none;
@@ -529,16 +547,16 @@ body {
 }
 
 .title-form-new .input-text {
-	box-shadow: 0 0 0 2pt var(--bgbrighter);
+	box-shadow: 0 0 0 2pt var(--shade52);
 }
 
 .input-text:hover {
-	background: var(--bgbrighter);
+	background: var(--shade52);
 }
 
 .input-text:focus {
 	box-shadow: none;
-	background: var(--bgbrighter);
+	background: var(--shade52);
 }
 
 .input-submit:hover {
@@ -637,7 +655,7 @@ body {
 /* Buttons */
 button {
 	padding: 12px;
-	background: var(--bgbrighter);
+	background: var(--shade52);
 	color: white;
 	border: none;
 	outline: none;
