@@ -126,18 +126,47 @@ a {
     background: rgba(32,36,40,.08);
 }
 
-#pic-kb {
-    height: 16vh;
-    width: auto;
-}
-
 #pic-demo {
     height: 32vh;
     width: auto;
 }
 
+#pic-kb {
+    height: 16vh;
+    width: auto;
+}
+
 @media screen and (min-width: 1200px) {
     body {
-       font-size: 16px;
+        font-size: 16px;
     }
-  }
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        font-size: calc((2vh + 6vw) / 3);
+    }
+
+    .mainsection {
+        padding: 6vw;
+    }
+
+    .col-2 {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .col-2 > div {
+        justify-content: flex-start;
+    }
+    
+    #pic-demo {
+        width: 42vw;
+        height: auto;
+    }
+
+    #pic-kb {
+        width: 22vw;
+        height: auto;
+    }
+}
