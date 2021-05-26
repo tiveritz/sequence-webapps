@@ -295,8 +295,10 @@ def save_howto_order(request, id):
         'oldIndex': old_index,
         'newIndex' : new_index},
         verify = RSV)
-
-    return JsonResponse({'message' : 'Saving order successful'})
+    
+    if r.status_code == 200:
+        return JsonResponse({'message' : 'Saving order successful'})
+    return r.status_code
 
 def save_step_order(request, id):
     r_body = json.loads(request.body)
@@ -309,7 +311,9 @@ def save_step_order(request, id):
         'newIndex' : new_index},
         verify = RSV)
 
-    return JsonResponse({'message' : 'Saving order successful'})
+    if r.status_code == 200:
+        return JsonResponse({'message' : 'Saving order successful'})
+    return r.status_code
 
 # Helper functions
 def convert_api_time(api_time):
