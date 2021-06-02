@@ -1,0 +1,132 @@
+from django.http.response import JsonResponse
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.conf import settings
+import requests
+import json
+
+from ..forms import EditHowTo, CreateHowTo
+
+
+API_URL = settings.API_URL
+RSV = settings.REQUESTS_SSL_VERIFICATION
+API_HOWTOS =          API_URL + '/hwts/v1/howtos'
+API_HOWTO =           API_URL + '/hwts/v1/howtos/{}'
+API_HOWTO_STEPS =     API_URL + '/hwts/v1/howtos/{}/steps'
+API_HOWTOS_LINKABLE = API_URL + '/hwts/v1/howtos/{}/linkable'
+
+def howtos(request):
+    from ..functions.apptime import convert_datetime_api_to_app
+
+    r = requests.get(API_HOWTOS, verify = RSV)
+    howtos = r.json()
+
+    for howto in howtos:
+        howto['created'] = convert_datetime_api_to_app(howto['created'])
+        howto['updated'] = convert_datetime_api_to_app(howto['updated'])
+
+    return render(request, 'pages/howtos.html', {
+        'menu' : 'howtos',
+        'howtos' : howtos
+        })
+
+
+def howtos_edit(request, id):
+    if request.method == 'POST':
+        form = EditHowTo(request.POST)
+        if form.is_valid():
+            howto_title = form.cleaned_data['howto_title']
+            url = API_HOWTO.format(id)
+            requests.patch(url, json = {'title': howto_title}, verify = RSV)
+
+        return HttpResponseRedirect(reverse('howtos_edit', args=[id]))
+    
+    from ..functions.tree import get_tree_as_nested_list
+        
+    r = requests.get(API_HOWTO.format(id), verify = RSV)
+    howto = r.json()
+    form = EditHowTo(initial={'howto_title': howto['title']})
+    
+    for step in howto['steps']:
+        step['substeps'] = get_tree_as_nested_list(step['substeps'])
+
+    return render(request, 'pages/howtos_edit.html', {
+        'menu' : 'howtos',
+        'howto' : howto,
+        'form' : form
+        })
+
+def howtos_create(request):
+    if request.method == 'POST':
+        form = CreateHowTo(request.POST)
+        if form.is_valid():
+            howto_title = form.cleaned_data['howto_title']
+            r = requests.post(API_HOWTOS, json = {'title': howto_title}, verify = RSV)
+            id = r.json()['id']
+
+            return HttpResponseRedirect(reverse('howtos_edit', args=[id]))
+    
+    form = CreateHowTo()
+
+    return render(request, 'pages/howtos_create.html', {'form': form})
+
+def howtos_delete(request, id):
+    r = requests.get(API_HOWTO.format(id), verify = RSV)
+    id = r.json()['id']
+    title = r.json()['title']
+    
+    return render(request, 'pages/howtos_delete.html',
+        {'id' : id,
+         'title': title,
+         })
+
+def howtos_delete_confirm(request, id):
+    url = API_HOWTO.format(id)
+    requests.delete(url, verify = RSV)
+
+    return HttpResponseRedirect(reverse('howtos'))
+
+def howtos_delete_step(request, id, step_id):
+    url = API_HOWTO_STEPS.format(id)
+    r = requests.delete(url, json = {'id': step_id}, verify = RSV)
+
+    return HttpResponseRedirect(reverse('howtos_edit', args=[id]))
+
+def howtos_add_steps(request, id):
+    from ..functions.apptime import convert_datetime_api_to_app
+
+    r = requests.get(API_HOWTOS_LINKABLE.format(id), verify = RSV)
+    steps = r.json()
+
+    for step in steps:
+        step['created'] = convert_datetime_api_to_app(step['created'])
+        step['updated'] = convert_datetime_api_to_app(step['updated'])
+
+    return render(request, 'pages/howtos_add_steps.html', {
+        'id' : id,
+        'menu' : 'steps',
+        'steps' : steps
+        })
+
+def howtos_add_steps_confirm(request, id, step_id):
+    url = API_HOWTO_STEPS.format(id)
+    r = requests.post(url, json = {'id': step_id}, verify = RSV)
+
+    return HttpResponseRedirect(reverse(howtos_add_steps, args=[id]))
+
+# AJAX
+def save_howto_order(request, id):
+    r_body = json.loads(request.body)
+    old_index = r_body['old_index']
+    new_index = r_body['new_index']
+
+    url = API_HOWTO_STEPS.format(id)
+    r = requests.patch(url, json = {
+        'oldIndex': old_index,
+        'newIndex' : new_index},
+        verify = RSV)
+    
+    if r.status_code == 200:
+        return JsonResponse({'message' : 'Saving order successful'})
+    return r.status_code
