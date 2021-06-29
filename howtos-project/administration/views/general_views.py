@@ -5,12 +5,13 @@ import requests
 
 API_URL = settings.API_URL
 RSV = settings.REQUESTS_SSL_VERIFICATION
-API_STATISTICS =      API_URL + '/hwts/v1/Statistics'
+API_STATISTICS = API_URL + '/howtos/v1/statistics/'
 
 
 def dashboard(request):
-    api_response = requests.get(API_STATISTICS, verify = RSV)
-    statistics = api_response.json()
+    r = requests.get(API_STATISTICS, verify = RSV)
+    print(r)
+    statistics = r.json()
 
     return render(request, 'pages/dashboard.html', {
         'menu' : 'dashboard',

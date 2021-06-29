@@ -9,7 +9,7 @@
         <div class="box">
             <p>Are you sure you wan't to delete the Step <strong>{{ title }}</strong>?</p>
             <div>
-                <a href="{% url 'steps_delete_confirm' id %}">
+                <a href="{% url 'steps_delete_confirm' uri_id %}">
                     <button class="btn-warn">Yes</button>
                 </a>
                 <a href="{% url 'steps' %}">

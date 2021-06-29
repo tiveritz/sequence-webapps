@@ -8,17 +8,17 @@
         {% for step in steps %}
             {% if step.isSuper %}
                 <div class="list-box">
-                    <div class="list-box-clickable{% if step.isSuper %} is-super{% endif %}" onclick="showChangeBox('change-box-{{ step.id }}');">
+                    <div class="list-box-clickable{% if step.isSuper %} is-super{% endif %}" onclick="showChangeBox('change-box-{{ step.uri_id }}');">
                         <div class="list-box-title">{{ step.title }}</div>
                         <div class="list-box-added">{{ step.created }}</div>
                         <div class="list-box-last-edit">{{ step.updated }}</div>
-                        <div id="change-box-{{ step.id }}" class="change-box">
-                            <a href="{% url 'steps_edit' step.id %}" class="change-box-edit">edit</a>
+                        <div id="change-box-{{ step.uri_id }}" class="change-box">
+                            <a href="{% url 'steps_edit' step.uri_id %}" class="change-box-edit">edit</a>
                             <a href="#" class="change-box-tag"><s>tag</s></a>
-                            <a href="{% url 'supersteps_delete' step.id %}" class="change-box-delete">delete</a>
+                            <a href="{% url 'supersteps_delete' step.uri_id %}" class="change-box-delete">delete</a>
                         </div>
                     </div>
-                    <a href="{% url 'steps_edit' step.id %}" class="list-box-edit">✎</a>
+                    <a href="{% url 'steps_edit' step.uri_id %}" class="list-box-edit">✎</a>
                 </div>
             {% endif %}
         {% endfor %}
