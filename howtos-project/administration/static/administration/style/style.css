@@ -186,6 +186,15 @@ body {
 #icon-information {background-image: url("../icons/information.png");}
 #icon-settings {background-image: url("../icons/settings.png");}
 
+#logout-section {
+	margin-top: 40px;
+	padding: 10px;
+	border: 1px solid white;
+	border-radius: 6px;
+	display: flex;
+	justify-content: center;
+}
+
 /* ----------------------------------------------------------------------------
  *    7.  Content
  *    7.1 General Content

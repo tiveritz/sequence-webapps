@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import include, path
 from administration import views
 from .views import general_views
 from .views import howtos
@@ -7,7 +7,9 @@ from .views import steps
 
 urlpatterns = [
     # Dashboard
-    path('', general_views.dashboard, name = 'dashboard'),
+    path('', include("django.contrib.auth.urls")),
+    path('', general_views.login, name = 'login'),
+    path('logout/', general_views.logout, name = 'logout'),
     path('dashboard/', general_views.dashboard, name = 'dashboard'),
 
     # Information
