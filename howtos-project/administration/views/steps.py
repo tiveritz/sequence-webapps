@@ -14,8 +14,8 @@ API_URL = settings.API_URL
 RSV = settings.REQUESTS_SSL_VERIFICATION
 API_STEPS =           API_URL + '/howtos/v1/steps/'
 API_STEP =            API_URL + '/howtos/v1/steps/{}/'
-API_SUPER_STEPS =     API_URL + '/howtos/v1/steps/{}/steps'
-API_STEPS_LINKABLE =  API_URL + '/howtos/v1/steps/{}/linkable'
+API_SUPER_STEPS =     API_URL + '/howtos/v1/steps/{}/steps/'
+API_STEPS_LINKABLE =  API_URL + '/howtos/v1/steps/{}/linkable/'
 
 def steps(request):
     from ..functions.apptime import convert_datetime_api_to_app
@@ -150,14 +150,22 @@ def substeps_delete_confirm(request, id):
 
 def steps_delete_step(request, id, step_id):
     url = API_SUPER_STEPS.format(id)
-    r = requests.delete(url, json = {'uri_id': step_id}, verify = RSV)
+    payload = {
+        'method' : 'delete',
+        'uri_id': step_id
+    }
+    r = requests.patch(url, json = payload, verify = RSV)
 
     return HttpResponseRedirect(reverse('steps_edit', args=[id]))
 
 def steps_add_steps(request, id):
     from ..functions.apptime import convert_datetime_api_to_app
+    from ..functions.tree import get_tree_as_nested_list
     r = requests.get(API_STEPS_LINKABLE.format(id), verify = RSV)
     steps = r.json()
+
+    for step in steps:
+        step['substeps'] = get_tree_as_nested_list(step['substeps'])
 
     return render(request, 'pages/steps_add_steps.html', {
         'uri_id' : id,
@@ -171,16 +179,19 @@ def steps_add_steps_confirm(request, id, step_id):
 
     return HttpResponseRedirect(reverse(steps_add_steps, args=[id]))
 
-
+# AJAX
 def save_step_order(request, id):
     r_body = json.loads(request.body)
     old_index = r_body['old_index']
     new_index = r_body['new_index']
 
     url = API_SUPER_STEPS.format(id)
-    r = requests.patch(url, json = {
-        'oldIndex': old_index,
-        'newIndex' : new_index},
+    payload = {
+        'method' : 'order',
+        'old_index': old_index,
+        'new_index' : new_index
+        }
+    r = requests.patch(url, json = payload,
         verify = RSV)
 
     if r.status_code == 200:

@@ -34,7 +34,7 @@
         <div class="menu-entry-noclick">
             <div class="entry">
                 <div id="icon-modules" class="menu-icon"></div>
-                <div><s>Modules</s></div>
+                <div>Modules</div>
             </div>
         </div>
         <div class="menu-entry menu-sub">
@@ -44,15 +44,15 @@
             </a>
         </div>
         <div class="menu-entry menu-sub">
-            <a href="#" class="entry">
+            <a href="{% url 'text' %}" class="entry">
                 <div id="icon-explanations" class="menu-icon"></div>
-                <div><s>Explanations</s></div>
+                <div>Texts</div>
             </a>
         </div>
         <div class="menu-entry menu-sub">
-            <a href="#" class="entry">
+            <a href="{% url 'code' %}" class="entry">
                 <div id="icon-codes" class="menu-icon"></div>
-                <div><s>Codes</s></div>
+                <div>Codes</div>
             </a>
         </div>
         <div class="menu-entry menu-sub">
@@ -85,6 +85,6 @@
         </div>
     </div>
     <div>
-        <a id="logout-section" href="{% url 'logout' %}" target="_blank">Logout</a>
+        <a id="logout-section" href="{% url 'logout' %}">Logout</a>
     </div>
 </div>

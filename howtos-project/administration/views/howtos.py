@@ -12,9 +12,9 @@ from ..forms import EditHowTo, CreateHowTo
 API_URL = settings.API_URL
 RSV = settings.REQUESTS_SSL_VERIFICATION
 API_HOWTOS =          API_URL + '/howtos/v1/howtos/'
-API_HOWTO =           API_URL + '/howtos/v1/howtos/{}'
-API_HOWTO_STEPS =     API_URL + '/howtos/v1/howtos/{}/steps'
-API_HOWTOS_LINKABLE = API_URL + '/howtos/v1/howtos/{}/linkable'
+API_HOWTO =           API_URL + '/howtos/v1/howtos/{}/'
+API_HOWTO_STEPS =     API_URL + '/howtos/v1/howtos/{}/steps/'
+API_HOWTOS_LINKABLE = API_URL + '/howtos/v1/howtos/{}/linkable/'
 
 def howtos(request):
     from ..functions.apptime import convert_datetime_api_to_app
@@ -89,7 +89,11 @@ def howtos_delete_confirm(request, id):
 
 def howtos_delete_step(request, id, step_id):
     url = API_HOWTO_STEPS.format(id)
-    r = requests.delete(url, json = {'uri_id': step_id}, verify = RSV)
+    payload = {
+        'method' : 'delete',
+        'uri_id': step_id
+    }
+    r = requests.patch(url, json = payload, verify = RSV)
 
     return HttpResponseRedirect(reverse('howtos_edit', args=[id]))
 
@@ -118,10 +122,12 @@ def save_howto_order(request, id):
     new_index = r_body['new_index']
 
     url = API_HOWTO_STEPS.format(id)
-    r = requests.patch(url, json = {
-        'oldIndex': old_index,
-        'newIndex' : new_index},
-        verify = RSV)
+    payload = {
+        'method' : 'order',
+        'old_index': old_index,
+        'new_index' : new_index
+        }
+    r = requests.patch(url, json = payload, verify = RSV)
     
     if r.status_code == 200:
         return JsonResponse({'message' : 'Saving order successful'})

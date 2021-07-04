@@ -8,12 +8,14 @@
         <link rel="stylesheet" type="text/css" href="{% static './administration/style/style.css' %}">
     </head>
     <body>
-        <form method="POST">
-            {% csrf_token %}
-            <fieldset>
-                {{form}}
-                <button type="submit">Login</button>
-            </fieldset>
-        </form>
+        <div id="login-form">
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset>
+                    {{form}}
+                    <button type="submit">Login</button>
+                </fieldset>
+            </form>
+        </div>
     </body>
 </html>

@@ -5,21 +5,39 @@
         <h1>Dashboard</h1>
         <div class="void-xl"></div>
         <div id="dashboard-table">
-            <div class="dashboard-table-row">
-                <div class="dashboard-table-col">How To's</div>
-                <div class="dashboard-table-col">{{ statistics.how_tos }}</div>
+            <div class="dashboard-section">
+                <div class="dashboard-entry">
+                    <div>How To's</div>
+                    <div>{{ statistics.how_tos }}</div>
+                </div>
             </div>
-            <div class="dashboard-table-row">
-                <div class="dashboard-table-col">Steps</div>
-                <div class="dashboard-table-col">{{ statistics.steps }}</div>
+            <div class="dashboard-section">
+                <div class="dashboard-entry">
+                    <div>Steps</div>
+                    <div>{{ statistics.steps }}</div>
+                </div>
+                <div class="dashboard-entry">
+                    <div>Supersteps</div>
+                    <div>{{ statistics.supersteps }}</div>
+                </div>
+                <div class="dashboard-entry">
+                    <div>Substeps</div>
+                    <div>{{ statistics.substeps }}</div>
+                </div>
             </div>
-            <div class="dashboard-table-row">
-                <div class="dashboard-table-col">Supersteps</div>
-                <div class="dashboard-table-col">{{ statistics.supersteps }}</div>
-            </div>
-            <div class="dashboard-table-row">
-                <div class="dashboard-table-col">Substeps</div>
-                <div class="dashboard-table-col">{{ statistics.substeps }}</div>
+            <div class="dashboard-section">
+                <div class="dashboard-entry">
+                    <div>Modules</div>
+                    <div>{{ statistics.explanations }}</div>
+                </div>
+                <div class="dashboard-entry">
+                    <div>Text Modules</div>
+                    <div>{{ statistics.text_modules }}</div>
+                </div>
+                <div class="dashboard-entry">
+                    <div>Code Modules</div>
+                    <div>{{ statistics.code_modules }}</div>
+                </div>
             </div>
         </div>
     </div>

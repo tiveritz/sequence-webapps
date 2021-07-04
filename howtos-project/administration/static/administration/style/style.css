@@ -22,7 +22,8 @@
  *  8.4  Change Box
  * 9.  Alert Box
  * 10. Form
- * 11. Mobile View
+ * 11. Login
+ * 12. Mobile View
  *
  * 99. Message for Unsupported Browsers
  */
@@ -103,7 +104,9 @@ a {
 body {
   color: var(--white);
   background: var(--shade32);
+}
 
+#site {
   display: grid;
   grid-template-areas:
     "header header"
@@ -224,16 +227,25 @@ body {
  *    7.2 Dashboard
  * ------------------------------------------------------------------------- */
 #dashboard-table {
-	width: 200px;
+	display: flex;
+	gap: 12px;
 }
 
-.dashboard-table-col {
-	margin-bottom: 6px;
-}
-
-.dashboard-table-row {
+.dashboard-entry {
 	display: flex;
 	justify-content: space-between;
+}
+
+.dashboard-section {
+	height: 176px;
+	width: 196px;
+	padding: 24px;
+	border: 1px solid white;
+	border-radius: 6px;
+}
+
+.dashboard-section:hover {
+	background: var(--shade42);
 }
 
 /* ----------------------------------------------------------------------------
@@ -273,6 +285,10 @@ body {
 	/* Fix accidental text selection */
 	-webkit-touch-callout: none; /* iOS Safari */
 	user-select: none;
+}
+
+.list-box-linkable {
+	padding: 12px;
 }
 
 .list-box-title {
@@ -388,6 +404,7 @@ body {
 
 .list-box-edit {grid-area: edit;}
 .list-box-title {grid-area: title;}
+.list-box-linkable {grid-area: title;}
 .list-box-added {grid-area: added;}
 .list-box-last-edit {grid-area: last-edit;}
 
@@ -589,12 +606,57 @@ body {
 	visibility: visible;
 }
 
+/* ----------------------------------------------------------------------------
+ *    11. Login
+ * ------------------------------------------------------------------------- */
+#login-form {
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#login-form form {
+	padding: 80px 40px;
+	border-radius: 12px;
+	background: var(--maincolor);
+}
+
+#login-form fieldset {
+	display: flex;
+	flex-direction: column;
+	border: none;
+}
+
+#login-form input {
+	padding: 12px;
+	margin-bottom: 16px;
+	margin-top: 4px;
+	border: 1px solid white;
+	border-radius: 6px;
+	min-width: 240px;
+	background: var(--maincolorshadow);
+	color: white;
+}
+
+#login-info {
+	margin: 42px;
+}
+
+#login-info p {
+	margin-bottom: 12px;
+}
+
+#login-info a {
+	text-decoration: underline;
+	color: var(--maincolor);
+}
 
 /* ----------------------------------------------------------------------------
- *    11. Mobile view
+ *    12. Mobile view
  * ------------------------------------------------------------------------- */
 @media (max-width: 800px) {
-	body {
+	#site {
 		grid-template-rows: 20px auto ;
 		grid-template-areas:
 		"header header"
