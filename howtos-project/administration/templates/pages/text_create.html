@@ -3,12 +3,12 @@
 
 {% block content %}
     <div id="content">
-        <h1>Steps</h1>
-        <p>Create new Step</p>
+        <h1>Text</h1>
+        <p>Create new Text Explanation</p>
         <div class="void-l"></div>
         <p>Title</p>
         <div class="void-s"></div>
-        <form action="{% url 'steps_create' %}" method="post" class="title-form-new">
+        <form action="{% url 'text-create' %}" method="post" class="title-form-new">
             {% csrf_token %}
             {{ form }}
             <div class="title-form-buttons">

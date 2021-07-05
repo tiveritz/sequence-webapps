@@ -137,3 +137,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
+
+LOGIN_REDIRECT_URL = '/administration/dashboard/'
+LOGOUT_REDIRECT_URL = '/administration/'
