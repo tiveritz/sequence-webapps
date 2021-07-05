@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div id="content">
+        <h1>Edit Explanation</h1>
+        <div class="void-l"></div>
+        <form class="explanation-form" action="" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input class="input-submit" type="submit" value="Update">
+        </form>
+        <div class="void-xs"></div>
+        <div class="void-l"></div>
+    </div>
+
+{% endblock %}

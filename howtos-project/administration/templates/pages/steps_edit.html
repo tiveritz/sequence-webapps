@@ -46,7 +46,23 @@
             {% endfor %}
         </div>
         <div>
-            <a href="{% url 'steps_add_steps' step.uri_id %}" class="add-button">+</a>
+            <a href="{% url 'steps_add_steps' step.uri_id %}" class="add-button btn-big">
+                <img src="{% static 'administration/icons/steps.png' %}" alt="">
+                <div class="add-circle-wrapper">
+                    <div class="add-circle">+</div>
+                </div>
+            </a>
+        </div>
+        <div class="void-l"></div>
+        <div class="form-underline-grey"></div>
+        <div class="void-l"></div>
+        <div>
+            <a href="#" class="add-button btn-big">
+                <img src="{% static 'administration/icons/explanations.png' %}" alt="">
+                <div class="add-circle-wrapper">
+                    <div class="add-circle">+</div>
+                </div>
+            </a>
         </div>
     </div>
 

@@ -223,6 +223,35 @@ body {
 	background: var(--shade72);
 }
 
+.btn-big {
+	width: 100px;
+	height: 62px;
+	padding-left: 10px;
+}
+
+.btn-big > img {
+	height: 32px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.add-circle-wrapper {
+	position: relative;
+	top: 10px;
+	right: 10px;
+	border: 1px solid white;
+	background: inherit;
+	border-radius: 50%;
+}
+
+.add-circle {
+	width: 18px;
+	height: 18px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 /* ----------------------------------------------------------------------------
  *    7.2 Dashboard
  * ------------------------------------------------------------------------- */
@@ -239,14 +268,11 @@ body {
 .dashboard-section {
 	height: 176px;
 	width: 196px;
+	background: var(--shade42);
 	padding: 24px;
-	border: 1px solid white;
 	border-radius: 6px;
 }
 
-.dashboard-section:hover {
-	background: var(--shade42);
-}
 
 /* ----------------------------------------------------------------------------
  *    8.   List View
@@ -569,7 +595,8 @@ body {
 	cursor: pointer;
 }
 
-.input-text{
+.input-text,
+.input-explanation-text{
 	padding: 12px;
 	background: transparent;
 	flex-grow: 1;
@@ -585,15 +612,22 @@ body {
 	background-color: var(--maincolor);
 }
 
+.form-underline-grey {
+	height: 1px;
+	background-color: var(--shade112);
+}
+
 .title-form-new .input-text {
 	box-shadow: 0 0 0 2pt var(--shade52);
 }
 
-.input-text:hover {
+.input-text:hover,
+.input-explanation-text:hover {
 	background: var(--shade52);
 }
 
-.input-text:focus {
+.input-text:focus::after
+.input-explanation-text {
 	box-shadow: none;
 	background: var(--shade52);
 }
@@ -604,6 +638,22 @@ body {
 
 .input-text:focus~.input-submit {
 	visibility: visible;
+}
+
+.explanation-form {
+	display: flex;
+	flex-direction: column;
+}
+
+.explanation-form input,
+.explanation-form textarea {
+	background: var(--shade42);
+	margin-bottom: 12px;
+}
+
+.input-explanation-text {
+	min-height: 240px;
+	font-size: 12px;
 }
 
 /* ----------------------------------------------------------------------------

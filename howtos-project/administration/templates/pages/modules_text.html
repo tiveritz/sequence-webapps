@@ -11,12 +11,12 @@
                     <div class="list-box-clickable" onclick="showChangeBox('change-box-{{ text.uri_id }}');">
                         <div class="list-box-title">{{ text.title }}</div>
                         <div id="change-box-{{ text.uri_id }}" class="change-box">
-                            <a href="#" class="change-box-edit">edit</a>
+                            <a href="{% url 'explanation-edit' text.uri_id %}" class="change-box-edit">edit</a>
                             <a href="#" class="change-box-tag"><s>tag</s></a>
-                            <a href="#" class="change-box-delete">delete</a>
+                            <a href="#" class="change-box-delete"><s>delete</s></a>
                         </div>
                     </div>
-                <a href="#" class="list-box-edit">✎</a>
+                <a href="{% url 'explanation-edit' text.uri_id %}" class="list-box-edit">✎</a>
             </div>
             {% endif %}
         {% endfor %}

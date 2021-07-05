@@ -41,8 +41,9 @@ urlpatterns = [
 
     # Explanations
     path('explanations/text/', explanations.text, name = 'text'),
-    path('explanations/text/create', explanations.text_create, name = 'text-create'),
     path('explanations/code/', explanations.code, name = 'code'),
+    path('explanations/text/create', explanations.text_create, name = 'text-create'),
+    path('explanations/<str:id>/', explanations.explanation_edit, name = 'explanation-edit'),
 
     # AJAX
     path('howtos/<str:id>/save-order/', howtos.save_howto_order, name = 'save_howto_order'),
