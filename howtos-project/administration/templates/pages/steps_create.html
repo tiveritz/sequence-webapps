@@ -8,7 +8,7 @@
         <div class="void-l"></div>
         <p>Title</p>
         <div class="void-s"></div>
-        <form action="{% url 'steps_create' %}" method="post" class="title-form-new">
+        <form action="{% url 'steps-create' %}" method="post" class="title-form-new">
             {% csrf_token %}
             {{ form }}
             <div class="title-form-buttons">
