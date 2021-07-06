@@ -78,3 +78,20 @@ def code(request):
         'menu' : 'steps',
         'codes' : codes
         })
+
+def explanation_delete(request, id):
+    r = requests.get(API_EXPLANATION_EDIT.format(id), verify = RSV)
+    id = r.json()['uri_id']
+    title = r.json()['title']
+    
+    return render(request, 'pages/explanation_delete.html',
+        {'uri_id' : id,
+         'title': title,
+         })
+
+def explanation_delete_confirm(request, id):
+    url = API_EXPLANATION_EDIT.format(id)
+    requests.delete(url, verify = RSV)
+    print(id)
+
+    return HttpResponseRedirect(reverse('text'))

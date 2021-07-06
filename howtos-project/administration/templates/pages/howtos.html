@@ -4,7 +4,7 @@
 {% block content %}
     <div id="content">
         <h1>How-to's</h1>
-        <a href="{% url 'howtos_create' %}" class="add-button">+</a>
+        <a href="{% url 'howtos-create' %}" class="add-button">+</a>
         {% for howto in howtos %}
             <div class="list-box">
                 <div class="list-box-clickable" onclick="showChangeBox('change-box-{{ howto.uri_id }}');">
@@ -12,12 +12,12 @@
                     <div class="list-box-added">{{ howto.created }}</div>
                     <div class="list-box-last-edit">{{ howto.updated }}</div>
                     <div id="change-box-{{ howto.uri_id }}" class="change-box">
-                        <a href="{% url 'howtos_edit' howto.uri_id %}" class="change-box-edit">edit</a>
+                        <a href="{% url 'howtos-edit' howto.uri_id %}" class="change-box-edit">edit</a>
                         <a href="#" class="change-box-tag"><s>tag</s></a>
-                        <a href="{% url 'howtos_delete' howto.uri_id %}" class="change-box-delete">delete</a>
+                        <a href="{% url 'howtos-delete' howto.uri_id %}" class="change-box-delete">delete</a>
                     </div>
                 </div>
-            <a href="{% url 'howtos_edit' howto.uri_id %}" class="list-box-edit">✎</a>
+            <a href="{% url 'howtos-edit' howto.uri_id %}" class="list-box-edit">✎</a>
         </div>
         {% endfor %}
     </div>

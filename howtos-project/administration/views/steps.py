@@ -68,7 +68,7 @@ def steps_edit(request, id):
             url = API_STEP.format(id)
             requests.patch(url, json = {'title': step_title}, verify = RSV)
 
-        return HttpResponseRedirect(reverse('steps_edit', args=[id]))
+        return HttpResponseRedirect(reverse('steps-edit', args=[id]))
     
     from ..functions.tree import get_tree_as_nested_list
 
@@ -93,7 +93,7 @@ def steps_create(request):
             r = requests.post(API_STEPS, json = {'title': step_title}, verify = RSV)
             id = r.json()['uri_id']
 
-            return HttpResponseRedirect(reverse('steps_edit', args=[id]))
+            return HttpResponseRedirect(reverse('steps-edit', args=[id]))
     
     form = CreateStep()
 
@@ -156,7 +156,7 @@ def steps_delete_step(request, id, step_id):
     }
     r = requests.patch(url, json = payload, verify = RSV)
 
-    return HttpResponseRedirect(reverse('steps_edit', args=[id]))
+    return HttpResponseRedirect(reverse('steps-edit', args=[id]))
 
 def steps_add_steps(request, id):
     from ..functions.apptime import convert_datetime_api_to_app

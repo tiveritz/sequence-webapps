@@ -13,7 +13,7 @@
                         <div id="change-box-{{ text.uri_id }}" class="change-box">
                             <a href="{% url 'explanation-edit' text.uri_id %}" class="change-box-edit">edit</a>
                             <a href="#" class="change-box-tag"><s>tag</s></a>
-                            <a href="#" class="change-box-delete"><s>delete</s></a>
+                            <a href="{% url 'explanation-delete' text.uri_id %}" class="change-box-delete">delete</a>
                         </div>
                     </div>
                 <a href="{% url 'explanation-edit' text.uri_id %}" class="list-box-edit">✎</a>

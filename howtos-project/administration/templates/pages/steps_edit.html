@@ -37,16 +37,16 @@
                             </div>
                         </div>
                         <div id="change-box-{{ substep.uri_id }}" class="change-box change-box-main">
-                            <a href="{% url 'steps_delete_step' step.uri_id substep.uri_id %}" class="change-box-delete">x</a>
-                            <a href="{% url 'steps_edit' substep.uri_id %}" class="change-box-edit">✎</a>
+                            <a href="{% url 'steps-delete-step' step.uri_id substep.uri_id %}" class="change-box-delete">x</a>
+                            <a href="{% url 'steps-edit' substep.uri_id %}" class="change-box-edit">✎</a>
                         </div>
                     </div>
-                    <a href="{% url 'steps_edit' substep.uri_id %}" class="list-box-edit">✎</a>
+                    <a href="{% url 'steps-edit' substep.uri_id %}" class="list-box-edit">✎</a>
                 </div>
             {% endfor %}
         </div>
         <div>
-            <a href="{% url 'steps_add_steps' step.uri_id %}" class="add-button btn-big">
+            <a href="{% url 'steps-add-steps' step.uri_id %}" class="add-button btn-big">
                 <img src="{% static 'administration/icons/steps.png' %}" alt="">
                 <div class="add-circle-wrapper">
                     <div class="add-circle">+</div>
