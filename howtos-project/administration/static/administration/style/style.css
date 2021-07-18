@@ -15,6 +15,7 @@
  * 7.  Content
  *  7.1  General Content
  *  7.2  Dashboard
+ *  7.3  Explanation
  * 8.    List View
  *  8.1  Sortable and List
  *  8.2  Sortable
@@ -273,6 +274,21 @@ body {
 	border-radius: 6px;
 }
 
+/* ----------------------------------------------------------------------------
+ *    7.3 Explanation
+ * ------------------------------------------------------------------------- */
+.explanation-text {
+	font-family: Roboto, Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.explanation-preview {
+	font-size: .5rem;
+}
+
+#modules-btn-wrapper {
+	display: flex;
+	gap: 12px;
+}
 
 /* ----------------------------------------------------------------------------
  *    8.   List View
@@ -338,17 +354,23 @@ body {
 	grid-template-areas: "drag position content";
 }
 
+#sortablee .sortable-box-clickable {
+	grid-template-areas: "drag content";
+}
+
 .sortable-drag {grid-area: drag;}
 .sortable-position {grid-area: position;}
 .sortable-title {grid-area: content;}
 .sortable-edit {grid-area: edit;}
 
 
-#sortable > :first-child {
+#sortable > :first-child,
+#sortablee > :first-child {
 	border-radius: 5px 5px 0 0;
 }
 
-#sortable > :last-child {
+#sortable > :last-child,
+#sortablee > :last-child {
 	border-radius: 0 0 5px 5px;
 }
 

@@ -31,6 +31,11 @@ urlpatterns = [
     path('steps/<str:id>/deletestep/<str:step_id>/', steps.steps_delete_step, name = 'steps-delete-step'),
     path('steps/<str:id>/addsteps/', steps.steps_add_steps, name = 'steps-add-steps'),
     path('steps/<str:id>/addsteps/<str:step_id>/', steps.steps_add_steps_confirm, name = 'steps-add-steps-confirm'),
+    path('steps/<str:id>/addtextmodule/', steps.steps_add_textmodule, name = 'steps-add-textmodule'),
+    path('steps/<str:id>/addtextmodule/<str:explanation_id>/', steps.steps_add_textmodule_confirm, name = 'steps-add-textmodule-confirm'),
+    path('steps/<str:id>/deletemodule/<str:explanation_id>/', steps.steps_delete_module, name = 'steps-delete-module'),
+    path('steps/<str:id>/addcodemodule/', steps.steps_add_codemodule, name = 'steps-add-codemodule'),
+    path('steps/<str:id>/addcodemodule/<str:code_id>/', steps.steps_add_codemodule_confirm, name = 'steps-add-codemodule-confirm'),
     
     path('supersteps/', steps.supersteps, name = 'supersteps'),
     path('supersteps/<str:id>/delete/', steps.supersteps_delete, name = 'supersteps-delete'),
@@ -41,13 +46,15 @@ urlpatterns = [
 
     # Explanations
     path('explanations/text/', explanations.text, name = 'text'),
-    path('explanations/code/', explanations.code, name = 'code'),
     path('explanations/text/create', explanations.text_create, name = 'text-create'),
+    path('explanations/code/', explanations.code, name = 'code'),
+    path('explanations/code/create', explanations.code_create, name = 'code-create'),
     path('explanations/<str:id>/', explanations.explanation_edit, name = 'explanation-edit'),
     path('explanation/<str:id>/delete/', explanations.explanation_delete, name = 'explanation-delete'),
     path('explanation/<str:id>/delete/confirm/', explanations.explanation_delete_confirm, name = 'explanation-delete-confirm'),
 
     # AJAX
     path('howtos/<str:id>/save-order/', howtos.save_howto_order, name = 'save_howto_order'),
-    path('steps/<str:id>/save-order/', steps.save_step_order, name = 'save_step_order'),
+    path('steps/<str:id>/save-step-order/', steps.save_step_order, name = 'save_step_order'),
+    path('steps/<str:id>/save-explanation-order/', steps.save_explanation_order, name = 'save_explanation_order'),
 ]

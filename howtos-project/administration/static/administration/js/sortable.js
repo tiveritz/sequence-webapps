@@ -19,9 +19,19 @@ new Sortable.create(sortable, {
     ghostClass: 'hovering-background-class',
     handle: '.sortable-drag',
     onUpdate: function (/**Event*/evt) {
-        updateDatabase(evt.oldIndex, evt.newIndex)
+        updateDatabase(URL_SAVE_STEP_ORDER, evt.oldIndex, evt.newIndex)
         updateDomOrder(evt.to.children)
         updateInnerHtmlPosition(evt.to.children)
+    },
+})
+
+new Sortable.create(sortablee, {
+    animation: 150,
+    ghostClass: 'hovering-background-class',
+    handle: '.sortable-drag',
+    onUpdate: function (/**Event*/evt) {
+        updateDatabase(URL_SAVE_EXPLANATION_ORDER, evt.oldIndex, evt.newIndex)
+        updateDomOrder(evt.to.children)
     },
 })
 
@@ -47,8 +57,8 @@ function getIdList(newIndexes) {
         return items;
 };
 
-function updateDatabase(oldIndex, newIndex) {
-    fetch(UPDATE_DATABASE_URL, {
+function updateDatabase(url, oldIndex, newIndex) {
+    fetch(url, {
         method: 'POST',
         body : JSON.stringify({'old_index': oldIndex, 'new_index' : newIndex}),
         headers: {

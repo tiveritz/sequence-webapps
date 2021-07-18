@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div id="content">
+        <h1>Text</h1>
+        <p>Create new Code Explanation</p>
+        <div class="void-l"></div>
+        <p>Title</p>
+        <div class="void-s"></div>
+        <form action="{% url 'code-create' %}" method="post" class="title-form-new">
+            {% csrf_token %}
+            {{ form }}
+            <div class="title-form-buttons">
+                <input class="input-submit" type="submit" value="Create">
+            </div>
+        </form>
+        
+    </div>
+{% endblock %}

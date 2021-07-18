@@ -2,7 +2,8 @@ from django.shortcuts import redirect, render, reverse
 from django.conf import settings
 import requests
 from django.http import HttpResponseRedirect
-from ..forms import CreateText, EditExplanation
+from ..forms import CreateText, CreateCode, EditExplanation, EditCode
+from ..functions.tree import get_tree_as_nested_list
 
 
 API_URL = settings.API_URL
@@ -33,11 +34,30 @@ def text_create(request):
             r = requests.post(API_EXPLANATION, json = payload, verify = RSV)
             id = r.json()['uri_id']
 
-            return HttpResponseRedirect(reverse('text'))#, args=[id]))
+            return HttpResponseRedirect(reverse('explanation-edit', args=[id]))
 
     form = CreateText()
 
     return render(request, 'pages/text_create.html', {'form': form})
+
+def code_create(request):
+    if request.method == 'POST':
+        form = CreateCode(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            payload = {
+                'type' : 'code',
+                'title' : title,
+            }
+
+            r = requests.post(API_EXPLANATION, json = payload, verify = RSV)
+            id = r.json()['uri_id']
+
+            return HttpResponseRedirect(reverse('explanation-edit', args=[id]))
+
+    form = CreateCode()
+
+    return render(request, 'pages/code_create.html', {'form': form})
 
 def explanation_edit(request, id):
     if request.method == 'POST':
@@ -54,8 +74,6 @@ def explanation_edit(request, id):
             requests.patch(url, json = payload, verify = RSV)
 
         return HttpResponseRedirect(reverse('explanation-edit', args=[id]))
-    
-    from ..functions.tree import get_tree_as_nested_list
         
     r = requests.get(API_EXPLANATION_EDIT.format(id), verify = RSV)
     explanation = r.json()

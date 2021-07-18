@@ -56,9 +56,50 @@
         <div class="void-l"></div>
         <div class="form-underline-grey"></div>
         <div class="void-l"></div>
-        <div>
+        <div id="sortablee" class="noselect">
+            {% for explanation in step.explanations %}
+                <div id="{{explanation.uri_id}}" class="list-group-item sortable-box">
+                    <div class="sortable-box-clickable" onclick="showChangeBox('change-box-{{ explanation.uri_id }}');">		
+                        <div class="sortable-drag">
+                            <div>
+                                <div class="drag"></div>
+                                <div class="drag"></div>
+                                <div class="drag"></div>
+                            </div>
+                        </div>
+                        <div class="sortable-title">
+                            <pre class="explanation-{{ explanation.type }}">{{ explanation.content|safe }}</pre>
+                        </div>
+                        <div id="change-box-{{ explanation.uri_id }}" class="change-box change-box-main">
+                            <a href="{% url 'steps-delete-module' step.uri_id explanation.uri_id %}" class="change-box-delete">x</a>
+                            <a href="{% url 'explanation-edit' explanation.uri_id %}" class="change-box-edit">✎</a>
+                        </div>
+                    </div>
+                    <a href="{% url 'explanation-edit' explanation.uri_id %}" class="list-box-edit">✎</a>
+                </div>
+            {% endfor %}
+        </div>
+        <div id="modules-btn-wrapper">
             <a href="#" class="add-button btn-big">
+                <img src="{% static 'administration/icons/pictures.png' %}" alt="">
+                <div class="add-circle-wrapper">
+                    <div class="add-circle">+</div>
+                </div>
+            </a>
+            <a href="{% url 'steps-add-textmodule' step.uri_id %}" class="add-button btn-big">
                 <img src="{% static 'administration/icons/explanations.png' %}" alt="">
+                <div class="add-circle-wrapper">
+                    <div class="add-circle">+</div>
+                </div>
+            </a>
+            <a href="{% url 'steps-add-codemodule' step.uri_id %}" class="add-button btn-big">
+                <img src="{% static 'administration/icons/codes.png' %}" alt="">
+                <div class="add-circle-wrapper">
+                    <div class="add-circle">+</div>
+                </div>
+            </a>
+            <a href="#" class="add-button btn-big">
+                <img src="{% static 'administration/icons/links.png' %}" alt="">
                 <div class="add-circle-wrapper">
                     <div class="add-circle">+</div>
                 </div>
@@ -70,7 +111,8 @@
 
 {% block site-specific-script %}
     <script>
-        const UPDATE_DATABASE_URL = "{% url 'save_step_order' id=step.uri_id %}";
+        const URL_SAVE_STEP_ORDER = "{% url 'save_step_order' id=step.uri_id %}"
+        const URL_SAVE_EXPLANATION_ORDER = "{% url 'save_explanation_order' id=step.uri_id %}"
     </script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.10.2/Sortable.min.js" type="text/javascript"></script>
 	<script src="{% static './administration/js/sortable.js' %}" type="text/javascript"></script>
