@@ -17,7 +17,7 @@ def text(request):
     texts = r.json()
 
     return render(request, 'pages/modules_text.html', {
-        'menu' : 'steps',
+        'menu' : 'texts',
         'texts' : texts
         })
 
@@ -27,7 +27,7 @@ def text_create(request):
         if form.is_valid():
             title = form.cleaned_data['title']
             payload = {
-                'type' : 'text',
+                'type' : 'texts',
                 'title' : title,
             }
 
@@ -46,7 +46,7 @@ def code_create(request):
         if form.is_valid():
             title = form.cleaned_data['title']
             payload = {
-                'type' : 'code',
+                'type' : 'codes',
                 'title' : title,
             }
 
@@ -83,7 +83,7 @@ def explanation_edit(request, id):
         })
 
     return render(request, 'pages/explanation_edit.html', {
-        'menu' : 'text',
+        'menu' : 'texts',
         'explanation' : explanation,
         'form' : form
         })
@@ -93,7 +93,7 @@ def code(request):
     codes = r.json()
 
     return render(request, 'pages/modules_code.html', {
-        'menu' : 'steps',
+        'menu' : 'codes',
         'codes' : codes
         })
 

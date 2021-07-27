@@ -17,7 +17,6 @@ def logout(request):
 
 def dashboard(request):
     r = requests.get(API_STATISTICS, verify = RSV)
-    print(r)
     statistics = r.json()
 
     return render(request, 'pages/dashboard.html', {

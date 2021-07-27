@@ -1,5 +1,5 @@
 from django.urls import include, path
-from .views import general_views, howtos, steps, explanations
+from .views import general_views, howtos, steps, explanations, media
 
 
 urlpatterns = [
@@ -35,6 +35,7 @@ urlpatterns = [
     path('steps/<str:id>/addtextmodule/<str:explanation_id>/', steps.steps_add_textmodule_confirm, name = 'steps-add-textmodule-confirm'),
     path('steps/<str:id>/deletemodule/<str:explanation_id>/', steps.steps_delete_module, name = 'steps-delete-module'),
     path('steps/<str:id>/addcodemodule/', steps.steps_add_codemodule, name = 'steps-add-codemodule'),
+    path('steps/<str:id>/addcodemodule/', steps.steps_add_codemodule, name = 'steps-add-codemodule'),
     path('steps/<str:id>/addcodemodule/<str:code_id>/', steps.steps_add_codemodule_confirm, name = 'steps-add-codemodule-confirm'),
     
     path('supersteps/', steps.supersteps, name = 'supersteps'),
@@ -52,6 +53,12 @@ urlpatterns = [
     path('explanations/<str:id>/', explanations.explanation_edit, name = 'explanation-edit'),
     path('explanation/<str:id>/delete/', explanations.explanation_delete, name = 'explanation-delete'),
     path('explanation/<str:id>/delete/confirm/', explanations.explanation_delete_confirm, name = 'explanation-delete-confirm'),
+
+    # Media
+    path('media/images/', media.images, name = 'images'),
+    path('media/images/upload', media.image_upload, name = 'image-upload'),
+    path('steps/<str:id>/addimage/', steps.steps_add_image, name = 'steps-add-image'),
+    path('steps/<str:id>/addimage/<str:image_id>/', steps.steps_add_image_confirm, name = 'steps-add-image-confirm'),
 
     # AJAX
     path('howtos/<str:id>/save-order/', howtos.save_howto_order, name = 'save_howto_order'),

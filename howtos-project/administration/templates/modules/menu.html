@@ -13,19 +13,19 @@
             </a>
         </div>
         <div class="menu-entry">
-            <a href="{% url 'steps' %}" class="entry">
+            <a href="{% url 'steps' %}" class="entry{% if menu == 'steps' %} menu-entry-active{% endif %}">
                 <div id="icon-steps" class="menu-icon"></div>
                 <div>Steps</div>
             </a>
         </div>
         <div class="menu-entry menu-sub">
-            <a href="{% url 'supersteps' %}" class="entry">
+            <a href="{% url 'supersteps' %}" class="entry{% if menu == 'supersteps' %} menu-entry-active{% endif %}">
                 <div id="icon-supersteps" class="menu-icon"></div>
                 <div>Supersteps</div>
             </a>
         </div>
         <div class="menu-entry menu-sub">
-            <a href="{% url 'substeps' %}" class="entry">
+            <a href="{% url 'substeps' %}" class="entry{% if menu == 'substeps' %} menu-entry-active{% endif %}">
                 <div id="icon-substeps" class="menu-icon"></div>
                 <div>Substeps</div>
             </a>
@@ -38,19 +38,19 @@
             </div>
         </div>
         <div class="menu-entry menu-sub">
-            <a href="#" class="entry">
+            <a href="{% url 'images' %}" class="entry{% if menu == 'pictures' %} menu-entry-active{% endif %}">
                 <div id="icon-pictures" class="menu-icon"></div>
-                <div><s>Pictures</s></div>
+                <div>Pictures</div>
             </a>
         </div>
         <div class="menu-entry menu-sub">
-            <a href="{% url 'text' %}" class="entry">
+            <a href="{% url 'text' %}" class="entry{% if menu == 'texts' %} menu-entry-active{% endif %}">
                 <div id="icon-explanations" class="menu-icon"></div>
                 <div>Texts</div>
             </a>
         </div>
         <div class="menu-entry menu-sub">
-            <a href="{% url 'code' %}" class="entry">
+            <a href="{% url 'code' %}" class="entry{% if menu == 'codes' %} menu-entry-active{% endif %}">
                 <div id="icon-codes" class="menu-icon"></div>
                 <div>Codes</div>
             </a>

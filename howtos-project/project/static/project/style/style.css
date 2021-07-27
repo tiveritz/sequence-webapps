@@ -136,6 +136,19 @@ a {
     width: auto;
 }
 
+#howtos {
+    display: flex;
+    flex-direction: column;
+}
+
+.viewer-howto-box {
+    padding: 24px;
+    background: rgb(32,36,40);
+    border-radius: 6px;
+    width: 60vw;
+    margin-bottom: 12px;
+}
+
 @media screen and (min-width: 1200px) {
     body {
         font-size: 16px;

@@ -57,9 +57,9 @@
         <div class="form-underline-grey"></div>
         <div class="void-l"></div>
         <div id="sortablee" class="noselect">
-            {% for explanation in step.explanations %}
-                <div id="{{explanation.uri_id}}" class="list-group-item sortable-box">
-                    <div class="sortable-box-clickable" onclick="showChangeBox('change-box-{{ explanation.uri_id }}');">		
+            {% for module in step.modules %}
+                <div id="{{module.uri_id}}" class="list-group-item sortable-box">
+                    <div class="sortable-box-clickable" onclick="showChangeBox('change-box-{{ module.uri_id }}');">		
                         <div class="sortable-drag">
                             <div>
                                 <div class="drag"></div>
@@ -68,19 +68,25 @@
                             </div>
                         </div>
                         <div class="sortable-title">
-                            <pre class="explanation-{{ explanation.type }}">{{ explanation.content|safe }}</pre>
+                            {% if module.type == 'text' %}
+                                <pre class="explanation-text">{{ module.content|safe }}</pre>
+                            {% elif module.type == 'code' %}
+                                <pre class="explanation-code">{{ module.content|safe }}</pre>
+                            {% elif module.type == 'image' %}
+                                <img class="steplist-img" src="{{ module.image }}" alt="">
+                            {% endif %}
                         </div>
-                        <div id="change-box-{{ explanation.uri_id }}" class="change-box change-box-main">
-                            <a href="{% url 'steps-delete-module' step.uri_id explanation.uri_id %}" class="change-box-delete">x</a>
-                            <a href="{% url 'explanation-edit' explanation.uri_id %}" class="change-box-edit">✎</a>
+                        <div id="change-box-{{ module.uri_id }}" class="change-box change-box-main">
+                            <a href="{% url 'steps-delete-module' step.uri_id module.uri_id %}" class="change-box-delete">x</a>
+                            <a href="{% url 'explanation-edit' module.uri_id %}" class="change-box-edit">✎</a>
                         </div>
                     </div>
-                    <a href="{% url 'explanation-edit' explanation.uri_id %}" class="list-box-edit">✎</a>
+                    <a href="{% url 'explanation-edit' module.uri_id %}" class="list-box-edit">✎</a>
                 </div>
             {% endfor %}
         </div>
         <div id="modules-btn-wrapper">
-            <a href="#" class="add-button btn-big">
+            <a href="{% url 'steps-add-image' step.uri_id %}" class="add-button btn-big">
                 <img src="{% static 'administration/icons/pictures.png' %}" alt="">
                 <div class="add-circle-wrapper">
                     <div class="add-circle">+</div>

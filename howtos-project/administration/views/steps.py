@@ -14,12 +14,13 @@ from ..forms import EditStep, CreateStep
 
 API_URL = settings.API_URL
 RSV = settings.REQUESTS_SSL_VERIFICATION
-API_STEPS =           API_URL + '/howtos/v1/steps/'
-API_STEP =            API_URL + '/howtos/v1/steps/{}/'
-API_SUPER_STEPS =     API_URL + '/howtos/v1/steps/{}/steps/'
-API_EXPLANATIONS =    API_URL + '/howtos/v1/steps/{}/explanations/'
-API_STEPS_LINKABLE =  API_URL + '/howtos/v1/steps/{}/linkable/'
-API_MODULES_LINKABLE =  API_URL + '/howtos/v1/steps/{}/linkablemodules/'
+API_STEPS =  API_URL + '/howtos/v1/steps/'
+API_STEP = API_URL + '/howtos/v1/steps/{}/'
+API_SUPER_STEPS =  API_URL + '/howtos/v1/steps/{}/steps/'
+API_EXPLANATIONS = API_URL + '/howtos/v1/steps/{}/explanations/'
+API_STEPS_LINKABLE = API_URL + '/howtos/v1/steps/{}/linkable/'
+API_MODULES_LINKABLE = API_URL + '/howtos/v1/steps/{}/linkablemodules/'
+API_IMAGES_LINKABLE = API_URL + '/howtos/v1/steps/{}/linkableimages/'
 
 def steps(request):
     r = requests.get(API_STEPS, verify = RSV)
@@ -43,7 +44,7 @@ def supersteps(request):
         step['updated'] = convert_datetime_api_to_app(step['updated'])
 
     return render(request, 'pages/supersteps.html', {
-        'menu' : 'steps',
+        'menu' : 'supersteps',
         'steps' : steps
         })
 
@@ -56,7 +57,7 @@ def substeps(request):
         step['updated'] = convert_datetime_api_to_app(step['updated'])
 
     return render(request, 'pages/substeps.html', {
-        'menu' : 'steps',
+        'menu' : 'substeps',
         'steps' : steps
         })
 
@@ -201,7 +202,11 @@ def steps_add_textmodule(request, id):
 
 def steps_add_textmodule_confirm(request, id, explanation_id):
     url = API_EXPLANATIONS.format(id)
-    r = requests.post(url, json = {'uri_id': explanation_id}, verify = RSV)
+    payload = {
+        'type': 'explanation',
+        'uri_id': explanation_id,
+        }
+    r = requests.post(url, json = payload, verify = RSV)
     print(r)
 
     return HttpResponseRedirect(reverse(steps_add_textmodule, args=[id]))
@@ -214,15 +219,40 @@ def steps_add_codemodule(request, id):
     return render(request, 'pages/steps_add_codemodule.html', {
         'uri_id' : id,
         'menu' : 'steps',
-        'codes' : codes
+        'codes' : codes,
         })
 
 def steps_add_codemodule_confirm(request, id, code_id):
     url = API_EXPLANATIONS.format(id)
-    r = requests.post(url, json = {'uri_id': code_id}, verify = RSV)
+    payload = {
+        'type': 'explanation',
+        'uri_id': code_id,
+        }
+    r = requests.post(url, json = payload, verify = RSV)
     print(r)
 
     return HttpResponseRedirect(reverse(steps_add_codemodule, args=[id]))
+
+def steps_add_image(request, id):
+    r = requests.get(API_IMAGES_LINKABLE.format(id), verify = RSV)
+    images = r.json()
+
+    return render(request, 'pages/steps_add_image.html', {
+        'uri_id' : id,
+        'menu' : 'steps',
+        'images' : images,
+        })
+
+def steps_add_image_confirm(request, id, image_id):
+    url = API_EXPLANATIONS.format(id)
+    payload = {
+        'type': 'image',
+        'uri_id': image_id,
+        }
+    r = requests.post(url, json = payload, verify = RSV)
+    print(r)
+
+    return HttpResponseRedirect(reverse(steps_add_image, args=[id]))
 
 # AJAX
 def save_step_order(request, id):

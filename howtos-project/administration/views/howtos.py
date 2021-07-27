@@ -7,6 +7,8 @@ import requests
 import json
 
 from ..forms import EditHowTo, CreateHowTo
+from ..functions.apptime import convert_datetime_api_to_app
+from ..functions.tree import get_tree_as_nested_list
 
 
 API_URL = settings.API_URL
@@ -17,8 +19,6 @@ API_HOWTO_STEPS =     API_URL + '/howtos/v1/howtos/{}/steps/'
 API_HOWTOS_LINKABLE = API_URL + '/howtos/v1/howtos/{}/linkable/'
 
 def howtos(request):
-    from ..functions.apptime import convert_datetime_api_to_app
-
     r = requests.get(API_HOWTOS, verify = RSV)
     howtos = r.json()
 
@@ -41,8 +41,6 @@ def howtos_edit(request, id):
             requests.patch(url, json = {'title': howto_title}, verify = RSV)
 
         return HttpResponseRedirect(reverse('howtos-edit', args=[id]))
-    
-    from ..functions.tree import get_tree_as_nested_list
         
     r = requests.get(API_HOWTO.format(id), verify = RSV)
     howto = r.json()
@@ -98,8 +96,6 @@ def howtos_delete_step(request, id, step_id):
     return HttpResponseRedirect(reverse('howtos-edit', args=[id]))
 
 def howtos_add_steps(request, id):
-    from ..functions.apptime import convert_datetime_api_to_app
-
     r = requests.get(API_HOWTOS_LINKABLE.format(id), verify = RSV)
     steps = r.json()
 

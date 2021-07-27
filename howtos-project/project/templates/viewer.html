@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static './project/style/style.css' %}">
+    <title>How To's</title>
+</head>
+    <body>
+        <div id="header" class="pos-c-c">
+            <div id="headercontent">
+                <ul>
+                    <li><a href="{% url 'home' %}" class="header-link">Home</a></li>
+                    <li><a href="https://github.com/users/tiveritz/projects/1" target="_black" class="header-link">Project</a></li>
+                    <li><a href="https://github.com/tiveritz/how-tos-api" target="_black" class="header-link">API Code</a></li>
+                    <li><a href="https://github.com/tiveritz/how-tos-webapps" target="_black" class="header-link">Frontend Code</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="howtos" class="mainsection pos-c-c bg-shade242">
+            {% for howto in howtos %}
+            <a href="{% url 'render_howto' howto.uri_id %}"><div class="viewer-howto-box">{{ howto.title }}</div></a>
+            {% endfor %}
+        </div>
+    </body>
+</html>

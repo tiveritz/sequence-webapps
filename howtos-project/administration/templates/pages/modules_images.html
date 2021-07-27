@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div id="content">
+        <h1>Pictures</h1>
+        <a href="{% url 'image-upload' %}" class="add-button">+</a>
+        <div id="img-table">
+            {% for image in images %}
+                <div class="img-tile">
+                    <div class="img-title">{{ image.title }}</div>
+                    <div class="img-wrapper">
+                        <img src="{{ image.image }}" alt="">
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -58,3 +58,6 @@ class EditCode(forms.Form):
         label='',
         max_length=2048,
         widget=forms.Textarea(attrs={'class': "input-explanation-text", 'autofocus' : "autofocus"}))
+
+class UploadImage(forms.Form):
+    image = forms.ImageField()

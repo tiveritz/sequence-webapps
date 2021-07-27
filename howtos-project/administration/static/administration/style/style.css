@@ -21,6 +21,7 @@
  *  8.2  Sortable
  *  8.3  List
  *  8.4  Change Box
+ *  8.5  Images List
  * 9.  Alert Box
  * 10. Form
  * 11. Login
@@ -258,6 +259,7 @@ body {
  * ------------------------------------------------------------------------- */
 #dashboard-table {
 	display: flex;
+	flex-wrap: wrap;
 	gap: 12px;
 }
 
@@ -553,6 +555,50 @@ body {
 }
 
 /* ----------------------------------------------------------------------------
+ *    8.5  Images List
+ * ------------------------------------------------------------------------- */
+#img-table {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+.img-tile {
+	background: var(--shade42);
+	width: 260px;
+	border-radius: 6px;
+	display: grid;
+	grid-template-rows: 66px 200px;
+	gap: 6px;
+}
+
+.img-tile:hover {
+	background: var(--shade52);	
+}
+
+.img-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 6px;
+}
+
+.img-title {
+	border-bottom: 2px solid var(--shade72);
+	border-radius: 6px 6px 0 0;
+	padding: 12px;
+}
+
+.img-wrapper > img {
+	width: 100%;
+	border-radius: 4px;
+}
+
+.steplist-img {
+	width: 400px;
+}
+
+/* ----------------------------------------------------------------------------
  *    9. Alert Box
  * ------------------------------------------------------------------------- */
  .box-wrapper {
@@ -604,6 +650,12 @@ body {
 .title-form-new {
 	display: flex;
 	justify-content: space-between;
+}
+
+.image-form-new {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
 }
 
 .input-submit {
