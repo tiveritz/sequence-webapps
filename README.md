@@ -13,3 +13,4 @@ Django==3.2.4<br/>
 python-dotenv==0.18.0<br/>
 mysqlclient==2.0.3<br/>
 requests==2.25.1<br/>
+Pillow==8.3.1<br/>
