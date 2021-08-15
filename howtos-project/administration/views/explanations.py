@@ -27,7 +27,7 @@ def text_create(request):
         if form.is_valid():
             title = form.cleaned_data['title']
             payload = {
-                'type' : 'texts',
+                'type' : 'text',
                 'title' : title,
             }
 
@@ -46,7 +46,7 @@ def code_create(request):
         if form.is_valid():
             title = form.cleaned_data['title']
             payload = {
-                'type' : 'codes',
+                'type' : 'code',
                 'title' : title,
             }
 
@@ -110,6 +110,5 @@ def explanation_delete(request, id):
 def explanation_delete_confirm(request, id):
     url = API_EXPLANATION_EDIT.format(id)
     requests.delete(url, verify = RSV)
-    print(id)
 
     return HttpResponseRedirect(reverse('text'))

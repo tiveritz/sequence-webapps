@@ -21,7 +21,7 @@
         </div>
         <div id="howtos" class="mainsection pos-c-c bg-shade242">
             {% for howto in howtos %}
-            <a href="{% url 'render_howto' howto.uri_id %}"><div class="viewer-howto-box">{{ howto.title }}</div></a>
+            <a href="{% url 'view-howto' howto.uri_id %}"><div class="viewer-howto-box">{{ howto.title }}</div></a>
             {% endfor %}
         </div>
     </body>

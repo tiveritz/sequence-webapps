@@ -17,7 +17,7 @@ RSV = settings.REQUESTS_SSL_VERIFICATION
 API_STEPS =  API_URL + '/howtos/v1/steps/'
 API_STEP = API_URL + '/howtos/v1/steps/{}/'
 API_SUPER_STEPS =  API_URL + '/howtos/v1/steps/{}/steps/'
-API_EXPLANATIONS = API_URL + '/howtos/v1/steps/{}/explanations/'
+API_Modules = API_URL + '/howtos/v1/steps/{}/modules/'
 API_STEPS_LINKABLE = API_URL + '/howtos/v1/steps/{}/linkable/'
 API_MODULES_LINKABLE = API_URL + '/howtos/v1/steps/{}/linkablemodules/'
 API_IMAGES_LINKABLE = API_URL + '/howtos/v1/steps/{}/linkableimages/'
@@ -114,7 +114,6 @@ def steps_delete(request, id):
 def steps_delete_confirm(request, id):
     url = API_STEP.format(id)
     requests.delete(url, verify = RSV)
-    print(id)
 
     return HttpResponseRedirect(reverse('steps'))
 
@@ -180,7 +179,7 @@ def steps_add_steps_confirm(request, id, step_id):
     return HttpResponseRedirect(reverse(steps_add_steps, args=[id]))
 
 def steps_delete_module(request, id, explanation_id):
-    url = API_EXPLANATIONS.format(id)
+    url = API_Modules.format(id)
     payload = {
         'method' : 'delete',
         'uri_id': explanation_id
@@ -201,13 +200,12 @@ def steps_add_textmodule(request, id):
         })
 
 def steps_add_textmodule_confirm(request, id, explanation_id):
-    url = API_EXPLANATIONS.format(id)
+    url = API_Modules.format(id)
     payload = {
         'type': 'explanation',
         'uri_id': explanation_id,
         }
     r = requests.post(url, json = payload, verify = RSV)
-    print(r)
 
     return HttpResponseRedirect(reverse(steps_add_textmodule, args=[id]))
 
@@ -223,13 +221,12 @@ def steps_add_codemodule(request, id):
         })
 
 def steps_add_codemodule_confirm(request, id, code_id):
-    url = API_EXPLANATIONS.format(id)
+    url = API_Modules.format(id)
     payload = {
         'type': 'explanation',
         'uri_id': code_id,
         }
     r = requests.post(url, json = payload, verify = RSV)
-    print(r)
 
     return HttpResponseRedirect(reverse(steps_add_codemodule, args=[id]))
 
@@ -244,13 +241,12 @@ def steps_add_image(request, id):
         })
 
 def steps_add_image_confirm(request, id, image_id):
-    url = API_EXPLANATIONS.format(id)
+    url = API_Modules.format(id)
     payload = {
         'type': 'image',
         'uri_id': image_id,
         }
     r = requests.post(url, json = payload, verify = RSV)
-    print(r)
 
     return HttpResponseRedirect(reverse(steps_add_image, args=[id]))
 
@@ -278,7 +274,7 @@ def save_explanation_order(request, id):
     old_index = r_body['old_index']
     new_index = r_body['new_index']
 
-    url = API_EXPLANATIONS.format(id)
+    url = API_Modules.format(id)
     payload = {
         'method' : 'order',
         'old_index': old_index,

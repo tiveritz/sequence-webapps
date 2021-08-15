@@ -17,6 +17,7 @@ API_HOWTOS =          API_URL + '/howtos/v1/howtos/'
 API_HOWTO =           API_URL + '/howtos/v1/howtos/{}/'
 API_HOWTO_STEPS =     API_URL + '/howtos/v1/howtos/{}/steps/'
 API_HOWTOS_LINKABLE = API_URL + '/howtos/v1/howtos/{}/linkable/'
+API_HOWTOS_PUBLISH =  API_URL + '/howtos/v1/howtos/{}/publish/'
 
 def howtos(request):
     r = requests.get(API_HOWTOS, verify = RSV)
@@ -45,6 +46,9 @@ def howtos_edit(request, id):
     r = requests.get(API_HOWTO.format(id), verify = RSV)
     howto = r.json()
     form = EditHowTo(initial={'howto_title': howto['title']})
+
+    if howto['is_published']:
+        howto['publish_date'] = convert_datetime_api_to_app(howto['publish_date'])
     
     for step in howto['steps']:
         step['substeps'] = get_tree_as_nested_list(step['substeps'])
@@ -127,4 +131,18 @@ def save_howto_order(request, id):
     
     if r.status_code == 200:
         return JsonResponse({'message' : 'Saving order successful'})
+    return r.status_code
+
+def howtos_publish(request, id):
+    url = API_HOWTOS_PUBLISH.format(id)
+    r = requests.post(url, verify = RSV)
+    data = r.json()
+
+    data['publish_date'] = convert_datetime_api_to_app(data['publish_date'])
+
+    if r.status_code == 200:
+        return JsonResponse(
+            {'is_published' : data['is_published'],
+             'publish_date': data['publish_date'],
+            })
     return r.status_code

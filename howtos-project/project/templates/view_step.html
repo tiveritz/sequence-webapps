@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static './project/style/style.css' %}">
+    <title>How To's</title>
+</head>
+    <body>
+        <div id="header" class="pos-c-c">
+            <div id="headercontent">
+                <ul>
+                    <li><a href="{% url 'home' %}" class="header-link">Home</a></li>
+                    <li><a href="https://github.com/users/tiveritz/projects/1" target="_black" class="header-link">Project</a></li>
+                    <li><a href="https://github.com/tiveritz/how-tos-api" target="_black" class="header-link">API Code</a></li>
+                    <li><a href="https://github.com/tiveritz/how-tos-webapps" target="_black" class="header-link">Frontend Code</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="guide-wrapper" class="mainsection pos-c-c bg-shade242">
+            <div id="guide">
+                <div>
+                    {% if step.previous and step.previous_ref %}
+                        <a id="guide-previous" href="{% url 'view-step' howto_uri_id step.previous step.previous_ref %}">
+                            <div class="round-btn" id="btn-previous">&lt;</div>
+                            <div>Previous Step</div>
+                        </a>
+                    {% endif %}
+                </div>
+                <div>
+                    {% if step.next and step.next_ref %}
+                        <a id="guide-next" href="{% url 'view-step' howto_uri_id step.next step.next_ref %}">
+                            <div>Next Step</div>
+                            <div class="round-btn" id="btn-next">&gt;</div>
+                        </a>
+                    {% endif %}
+                </div>
+                <div id="guide-content">
+                    <h3>{{ step.title }}</h3>
+                    <div id="content">{{ step.content|safe }}</div>
+                </div>
+                <div id="guide-steps">
+                    <h3>{{ step.howto_title }}</h3>
+                    <br>
+                    {% for pos, data in step.steps.items %}
+                        <div class="steps-indent-{{ data.level }}">
+                            <a id="{% if data.current == True %}step-current{% endif %}" href="{% url 'view-step' howto_uri_id data.uri_id data.ref_id %}">{{ data.number }} {{ data.title }}</a>
+                        </div>
+                    {% endfor %}
+                    <a class="round-btn" id="btn-restart" href="{% url 'view-step' howto_uri_id step.first step.first_ref %}">&#x21bb;</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

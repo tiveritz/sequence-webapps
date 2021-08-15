@@ -20,8 +20,18 @@
             </div>
         </div>
         <div id="howtos" class="mainsection pos-c-c bg-shade242">
-            <div>{{ howto.title }}</div>
-                <div>#rendering of steps is not implemented yet</div>
+            <h3>{{ howto.title }}</h3>
+            <br>
+            <div id="guide-steps">
+                {% for pos, data in howto.steps.items %}
+                <div class="steps-indent-{{ data.level }}">
+                    <a href="{% url 'view-step' howto.uri_id data.uri_id data.ref_id %}">{{ data.number }} {{ data.title }}</a>
+                </div>
+                {% endfor %}
+            </div>
+            <br>
+            <div>
+                <a class="btn btn-dark" href="{% url 'view-step' howto.uri_id howto.first howto.first_ref %}">Start</a>
             </div>
         </div> 
     </body>

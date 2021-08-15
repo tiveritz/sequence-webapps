@@ -4,43 +4,65 @@
 	<div id="content">
         <h1>Dashboard</h1>
         <div class="void-xl"></div>
-        <div id="dashboard-table">
-            <div class="dashboard-section">
+        <div class="dashboard-table">
+            <div class="dashboard-section dashboard-main-section">
+                <div id="dashboard-icon-howtos" class="dashboard-icon"></div>
                 <div class="dashboard-entry">
                     <div>How To's</div>
-                    <div>{{ statistics.how_tos }}</div>
+                    <div class="dashboard-number">{{ statistics.how_tos }}</div>
                 </div>
             </div>
-            <div class="dashboard-section">
+        </div>
+        <div class="dashboard-table">
+            <div class="dashboard-section dashboard-main-section">
+                <div id="dashboard-icon-steps" class="dashboard-icon"></div>
                 <div class="dashboard-entry">
                     <div>Steps</div>
-                    <div>{{ statistics.steps }}</div>
-                </div>
-                <div class="dashboard-entry">
-                    <div>> Supersteps</div>
-                    <div>{{ statistics.supersteps }}</div>
-                </div>
-                <div class="dashboard-entry">
-                    <div>> Substeps</div>
-                    <div>{{ statistics.substeps }}</div>
+                    <div class="dashboard-number">{{ statistics.steps }}</div>
                 </div>
             </div>
             <div class="dashboard-section">
+                <div id="dashboard-icon-supersteps" class="dashboard-icon"></div>
+                <div class="dashboard-entry">
+                    <div>Supersteps</div>
+                    <div class="dashboard-number">{{ statistics.supersteps }}</div>
+                </div>
+            </div>
+            <div class="dashboard-section">
+                <div id="dashboard-icon-substeps" class="dashboard-icon"></div>
+                <div class="dashboard-entry">
+                    <div>Substeps</div>
+                    <div class="dashboard-number">{{ statistics.substeps }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard-table">
+            <div class="dashboard-section dashboard-main-section">
+                <div id="dashboard-icon-modules" class="dashboard-icon"></div>
                 <div class="dashboard-entry">
                     <div>Modules</div>
-                    <div>{{ statistics.modules }}</div>
+                    <div class="dashboard-number">{{ statistics.modules }}</div>
                 </div>
+            </div>
+            <div class="dashboard-section">
+                <div id="dashboard-icon-explanations" class="dashboard-icon"></div>
                 <div class="dashboard-entry">
-                    <div>> Text Modules</div>
-                    <div>{{ statistics.text_modules }}</div>
+                    <div>Text Modules</div>
+                    <div class="dashboard-number">{{ statistics.text_modules }}</div>
                 </div>
+            </div>
+            <div class="dashboard-section">
+                <div id="dashboard-icon-codes" class="dashboard-icon"></div>
                 <div class="dashboard-entry">
-                    <div>> Code Modules</div>
-                    <div>{{ statistics.code_modules }}</div>
+                    <div>Code Modules</div>
+                    <div class="dashboard-number">{{ statistics.code_modules }}</div>
                 </div>
+            </div>
+            <div class="dashboard-section">
+                <div id="dashboard-icon-pictures" class="dashboard-icon"></div>
                 <div class="dashboard-entry">
-                    <div>> Images</div>
-                    <div>{{ statistics.images }}</div>
+                    <div>Images</div>
+                    <div class="dashboard-number">{{ statistics.images }}</div>
                 </div>
             </div>
         </div>

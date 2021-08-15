@@ -16,6 +16,8 @@ def images(request):
     r = requests.get(API_IMAGE, verify = RSV)
     images = r.json()
 
+    print(images)
+
     return render(request, 'pages/modules_images.html', {
         'menu' : 'pictures',
         'images' : images
