@@ -47,7 +47,14 @@
                     <br>
                     {% for pos, data in step.steps.items %}
                         <div class="steps-indent-{{ data.level }}">
-                            <a id="{% if data.current == True %}step-current{% endif %}" href="{% url 'view-step' howto_uri_id data.uri_id data.ref_id %}">{{ data.number }} {{ data.title }}</a>
+                            <a id="{% if data.current == True %}step-current{% endif %}" class="step-number" href="{% url 'view-step' howto_uri_id data.uri_id data.ref_id %}">
+                                <div>
+                                    {{ data.number }}
+                                </div>
+                                <div>
+                                    {{ data.title }}
+                                </div>
+                            </a>
                         </div>
                     {% endfor %}
                     <a class="round-btn" id="btn-restart" href="{% url 'view-step' howto_uri_id step.first step.first_ref %}">&#x21bb;</a>
