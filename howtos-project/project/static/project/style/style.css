@@ -54,7 +54,7 @@ a {
 
 .webapps-link {
     display: grid;
-    grid-template-rows: auto 280px 60px auto;
+    grid-template-rows: auto auto 60px auto;
     gap: 2vh;
 }
 
