@@ -7,6 +7,7 @@
  * |____________________________________|
  *
  * 1.  Publish
+ * 2.  Preview
  */
 
 /* ----------------------------------------------------------------------------
@@ -18,7 +19,33 @@ function publishHowTo(uri_id) {
         method: 'POST',
         headers: {
             'X-CSRFToken' : csrftoken, // for Django
-            'contentType' : 'application/json; charset=UTF-8'}
+            'contentType' : 'application/json; charset=UTF-8'},
+        body: JSON.stringify({spaces: ['public']})
+    })
+        .then(response => {
+            if (response.status >= 200 && response.status < 300) {
+                return response.json();
+            } else {
+                throw Error(response.statusText);
+            }
+        })
+        .then(jsonResponse => {
+            location.reload()
+        }
+    )
+}
+
+/* ----------------------------------------------------------------------------
+ *    1. Publish
+ * ------------------------------------------------------------------------- */
+
+function previewHowTo(uri_id) {
+    fetch(URL_PUBLISH_HOWTO, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken' : csrftoken, // for Django
+                'contentType' : 'application/json; charset=UTF-8'},
+            body: JSON.stringify({spaces: ['preview']})
         })
         .then(response => {
             if (response.status >= 200 && response.status < 300) {
@@ -31,5 +58,4 @@ function publishHowTo(uri_id) {
             location.reload()
         }
     )
-
 }

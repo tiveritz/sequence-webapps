@@ -20,7 +20,7 @@ API_HOWTOS_LINKABLE = API_URL + '/howtos/v1/howtos/{}/linkable/'
 API_HOWTOS_PUBLISH =  API_URL + '/howtos/v1/howtos/{}/publish/'
 
 def howtos(request):
-    r = requests.get(API_HOWTOS, verify = RSV)
+    r = requests.get(API_HOWTOS, verify=RSV)
     howtos = r.json()
 
     for howto in howtos:
@@ -39,11 +39,11 @@ def howtos_edit(request, id):
         if form.is_valid():
             howto_title = form.cleaned_data['howto_title']
             url = API_HOWTO.format(id)
-            requests.patch(url, json = {'title': howto_title}, verify = RSV)
+            requests.patch(url, json = {'title': howto_title}, verify=RSV)
 
         return HttpResponseRedirect(reverse('howtos-edit', args=[id]))
         
-    r = requests.get(API_HOWTO.format(id), verify = RSV)
+    r = requests.get(API_HOWTO.format(id), verify=RSV)
     howto = r.json()
     form = EditHowTo(initial={'howto_title': howto['title']})
 
@@ -64,7 +64,7 @@ def howtos_create(request):
         form = CreateHowTo(request.POST)
         if form.is_valid():
             howto_title = form.cleaned_data['howto_title']
-            r = requests.post(API_HOWTOS, json = {'title': howto_title}, verify = RSV)
+            r = requests.post(API_HOWTOS, json = {'title': howto_title}, verify=RSV)
             id = r.json()['uri_id']
 
             return HttpResponseRedirect(reverse('howtos-edit', args=[id]))
@@ -74,7 +74,7 @@ def howtos_create(request):
     return render(request, 'pages/howtos_create.html', {'form': form})
 
 def howtos_delete(request, id):
-    r = requests.get(API_HOWTO.format(id), verify = RSV)
+    r = requests.get(API_HOWTO.format(id), verify=RSV)
     id = r.json()['uri_id']
     title = r.json()['title']
     
@@ -85,7 +85,7 @@ def howtos_delete(request, id):
 
 def howtos_delete_confirm(request, id):
     url = API_HOWTO.format(id)
-    requests.delete(url, verify = RSV)
+    requests.delete(url, verify=RSV)
 
     return HttpResponseRedirect(reverse('howtos'))
 
@@ -95,12 +95,12 @@ def howtos_delete_step(request, id, step_id):
         'method' : 'delete',
         'uri_id': step_id
     }
-    r = requests.patch(url, json = payload, verify = RSV)
+    r = requests.patch(url, json = payload, verify=RSV)
 
     return HttpResponseRedirect(reverse('howtos-edit', args=[id]))
 
 def howtos_add_steps(request, id):
-    r = requests.get(API_HOWTOS_LINKABLE.format(id), verify = RSV)
+    r = requests.get(API_HOWTOS_LINKABLE.format(id), verify=RSV)
     steps = r.json()
 
     return render(request, 'pages/howtos_add_steps.html', {
@@ -111,7 +111,7 @@ def howtos_add_steps(request, id):
 
 def howtos_add_steps_confirm(request, id, step_id):
     url = API_HOWTO_STEPS.format(id)
-    r = requests.post(url, json = {'uri_id': step_id}, verify = RSV)
+    r = requests.post(url, json = {'uri_id': step_id}, verify=RSV)
 
     return HttpResponseRedirect(reverse(howtos_add_steps, args=[id]))
 
@@ -127,15 +127,16 @@ def save_howto_order(request, id):
         'old_index': old_index,
         'new_index' : new_index
         }
-    r = requests.patch(url, json = payload, verify = RSV)
+    r = requests.patch(url, json = payload, verify=RSV)
     
     if r.status_code == 200:
         return JsonResponse({'message' : 'Saving order successful'})
     return r.status_code
 
 def howtos_publish(request, id):
+    spaces = json.loads(request.body)
     url = API_HOWTOS_PUBLISH.format(id)
-    r = requests.post(url, verify = RSV)
+    r = requests.post(url, json=spaces, verify=RSV)
     data = r.json()
 
     data['publish_date'] = convert_datetime_api_to_app(data['publish_date'])
