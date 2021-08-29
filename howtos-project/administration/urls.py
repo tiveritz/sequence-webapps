@@ -1,5 +1,6 @@
 from django.urls import include, path
-from .views import general_views, howtos, steps, explanations, media
+from .views import general_views, howtos, steps, explanations, media, viewer
+from django.views.generic import TemplateView
 
 
 urlpatterns = [
@@ -65,4 +66,7 @@ urlpatterns = [
     path('howtos/<str:id>/publish/', howtos.howtos_publish, name='howtos-publish'),
     path('steps/<str:id>/save-step-order/', steps.save_step_order, name='save_step_order'),
     path('steps/<str:id>/save-explanation-order/', steps.save_explanation_order, name='save_explanation_order'),
+    path('viewer/howtodata/<str:id>/', viewer.view_howto_data, name = 'view-howto-data'),
+    path('viewer/<str:id>/<str:step_uri_id>/<str:ref_id>/', viewer.view_step_preview, name = 'view-step-preview'),
+    path('viewer/<str:id>/', viewer.view_step_pre, name = 'view-step-pre'),
 ]

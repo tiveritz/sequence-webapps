@@ -9,7 +9,7 @@ import json
 API_URL = settings.API_URL
 RSV = settings.REQUESTS_SSL_VERIFICATION
 API_HOWTOS = API_URL + '/howtos/v1/howtos/'
-API_HOWTO_GUIDE = API_URL + '/howtos/v1/guides/howto/{}/'
+API_HOWTO_GUIDE = API_URL + '/howtos/v1/guides/howto/{}/public/'
 API_STEP_GUIDE = API_URL + '/howtos/v1/guides/howto/{}/{}/{}/'
 
 #todo: remove duplicate function

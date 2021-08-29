@@ -26,7 +26,8 @@
  * 9.  Alert Box
  * 10. Form
  * 11. Login
- * 12. Mobile View
+ * 12. Viewer
+ * 13. Mobile View
  *
  * 99. Message for Unsupported Browsers
  */
@@ -208,7 +209,6 @@ body {
 #content {
   margin: 0 12px;
   max-width: 1000px;
-  padding-bottom: 200px;
 }
 
 .add-button {
@@ -820,7 +820,189 @@ body {
 }
 
 /* ----------------------------------------------------------------------------
- *    12. Mobile view
+ *    12. Viewer
+ * ------------------------------------------------------------------------- */
+#preview {
+	margin-top: 20px;
+	margin-bottom: 100px;
+}
+
+#guide-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+#guide {
+    display: grid;
+    grid-template-areas:
+    "previous next ."
+    "content content steps";
+  grid-template-columns: minmax(160px, 400px) minmax(160px, 400px) 200px;
+  grid-template-rows: auto minmax(500px, auto);
+  gap: 12px;
+  font-size: .8rem;
+}
+
+#guide-steps {
+    grid-area: steps;
+}
+
+#guide-steps > div {
+    margin-bottom: 3px;
+}
+
+.step-number {
+    display: flex;
+    gap: 6px;
+}
+
+#guide-content {
+    grid-area: content;
+    border: 1px solid var(--shade72);
+    border-radius: 4px;
+    padding: 12px;
+}
+
+#guide-content h3 {
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--shade52);
+}
+
+#guide-previous {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    grid-area: previous;
+}
+
+#guide-next {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    grid-area: next;
+}
+
+.steps-indent-1 {margin-left: 12px;}
+.steps-indent-2 {margin-left: 24px;}
+.steps-indent-3 {margin-left: 36px;}
+.steps-indent-4 {margin-left: 48px;}
+.steps-indent-5 {margin-left: 60px;}
+
+#guide a {
+    color: white;
+}
+
+#guide a:hover {
+    color: rgb(0,146,223);
+}
+
+.round-btn {
+    background: rgb(0,146,223);
+    height: 44px;
+    width: 44px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    color: white;
+}
+
+#btn-previous {
+    margin-right: 12px;
+}
+
+#btn-next {
+    margin-left: 12px;
+}
+
+#btn-restart {
+    margin-top: 24px;
+    background: var(--shade72);
+}
+
+#step-current {
+    color: rgb(0,146,223);
+    font-weight: bold;
+}
+
+/* Content */
+
+.module-text,
+.module-code,
+.module-image {
+    margin-bottom: 36px;
+}
+
+
+.module-text {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    white-space: pre-wrap;
+}
+
+.module-code {
+    background: var(--shade72);
+    border-left: 4px solid rgb(0,146,223);
+    border-radius: 3px;
+    padding: 16px 12px;
+    overflow-y: auto;
+}
+
+.module-image {
+    width: 560px;
+    max-width: 100%;
+    border-radius: 3px;
+}
+
+
+
+@media screen and (min-width: 1200px) {
+    body {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        font-size: calc((2vh + 6vw) / 3);
+    }
+
+    .col-2 {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .col-2 > div {
+        justify-content: flex-start;
+    }
+    
+    #pic-demo {
+        width: 42vw;
+        height: auto;
+    }
+
+    #pic-kb {
+        width: 22vw;
+        height: auto;
+    }
+}
+
+@media screen and (max-width: 668px) {
+    #guide {
+        grid-template-areas:
+        "previous next"
+        "content content"
+        "steps steps";
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto minmax(500px, auto) auto;
+	  width: 100%;
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ *    13. Mobile view
  * ------------------------------------------------------------------------- */
 @media (max-width: 800px) {
 	#site {

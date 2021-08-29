@@ -7,20 +7,20 @@
  * |____________________________________|
  *
  * 1.  Publish
- * 2.  Preview
+ * 2.  Publish buttons
  */
 
 /* ----------------------------------------------------------------------------
  *    1. Publish
  * ------------------------------------------------------------------------- */
 
-function publishHowTo(uri_id) {
+function publishHowTo(uri_id, spaces, reloadRequired) {
     fetch(URL_PUBLISH_HOWTO, {
         method: 'POST',
         headers: {
             'X-CSRFToken' : csrftoken, // for Django
             'contentType' : 'application/json; charset=UTF-8'},
-        body: JSON.stringify({spaces: ['public']})
+        body: JSON.stringify({spaces: spaces})
     })
         .then(response => {
             if (response.status >= 200 && response.status < 300) {
@@ -30,32 +30,25 @@ function publishHowTo(uri_id) {
             }
         })
         .then(jsonResponse => {
-            location.reload()
+            if (reloadRequired) {
+                location.reload()
+            } else {
+                renderViewer()
+            }
         }
     )
 }
 
+
+
 /* ----------------------------------------------------------------------------
- *    1. Publish
+ *    2. Publish buttons
  * ------------------------------------------------------------------------- */
 
-function previewHowTo(uri_id) {
-    fetch(URL_PUBLISH_HOWTO, {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken' : csrftoken, // for Django
-                'contentType' : 'application/json; charset=UTF-8'},
-            body: JSON.stringify({spaces: ['preview']})
-        })
-        .then(response => {
-            if (response.status >= 200 && response.status < 300) {
-                return response.json();
-            } else {
-                throw Error(response.statusText);
-            }
-        })
-        .then(jsonResponse => {
-            location.reload()
-        }
-    )
+function publishHowToForUser(uri_id) {
+    publishHowTo(uri_id, ['public'], true)
+}
+
+function publishHowToForPreview(uri_id) {
+    publishHowTo(uri_id, ['preview'], false)
 }
