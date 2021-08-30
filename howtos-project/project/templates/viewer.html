@@ -24,7 +24,7 @@
             <div>No Guides published</div>
             {% endif %}
             {% for howto in howtos %}
-            <a href="{% url 'view-howto' howto.uri_id %}"><div class="viewer-howto-box">{{ howto.title }}</div></a>
+            <a href="{% url 'view-howto' howto.howto_uri_id %}"><div class="viewer-howto-box">{{ howto.title }}</div></a>
             {% endfor %}
         </div>
     </body>
