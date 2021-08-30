@@ -20,6 +20,9 @@
             </div>
         </div>
         <div id="howtos" class="mainsection pos-c-c bg-shade242">
+            {% if not howtos %}
+            <div>No Guides published</div>
+            {% endif %}
             {% for howto in howtos %}
             <a href="{% url 'view-howto' howto.uri_id %}"><div class="viewer-howto-box">{{ howto.title }}</div></a>
             {% endfor %}

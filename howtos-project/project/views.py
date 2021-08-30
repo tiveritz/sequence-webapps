@@ -8,7 +8,7 @@ import json
 
 API_URL = settings.API_URL
 RSV = settings.REQUESTS_SSL_VERIFICATION
-API_HOWTOS = API_URL + '/howtos/v1/howtos/'
+API_HOWTOS = API_URL + '/howtos/v1/guides/howtos/{}/'
 API_HOWTO_GUIDE = API_URL + '/howtos/v1/guides/howto/{}/public/'
 API_STEP_GUIDE = API_URL + '/howtos/v1/guides/howto/{}/{}/{}/'
 
@@ -32,7 +32,8 @@ def home(request):
     return render(request, './home.html')
 
 def viewer(request):
-    r = requests.get(API_HOWTOS, verify = RSV)
+    url = API_HOWTOS.format('public')
+    r = requests.get(url, verify = RSV)
     howtos = r.json()
     
     return render(request, './viewer.html', {'howtos' : howtos})
