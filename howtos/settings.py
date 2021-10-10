@@ -42,6 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # Third party
+    'storages',
+    
+    # Own
     'administration',
     'project',
 ]
@@ -82,12 +87,12 @@ WSGI_APPLICATION = 'howtos.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASS'),
         'HOST': os.getenv('DB_HOST'),
-        'PORT': '3306',
+        'PORT': os.getenv('DB_PORT'),
     }
 }
 
@@ -130,9 +135,9 @@ DATETIME_FORMAT = 'd.m.Y H:i'
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 # Static files
-STATIC_URL = '/static/'
+#STATIC_URL = '/static/'
 ADMIN_MEDIA_PREFIX = '/static/admin/'
-STATIC_ROOT = '/home/ht.tiveritz.at/public_html/howtos-project/public/static/'
+STATIC_ROOT = '/data/'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -140,3 +145,30 @@ STATICFILES_FINDERS = (
 
 LOGIN_REDIRECT_URL = '/administration/dashboard/'
 LOGOUT_REDIRECT_URL = '/administration/'
+
+# Storage Bucket
+'''
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = 'tiverspace'
+AWS_S3_ENDPOINT_URL = 'https://fra1.digitaloceanspaces.com'
+
+DEFAULT_FILE_STORAGE = 'howtos.storages.MediaRootS3Boto3Storage'
+STATICFILES_STORAGE = 'howtos.storages.StaticRootS3Boto3Storage'
+
+STATIC_URL = 'https://tiverspace.fra1.digitaloceanspaces.com/howtos/webapps/static/'
+'''
+
+
+#Storage Bucket
+AWS_STORAGE_BUCKET_NAME = 'tiverspace'
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_S3_ENDPOINT_URL = 'https://fra1.digitaloceanspaces.com'
+
+STATICFILES_LOCATION = 'howtos/webapps/static/'
+STATICFILES_STORAGE = 'howtos.storages.StaticRootS3Boto3Storage'
+STATIC_URL = 'https://{}/{}/'.format(AWS_S3_ENDPOINT_URL, STATICFILES_LOCATION)
+
+MEDIAFILES_LOCATION = 'howtos/webapps/media/'
+DEFAULT_FILE_STORAGE = 'howtos.storages.MediaRootS3Boto3Storage'
+MEDIA_URL = 'https://{}/{}/'.format(AWS_S3_ENDPOINT_URL, MEDIAFILES_LOCATION)

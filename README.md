@@ -7,10 +7,3 @@ The REST API that handles all database interactions on the documentation databas
 
 ### [Webapps](https://github.com/tiveritz/how-tos-webapps)
 Webapplications that allow content management and a viewer for the users. Consume the Core API.
-
-### Dependencies
-Django==3.2.4<br/>
-python-dotenv==0.18.0<br/>
-mysqlclient==2.0.3<br/>
-requests==2.25.1<br/>
-Pillow==8.3.1<br/>

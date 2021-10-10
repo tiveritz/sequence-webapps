@@ -118,3 +118,6 @@ media/
 /bin
 pyvenv.cfg
 secrets/
+*.yaml
+*.yml
+k8s/
