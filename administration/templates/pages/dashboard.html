@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 	<div id="content">
@@ -6,7 +7,7 @@
         <div class="void-xl"></div>
         <div class="dashboard-table">
             <div class="dashboard-section dashboard-main-section">
-                <div id="dashboard-icon-howtos" class="dashboard-icon"></div>
+                <img class="dashboard-icon" src="{% static './administration/icons/howtos.png' %}" alt="">
                 <div class="dashboard-entry">
                     <div>How To's</div>
                     <div class="dashboard-number">{{ statistics.how_tos }}</div>
@@ -15,21 +16,21 @@
         </div>
         <div class="dashboard-table">
             <div class="dashboard-section dashboard-main-section">
-                <div id="dashboard-icon-steps" class="dashboard-icon"></div>
+                <img class="dashboard-icon" src="{% static './administration/icons/steps.png' %}" alt="">
                 <div class="dashboard-entry">
                     <div>Steps</div>
                     <div class="dashboard-number">{{ statistics.steps }}</div>
                 </div>
             </div>
             <div class="dashboard-section">
-                <div id="dashboard-icon-supersteps" class="dashboard-icon"></div>
+                <img class="dashboard-icon" src="{% static './administration/icons/supersteps.png' %}" alt="">
                 <div class="dashboard-entry">
                     <div>Supersteps</div>
                     <div class="dashboard-number">{{ statistics.supersteps }}</div>
                 </div>
             </div>
             <div class="dashboard-section">
-                <div id="dashboard-icon-substeps" class="dashboard-icon"></div>
+                <img class="dashboard-icon" src="{% static './administration/icons/substeps.png' %}" alt="">
                 <div class="dashboard-entry">
                     <div>Substeps</div>
                     <div class="dashboard-number">{{ statistics.substeps }}</div>
@@ -38,28 +39,28 @@
         </div>
         <div class="dashboard-table">
             <div class="dashboard-section dashboard-main-section">
-                <div id="dashboard-icon-modules" class="dashboard-icon"></div>
+                <img class="dashboard-icon" src="{% static './administration/icons/modules.png' %}" alt="">
                 <div class="dashboard-entry">
                     <div>Modules</div>
                     <div class="dashboard-number">{{ statistics.modules }}</div>
                 </div>
             </div>
             <div class="dashboard-section">
-                <div id="dashboard-icon-explanations" class="dashboard-icon"></div>
+                <img class="dashboard-icon" src="{% static './administration/icons/explanations.png' %}" alt="">
                 <div class="dashboard-entry">
                     <div>Text Modules</div>
                     <div class="dashboard-number">{{ statistics.text_modules }}</div>
                 </div>
             </div>
             <div class="dashboard-section">
-                <div id="dashboard-icon-codes" class="dashboard-icon"></div>
+                <img class="dashboard-icon" src="{% static './administration/icons/codes.png' %}" alt="">
                 <div class="dashboard-entry">
                     <div>Code Modules</div>
                     <div class="dashboard-number">{{ statistics.code_modules }}</div>
                 </div>
             </div>
             <div class="dashboard-section">
-                <div id="dashboard-icon-pictures" class="dashboard-icon"></div>
+                <img class="dashboard-icon" src="{% static './administration/icons/pictures.png' %}" alt="">
                 <div class="dashboard-entry">
                     <div>Images</div>
                     <div class="dashboard-number">{{ statistics.images }}</div>

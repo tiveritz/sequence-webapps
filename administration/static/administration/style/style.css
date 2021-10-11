@@ -166,7 +166,6 @@ body {
   height: 24px;
   width: 24px;
   margin: 0 12px;
-  background-size: contain;
 }
 
 .menu-sub {
@@ -178,20 +177,6 @@ body {
   margin: 42px 0 22px 0;
   background: rgba(255, 255, 255, 0.2);
 }
-
-#icon-dashboard {background-image: url("../icons/dashboard.png");}
-#icon-howtos {background-image: url("../icons/howtos.png");}
-#icon-steps {background-image: url("../icons/steps.png");}
-#icon-supersteps {background-image: url("../icons/supersteps.png");}
-#icon-substeps {background-image: url("../icons/substeps.png");}
-#icon-modules {background-image: url("../icons/modules.png");}
-#icon-pictures {background-image: url("../icons/pictures.png");}
-#icon-explanations {background-image: url("../icons/explanations.png");}
-#icon-codes {background-image: url("../icons/codes.png");}
-#icon-links {background-image: url("../icons/links.png");}
-#icon-tags {background-image: url("../icons/tags.png");}
-#icon-information {background-image: url("../icons/information.png");}
-#icon-settings {background-image: url("../icons/settings.png");}
 
 #logout-section {
 	margin-top: 40px;
@@ -290,20 +275,10 @@ body {
 	font-size: 2rem;
 }
 
-#dashboard-icon-howtos {background-image: url("../icons/howtos.png");}
-#dashboard-icon-steps {background-image: url("../icons/steps.png");}
-#dashboard-icon-supersteps {background-image: url("../icons/supersteps.png");}
-#dashboard-icon-substeps {background-image: url("../icons/substeps.png");}
-#dashboard-icon-modules {background-image: url("../icons/modules.png");}
-#dashboard-icon-pictures {background-image: url("../icons/pictures.png");}
-#dashboard-icon-explanations {background-image: url("../icons/explanations.png");}
-#dashboard-icon-codes {background-image: url("../icons/codes.png");}
-
 .dashboard-icon {
 	height: 46px;
 	width: 46px;
 	margin: 0 12px;
-	background-size: contain;
   }
 
 /* ----------------------------------------------------------------------------
