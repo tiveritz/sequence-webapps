@@ -167,8 +167,8 @@ AWS_S3_ENDPOINT_URL = 'https://fra1.digitaloceanspaces.com'
 
 STATICFILES_LOCATION = 'howtos/webapps/static/'
 STATICFILES_STORAGE = 'howtos.storages.StaticRootS3Boto3Storage'
-STATIC_URL = 'https://{}/{}/'.format(AWS_S3_ENDPOINT_URL, STATICFILES_LOCATION)
+STATIC_URL = '{}/{}/'.format(AWS_S3_ENDPOINT_URL, STATICFILES_LOCATION)
 
 MEDIAFILES_LOCATION = 'howtos/webapps/media/'
 DEFAULT_FILE_STORAGE = 'howtos.storages.MediaRootS3Boto3Storage'
-MEDIA_URL = 'https://{}/{}/'.format(AWS_S3_ENDPOINT_URL, MEDIAFILES_LOCATION)
+MEDIA_URL = '{}/{}/'.format(AWS_S3_ENDPOINT_URL, MEDIAFILES_LOCATION)
