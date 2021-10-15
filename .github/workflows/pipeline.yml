@@ -1,11 +1,7 @@
-name: Docker CI
+name: Deploy
 
 on:
   workflow_dispatch:
-    inputs:
-      name:
-        description: 'Deploying'
-        required: true
 
 jobs:
   build:
