@@ -24,6 +24,6 @@ jobs:
     - name: Tag Image 
       run:
         docker tag tiveritz/howto-webapp \
-        registry.digitalocean.com/my-sample-registry/my-sample-page:${{github.event.inputs.version }}
+        registry.digitalocean.com/tiveritz/howto-webapp:${{github.event.inputs.version }}
     - name: Push Image to DO Container Registry 
-      run: docker push registry.digitalocean.com/tiveritz/howto-webap:${{ github.event.inputs.version }}
+      run: docker push registry.digitalocean.com/tiveritz/howto-webapp:${{ github.event.inputs.version }}
