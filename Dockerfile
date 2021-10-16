@@ -32,6 +32,6 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # Networking
-EXPOSE 8000
+EXPOSE 8080
 
-CMD gunicorn --bind :8000 --workers 3 howtos.wsgi:application
+CMD gunicorn --bind :8080 --workers 3 howtos.wsgi:application
