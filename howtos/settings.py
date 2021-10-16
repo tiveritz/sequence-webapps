@@ -146,18 +146,6 @@ STATICFILES_FINDERS = (
 LOGIN_REDIRECT_URL = '/administration/dashboard/'
 LOGOUT_REDIRECT_URL = '/administration/'
 
-# Storage Bucket
-'''
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = 'tiverspace'
-AWS_S3_ENDPOINT_URL = 'https://fra1.digitaloceanspaces.com'
-
-DEFAULT_FILE_STORAGE = 'howtos.storages.MediaRootS3Boto3Storage'
-STATICFILES_STORAGE = 'howtos.storages.StaticRootS3Boto3Storage'
-
-STATIC_URL = 'https://tiverspace.fra1.digitaloceanspaces.com/howtos/webapps/static/'
-'''
-
 
 #Storage Bucket
 AWS_STORAGE_BUCKET_NAME = 'tiverspace'
