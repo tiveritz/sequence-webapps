@@ -32,6 +32,8 @@ SECURE_SSL_REDIRECT = parse_env_boolean('SECURE_SSL_REDIRECT')
 REQUESTS_SSL_VERIFICATION = parse_env_boolean('REQUESTS_SSL_VERIFICATION')
 
 API_URL = os.getenv('API_URL')
+
+VERSION = os.getenv('VERSION')
     
 # Application definition
 
