@@ -16,7 +16,7 @@ spec:
         app: howtos-webapp
     spec:
       containers:
-        - image: registry.digitalocean.com/tiveritz/howto-webapp:{{version}}
+        - image: registry.digitalocean.com/tiveritz/howtos-webapps:{{version}}
           name: howtos-webapp
           env:
             - name: VERSION

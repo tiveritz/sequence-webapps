@@ -15,7 +15,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Build Image
-      run: docker build -t registry.digitalocean.com/tiveritz/howto-webapp:${{ github.event.inputs.version }} .
+      run: docker build -t registry.digitalocean.com/tiveritz/howtos-webapps:${{ github.event.inputs.version }} .
 
     - name: Install doctl 
       uses: digitalocean/action-doctl@v2
@@ -26,7 +26,7 @@ jobs:
       run: doctl registry login --expiry-seconds 600
 
     - name: Push Image to DO Container Registry 
-      run: docker push registry.digitalocean.com/tiveritz/howto-webapp:${{ github.event.inputs.version }}
+      run: docker push registry.digitalocean.com/tiveritz/howtos-webapps:${{ github.event.inputs.version }}
 
     - name: Set up kubectl
       uses: matootie/dokube@v1.3.4
