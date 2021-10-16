@@ -35,7 +35,7 @@ jobs:
         clusterName: k8s-prod
 
     - name: Configure k8s File
-      run: sed -i "s|{{version}}|${{ github.event.inputs.version }}|g" bitbucket-k8s-template.yml
+      run: sed -i "s|{{version}}|${{ github.event.inputs.version }}|g" k8s-prod.yml
 
     - name: Update Namespace
       run: kubectl apply -f k8s-prod.yml -n howtos-prod
