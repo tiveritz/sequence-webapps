@@ -279,7 +279,11 @@ body {
 	height: 46px;
 	width: 46px;
 	margin: 0 12px;
-  }
+}
+
+.version {
+	font-size: .7rem;
+}
 
 /* ----------------------------------------------------------------------------
  *    7.3 Explanation
