@@ -8,7 +8,7 @@ import requests
 import json
 
 from ..functions.apptime import convert_datetime_api_to_app
-from ..functions.tree import get_tree_as_nested_list
+from ..functions.tree import render_tree, get_substep_tree_as_nested_list, get_decision_tree_as_nested_list
 from ..forms import EditStep, CreateStep
 
 
@@ -17,8 +17,11 @@ RSV = settings.REQUESTS_SSL_VERIFICATION
 API_STEPS =  API_URL + '/howtos/v1/steps/'
 API_STEP = API_URL + '/howtos/v1/steps/{}/'
 API_SUPER_STEPS =  API_URL + '/howtos/v1/steps/{}/steps/'
-API_Modules = API_URL + '/howtos/v1/steps/{}/modules/'
+API_DECISION_STEPS =  API_URL + '/howtos/v1/steps/{}/decisions/'
+API_MODULES = API_URL + '/howtos/v1/steps/{}/modules/'
+API_DECISIONS = API_URL + '/howtos/v1/steps/{}/decisions/'
 API_STEPS_LINKABLE = API_URL + '/howtos/v1/steps/{}/linkable/'
+API_DECISIONS_LINKABLE = API_URL + '/howtos/v1/steps/{}/linkable-decisions/'
 API_MODULES_LINKABLE = API_URL + '/howtos/v1/steps/{}/linkablemodules/'
 API_IMAGES_LINKABLE = API_URL + '/howtos/v1/steps/{}/linkableimages/'
 
@@ -71,15 +74,27 @@ def steps_edit(request, id):
             requests.patch(url, json = {'title': step_title}, verify = RSV)
 
         return HttpResponseRedirect(reverse('steps-edit', args=[id]))
-    
-    from ..functions.tree import get_tree_as_nested_list
 
     r = requests.get(API_STEP.format(id), verify = RSV)
     step = r.json()
     form = EditStep(initial={'step_title': step['title']})
-    
+  
+    for substeps in step['substeps']:
+        rendered = []
+        rendered += (render_tree(substeps, parent=True))
+        substeps['rendered_tree'] = ''.join(rendered)
+        
+    for decisionsteps in step['decisionsteps']:
+        rendered = []
+        rendered += (render_tree(decisionsteps, parent=True))
+        decisionsteps['rendered_tree'] = ''.join(rendered)  
+  
     for substep in step['substeps']:
-        substep['substeps'] = get_tree_as_nested_list(substep['substeps'])
+        substep['decisionsteps'] = get_decision_tree_as_nested_list(substep['decisionsteps'])
+        substep['substeps'] = get_substep_tree_as_nested_list(substep['substeps'])
+    for decisionstep in step['decisionsteps']:
+        decisionstep['decisionsteps'] = get_decision_tree_as_nested_list(decisionstep['decisionsteps'])
+        decisionstep['substeps'] = get_substep_tree_as_nested_list(decisionstep['substeps'])
 
     return render(request, 'pages/steps_edit.html', {
         'menu' : 'steps',
@@ -159,12 +174,22 @@ def steps_delete_step(request, id, step_id):
 
     return HttpResponseRedirect(reverse('steps-edit', args=[id]))
 
+def steps_delete_decision(request, id, step_id):
+    url = API_DECISION_STEPS.format(id)
+    payload = {
+        'method' : 'delete',
+        'uri_id': step_id
+    }
+    r = requests.patch(url, json = payload, verify = RSV)
+
+    return HttpResponseRedirect(reverse('steps-edit', args=[id]))
+
 def steps_add_steps(request, id):
     r = requests.get(API_STEPS_LINKABLE.format(id), verify = RSV)
     steps = r.json()
 
     for step in steps:
-        step['substeps'] = get_tree_as_nested_list(step['substeps'])
+        step['substeps'] = render_tree(step['substeps'])
 
     return render(request, 'pages/steps_add_steps.html', {
         'uri_id' : id,
@@ -178,8 +203,27 @@ def steps_add_steps_confirm(request, id, step_id):
 
     return HttpResponseRedirect(reverse(steps_add_steps, args=[id]))
 
+def steps_add_decisions(request, id):
+    r = requests.get(API_DECISIONS_LINKABLE.format(id), verify = RSV)
+    steps = r.json()
+
+    for step in steps:
+        step['substeps'] = render_tree(step['substeps'])
+
+    return render(request, 'pages/steps_add_decisions.html', {
+        'uri_id' : id,
+        'menu' : 'steps',
+        'steps' : steps
+        })
+
+def steps_add_decisions_confirm(request, id, step_id):
+    url = API_DECISION_STEPS.format(id)
+    r = requests.post(url, json = {'uri_id': step_id}, verify = RSV)
+
+    return HttpResponseRedirect(reverse(steps_add_decisions, args=[id]))
+
 def steps_delete_module(request, id, explanation_id):
-    url = API_Modules.format(id)
+    url = API_MODULES.format(id)
     payload = {
         'method' : 'delete',
         'uri_id': explanation_id
@@ -200,7 +244,7 @@ def steps_add_textmodule(request, id):
         })
 
 def steps_add_textmodule_confirm(request, id, explanation_id):
-    url = API_Modules.format(id)
+    url = API_MODULES.format(id)
     payload = {
         'type': 'explanation',
         'uri_id': explanation_id,
@@ -221,7 +265,7 @@ def steps_add_codemodule(request, id):
         })
 
 def steps_add_codemodule_confirm(request, id, code_id):
-    url = API_Modules.format(id)
+    url = API_MODULES.format(id)
     payload = {
         'type': 'explanation',
         'uri_id': code_id,
@@ -241,7 +285,7 @@ def steps_add_image(request, id):
         })
 
 def steps_add_image_confirm(request, id, image_id):
-    url = API_Modules.format(id)
+    url = API_MODULES.format(id)
     payload = {
         'type': 'image',
         'uri_id': image_id,
@@ -274,7 +318,26 @@ def save_explanation_order(request, id):
     old_index = r_body['old_index']
     new_index = r_body['new_index']
 
-    url = API_Modules.format(id)
+    url = API_MODULES.format(id)
+    payload = {
+        'method' : 'order',
+        'old_index': old_index,
+        'new_index' : new_index
+        }
+    r = requests.patch(url, json = payload,
+        verify = RSV)
+
+    if r.status_code == 200:
+        return JsonResponse({'message' : 'Saving order successful'})
+    return r.status_code
+
+
+def save_decision_order(request, id):
+    r_body = json.loads(request.body)
+    old_index = r_body['old_index']
+    new_index = r_body['new_index']
+
+    url = API_DECISIONS.format(id)
     payload = {
         'method' : 'order',
         'old_index': old_index,

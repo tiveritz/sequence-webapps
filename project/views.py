@@ -12,21 +12,6 @@ API_HOWTOS = API_URL + '/howtos/v1/guides/howtos/{}/'
 API_HOWTO_GUIDE = API_URL + '/howtos/v1/guides/howto/{}/public/'
 API_STEP_GUIDE = API_URL + '/howtos/v1/guides/howto/{}/{}/{}/'
 
-#todo: remove duplicate function
-def get_tree_as_nested_list(substeps):
-    temp = []
-    
-    if not substeps:
-        return ''
-    
-    for substep in substeps:
-        temp.append(substep['title'])
-        substeps = get_tree_as_nested_list(substep['substeps'])
-        if substeps:
-            temp.append(substeps)
-
-    return temp
-
 
 def home(request):
     return render(request, './home.html',{'version': settings.VERSION})

@@ -38,7 +38,7 @@
                             <div class="step-title">{{ step.title }}</div>
                             <div class="tree">
                                 <ul>
-                                    {{ step.substeps|unordered_list }}
+                                    {{ step.rendered_tree|safe }}
                                 </ul>
                             </div>
                         </div>

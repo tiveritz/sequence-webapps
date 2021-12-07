@@ -3,17 +3,21 @@
 
 {% block content %}
     <div id="content">
-        <h1>Link Code</h1>
+        <h1>Add Decision Step</h1>
         <a href="{% url 'steps-edit' uri_id %}" class="add-button">Back</a>
-        {% for code in codes %}
+        {% for step in steps %}
             <div class="list-box">
                 <div class="list-box-clickable{% if step.is_super %} is-super{% endif %}{% if step.is_decision %} is-decision{% endif %}" onclick="showChangeBox('change-box-{{ step.uri_id }}');">
                     <div class="list-box-linkable">
-                        <div class="step-title">{{ code.title }}</div>
-                        <pre class="explanation-code explanation-preview">{{ code.content }}</pre>
+                        <div class="step-title">{{ step.title }}</div>
+                        <div class="tree">
+                            <ul>
+                                {{ step.substeps|unordered_list }}
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            <a href="{% url 'steps-add-codemodule-confirm' uri_id code.uri_id %}" class="list-box-edit">+</a>
+            <a href="{% url 'steps-add-decisions-confirm' uri_id step.uri_id %}" class="list-box-edit">+</a>
         </div>
         {% endfor %}
     </div>

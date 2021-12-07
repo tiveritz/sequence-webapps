@@ -8,7 +8,7 @@ import json
 
 from ..forms import EditHowTo, CreateHowTo
 from ..functions.apptime import convert_datetime_api_to_app
-from ..functions.tree import get_tree_as_nested_list
+from ..functions.tree import render_tree
 
 
 API_URL = settings.API_URL
@@ -32,7 +32,6 @@ def howtos(request):
         'howtos' : howtos
         })
 
-
 def howtos_edit(request, id):
     if request.method == 'POST':
         form = EditHowTo(request.POST)
@@ -49,10 +48,13 @@ def howtos_edit(request, id):
 
     if howto['is_published']:
         howto['publish_date'] = convert_datetime_api_to_app(howto['publish_date'])
-    
-    for step in howto['steps']:
-        step['substeps'] = get_tree_as_nested_list(step['substeps'])
 
+    for step in howto['steps']:
+        rendered = []
+        rendered += (render_tree(step, parent=True))
+        step['rendered_tree'] = ''.join(rendered)
+
+    
     return render(request, 'pages/howtos_edit.html', {
         'menu' : 'howtos',
         'howto' : howto,

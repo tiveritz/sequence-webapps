@@ -32,7 +32,7 @@
                             <div class="step-title">{{ substep.title }}</div>
                             <div class="tree">
                                 <ul>
-                                    {{ substep.substeps|unordered_list }}
+                                    {{ substep.rendered_tree|safe }}
                                 </ul>
                             </div>
                         </div>
@@ -45,9 +45,46 @@
                 </div>
             {% endfor %}
         </div>
-        <div>
+        <div id="sortableee" class="noselect">
+            {% for decisionstep in step.decisionsteps %}
+                <div id="{{decisionstep.uri_id}}" class="list-group-item sortable-box">
+                    <div class="sortable-box-clickable" onclick="showChangeBox('change-box-{{ decisionstep.uri_id }}');">		
+                        <div class="sortable-drag">
+                            <div>
+                                <div class="drag"></div>
+                                <div class="drag"></div>
+                                <div class="drag"></div>
+                            </div>
+                        </div>
+                        <div class="sortable-position">
+                            {{ forloop.counter }}
+                        </div>
+                        <div class="sortable-title">
+                            <div class="step-title">{{ decisionstep.title }}</div>
+                            <div class="tree">
+                                <ul>
+                                    {{ decisionstep.rendered_tree|safe }}
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="change-box-{{ decisionstep.uri_id }}" class="change-box change-box-main">
+                            <a href="{% url 'steps-delete-decision' step.uri_id decisionstep.uri_id %}" class="change-box-delete">x</a>
+                            <a href="{% url 'steps-edit' decisionstep.uri_id %}" class="change-box-edit">✎</a>
+                        </div>
+                    </div>
+                    <a href="{% url 'steps-edit' decisionstep.uri_id %}" class="list-box-edit">✎</a>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="step-functions">
             <a href="{% url 'steps-add-steps' step.uri_id %}" class="add-button btn-big">
                 <img src="{% static 'administration/icons/steps.png' %}" alt="">
+                <div class="add-circle-wrapper">
+                    <div class="add-circle">+</div>
+                </div>
+            </a>
+            <a href="{% url 'steps-add-decisions' step.uri_id %}" class="add-button btn-big">
+                <img src="{% static 'administration/icons/decision.png' %}" alt="">
                 <div class="add-circle-wrapper">
                     <div class="add-circle">+</div>
                 </div>
@@ -119,6 +156,7 @@
     <script>
         const URL_SAVE_STEP_ORDER = "{% url 'save_step_order' id=step.uri_id %}"
         const URL_SAVE_EXPLANATION_ORDER = "{% url 'save_explanation_order' id=step.uri_id %}"
+        const URL_SAVE_DECISION_ORDER = "{% url 'save_decision_order' id=step.uri_id %}"
     </script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.10.2/Sortable.min.js" type="text/javascript"></script>
 	<script src="{% static './administration/js/sortable.js' %}" type="text/javascript"></script>

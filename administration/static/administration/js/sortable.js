@@ -35,6 +35,16 @@ new Sortable.create(sortablee, {
     },
 })
 
+new Sortable.create(sortableee, {
+    animation: 150,
+    ghostClass: 'hovering-background-class',
+    handle: '.sortable-drag',
+    onUpdate: function (/**Event*/evt) {
+        updateDatabase(URL_SAVE_DECISION_ORDER, evt.oldIndex, evt.newIndex)
+        updateDomOrder(evt.to.children)
+    },
+})
+
 function updateDomOrder(elements) {
     newIndexes = getIdList(elements)
     for (i = 0; i < elements.length; i++) {

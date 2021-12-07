@@ -212,7 +212,7 @@ body {
 }
 
 .btn-big {
-	width: 100px;
+	width: 82px;
 	height: 62px;
 	padding-left: 10px;
 }
@@ -433,16 +433,26 @@ body {
 	margin-bottom: 6px;
 }
 
+.step-functions {
+	display: flex;
+	gap: 12px;
+}
+
 .tree {
 	color: var(--shade152);
 	font-size: .6rem;
+}
+
+.decisiontree {
+	display: flex;
+	gap: 6px;
 }
 
 .tree ul * {
 	list-style-type: none;
 }
 
-.tree ul:first-child {
+.tree ul {
 	margin-left: 6px;
 }
 
@@ -472,6 +482,10 @@ body {
 
 .is-super {
 	box-shadow: -2px 0px 0px 0px var(--maincolor);
+}
+
+.is-decision {
+	box-shadow: -2px 0px 0px 0px var(--ok);
 }
 
 .list-box-edit {grid-area: edit;}
@@ -694,7 +708,7 @@ body {
 .input-text,
 .input-explanation-text{
 	padding: 12px;
-	background: transparent;
+	background: var(--shade52);
 	flex-grow: 1;
 	color: white;
 	border: none;
@@ -719,7 +733,7 @@ body {
 
 .input-text:hover,
 .input-explanation-text:hover {
-	background: var(--shade52);
+	background: var(--shade112);
 }
 
 .input-text:focus::after

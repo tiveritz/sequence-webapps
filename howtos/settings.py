@@ -137,7 +137,7 @@ DATETIME_FORMAT = 'd.m.Y H:i'
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 # Static files
-#STATIC_URL = '/static/'
+STATIC_URL = '/static/' # <- for local development
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 STATIC_ROOT = '/data/'
 STATICFILES_FINDERS = (
@@ -150,15 +150,15 @@ LOGOUT_REDIRECT_URL = '/administration/'
 
 
 #Storage Bucket
-AWS_STORAGE_BUCKET_NAME = 'tiverspace'
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-AWS_S3_ENDPOINT_URL = 'https://fra1.digitaloceanspaces.com'
+#AWS_STORAGE_BUCKET_NAME = 'tiverspace'
+#AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+#AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+#AWS_S3_ENDPOINT_URL = 'https://fra1.digitaloceanspaces.com'
 
-STATICFILES_LOCATION = 'howtos/webapps/static/'
-STATICFILES_STORAGE = 'howtos.storages.StaticRootS3Boto3Storage'
-STATIC_URL = '{}/{}/'.format(AWS_S3_ENDPOINT_URL, STATICFILES_LOCATION)
+#STATICFILES_LOCATION = 'howtos/webapps/static/'
+#STATICFILES_STORAGE = 'howtos.storages.StaticRootS3Boto3Storage'
+#STATIC_URL = '{}/{}/'.format(AWS_S3_ENDPOINT_URL, STATICFILES_LOCATION)
 
-MEDIAFILES_LOCATION = 'howtos/webapps/media/'
-DEFAULT_FILE_STORAGE = 'howtos.storages.MediaRootS3Boto3Storage'
-MEDIA_URL = '{}/{}/'.format(AWS_S3_ENDPOINT_URL, MEDIAFILES_LOCATION)
+#MEDIAFILES_LOCATION = 'howtos/webapps/media/'
+#DEFAULT_FILE_STORAGE = 'howtos.storages.MediaRootS3Boto3Storage'
+#MEDIA_URL = '{}/{}/'.format(AWS_S3_ENDPOINT_URL, MEDIAFILES_LOCATION)
