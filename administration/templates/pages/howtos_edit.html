@@ -77,6 +77,7 @@
         const URL_PUBLISH_HOWTO = "{% url 'howtos-publish' id=howto.uri_id %}"
         const URL_VIEWER_ACTION = "{% url 'view-step-pre' id=howto.uri_id %}"
         const URL_VIEWER_HOWTO_DATA = "{% url 'view-howto-data' id=howto.uri_id %}"
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     </script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.10.2/Sortable.min.js" type="text/javascript"></script>
 	<script src="{% static './administration/js/sortable.js' %}" type="text/javascript"></script>
