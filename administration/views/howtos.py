@@ -1,6 +1,7 @@
 from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from django.core.paginator import Paginator
 from django.urls import reverse
 from django.conf import settings
 import requests
@@ -20,16 +21,37 @@ API_HOWTOS_LINKABLE = API_URL + '/howtos/v1/howtos/{}/linkable/'
 API_HOWTOS_PUBLISH =  API_URL + '/howtos/v1/howtos/{}/publish/'
 
 def howtos(request):
-    r = requests.get(API_HOWTOS, verify=RSV)
+    current_page = 1
+    if request.GET.get('page'):
+        current_page = int(request.GET.get('page'))
+    r = requests.get(API_HOWTOS, verify=RSV, params={'page': current_page})
     howtos = r.json()
+    pages = int(howtos['count'])
+    
+    previous, next = 'null', 'null'
+    
+    if current_page != 1:
+        previous = int(current_page) - 1
 
-    for howto in howtos:
+    if current_page < howtos['pages']:
+        next = int(current_page) + 1
+    
+    paginator = {
+        'count': howtos['count'],
+        'pages': range(1, howtos['pages']+1),
+        'current': current_page,
+        'previous': previous,
+        'next': next
+    }
+
+    for howto in howtos['results']:
         howto['created'] = convert_datetime_api_to_app(howto['created'])
         howto['updated'] = convert_datetime_api_to_app(howto['updated'])
 
     return render(request, 'pages/howtos.html', {
         'menu' : 'howtos',
-        'howtos' : howtos
+        'paginator': paginator,
+        'howtos' : howtos['results']
         })
 
 def howtos_edit(request, id):

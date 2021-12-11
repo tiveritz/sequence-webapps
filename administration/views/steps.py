@@ -26,42 +26,64 @@ API_MODULES_LINKABLE = API_URL + '/howtos/v1/steps/{}/linkablemodules/'
 API_IMAGES_LINKABLE = API_URL + '/howtos/v1/steps/{}/linkableimages/'
 
 def steps(request):
-    r = requests.get(API_STEPS, verify = RSV)
+    current_page = 1
+    if request.GET.get('page'):
+        current_page = int(request.GET.get('page'))
+    r = requests.get(API_STEPS, verify=RSV, params={'page': current_page})
+    steps = r.json()
+    
+    previous, next = 'null', 'null'
+    
+    if current_page != 1:
+        previous = int(current_page) - 1
+
+    if current_page < steps['pages']:
+        next = int(current_page) + 1
+    
+    paginator = {
+        'count': steps['count'],
+        'pages': range(1, steps['pages']+1),
+        'current': current_page,
+        'previous': previous,
+        'next': next
+    }
+
     steps = r.json()
 
-    for step in steps:
+    for step in steps['results']:
         step['created'] = convert_datetime_api_to_app(step['created'])
         step['updated'] = convert_datetime_api_to_app(step['updated'])
 
     return render(request, 'pages/steps.html', {
         'menu' : 'steps',
-        'steps' : steps
+        'paginator': paginator,
+        'steps' : steps['results']
         })
 
 def supersteps(request):
     r = requests.get(API_STEPS, verify = RSV)
     steps = r.json()
 
-    for step in steps:
+    for step in steps['results']:
         step['created'] = convert_datetime_api_to_app(step['created'])
         step['updated'] = convert_datetime_api_to_app(step['updated'])
 
     return render(request, 'pages/supersteps.html', {
         'menu' : 'supersteps',
-        'steps' : steps
+        'steps' : steps['results']
         })
 
 def substeps(request):
     r = requests.get(API_STEPS, verify = RSV)
     steps = r.json()
 
-    for step in steps:
+    for step in steps['results']:
         step['created'] = convert_datetime_api_to_app(step['created'])
         step['updated'] = convert_datetime_api_to_app(step['updated'])
 
     return render(request, 'pages/substeps.html', {
         'menu' : 'substeps',
-        'steps' : steps
+        'steps' : steps['results']
         })
 
 

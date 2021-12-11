@@ -4,7 +4,10 @@
 {% block content %}
     <div id="content">
         <h1>Steps</h1>
-        <a href="{% url 'steps-create' %}" class="add-button">+</a>
+        <div class="d-flex justify-content-between">
+            {% include 'modules/paginator.html' %}
+            <a href="{% url 'steps-create' %}" class="add-button">+</a>
+        </div>
         {% for step in steps %}
             <div class="list-box">
                 <div class="list-box-clickable{% if step.is_super %} is-super{% endif %}{% if step.is_decision %} is-decision{% endif %}" onclick="showChangeBox('change-box-{{ step.uri_id }}');">
