@@ -52,11 +52,13 @@ body {
   box-sizing: border-box; /*includes any margin and padding for sizing*/
 }
 
-a {
+a,
+a:hover {
   color: var(--white);
   text-decoration: none;
   cursor: pointer;
 }
+
 
 /* ----------------------------------------------------------------------------
  *    3. Color
