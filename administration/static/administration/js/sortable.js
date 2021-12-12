@@ -112,26 +112,3 @@ function removeMessage(msgElement) {
     setTimeout(function(){ msgElement.classList.remove('message-active') }, 3000)
     setTimeout(function(){ msgElement.remove() }, 4000)
 }
-
-/* ----------------------------------------------------------------------------
- *    3. CSRF Token
- * ------------------------------------------------------------------------- */
-
-var csrftoken = getCookie('csrftoken')
-
-// get csrf information for Django
-function getCookie(name) {
-    let cookieValue = null
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';')
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim()
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1))
-                break
-            }
-        }
-    }
-    return cookieValue
-}

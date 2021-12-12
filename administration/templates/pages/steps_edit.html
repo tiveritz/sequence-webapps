@@ -157,6 +157,7 @@
         const URL_SAVE_STEP_ORDER = "{% url 'save_step_order' id=step.uri_id %}"
         const URL_SAVE_EXPLANATION_ORDER = "{% url 'save_explanation_order' id=step.uri_id %}"
         const URL_SAVE_DECISION_ORDER = "{% url 'save_decision_order' id=step.uri_id %}"
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     </script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.10.2/Sortable.min.js" type="text/javascript"></script>
 	<script src="{% static './administration/js/sortable.js' %}" type="text/javascript"></script>
