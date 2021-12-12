@@ -473,7 +473,8 @@ body {
 	grid-template-areas: "list-box-clickable edit";
 }
 
-.list-box-clickable {
+.list-box-clickable,
+.list-box-header {
 	display: grid;
 	grid-area: list-box-clickable;
 	grid-template-columns: 3fr 1fr 1fr;

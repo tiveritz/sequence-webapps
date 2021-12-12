@@ -29,9 +29,16 @@ def steps(request):
     current_page = 1
     if request.GET.get('page'):
         current_page = int(request.GET.get('page'))
-    r = requests.get(API_STEPS, verify=RSV, params={'page': current_page})
+    search = ''
+    if request.GET.get('search'):
+        search = request.GET.get('search')
+    ordering = ''
+    if request.GET.get('ordering'):
+        ordering = request.GET.get('ordering')
+
+    r = requests.get(API_STEPS, verify=RSV, params={'page': current_page, 'ordering': ordering, 'search': search})
     steps = r.json()
-    
+ 
     previous, next = 'null', 'null'
     
     if current_page != 1:
@@ -57,6 +64,7 @@ def steps(request):
     return render(request, 'pages/steps.html', {
         'menu' : 'steps',
         'paginator': paginator,
+        'ordering': ordering,
         'steps' : steps['results']
         })
 
