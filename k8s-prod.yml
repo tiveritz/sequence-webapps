@@ -36,6 +36,11 @@ spec:
                 secretKeyRef:
                   name: howtos-webapp-env
                   key: allowed-hosts
+            - name: CSRF_TRUSTED_ORIGINS
+              valueFrom:
+                secretKeyRef:
+                  name: howtos-webapp-env
+                  key: csrf_trusted_origins
             - name: SECURE_SSL_REDIRECT
               valueFrom:
                 secretKeyRef:
