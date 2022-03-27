@@ -8,32 +8,32 @@ import json
 
 API_URL = settings.API_URL
 RSV = settings.REQUESTS_SSL_VERIFICATION
-API_HOWTOS = API_URL + '/howtos/v1/guides/howtos/{}/'
-API_HOWTO_GUIDE = API_URL + '/howtos/v1/guides/howto/{}/public/'
-API_STEP_GUIDE = API_URL + '/howtos/v1/guides/howto/{}/{}/{}/'
+API_SEQUENCE = API_URL + '/sequence/guides/sequence/{}/'
+API_SEQUENCE_GUIDE = API_URL + '/sequence/guides/sequence/{}/public/'
+API_STEP_GUIDE = API_URL + '/sequence/guides/sequence/{}/{}/{}/'
 
 
 def home(request):
     return render(request, './home.html',{'version': settings.VERSION})
 
 def viewer(request):
-    url = API_HOWTOS.format('public')
+    url = API_SEQUENCE.format('public')
     r = requests.get(url, verify = RSV)
-    howtos = r.json()
+    sequences = r.json()
     
-    return render(request, './viewer.html', {'howtos': howtos})
+    return render(request, './viewer.html', {'sequences': sequences})
 
-def view_howto(request, uri_id):
-    r = requests.get(API_HOWTO_GUIDE.format(uri_id), verify = RSV)
-    howto = r.json()
+def view_sequence(request, api_id):
+    r = requests.get(API_SEQUENCE_GUIDE.format(api_id), verify = RSV)
+    sequence = r.json()
 
-    return render(request, './view_howto.html', {'howto': howto})
+    return render(request, './view_sequence.html', {'sequence': sequence})
 
-def view_step(request, howto_uri_id, step_uri_id, ref_id):
-    r = requests.get(API_STEP_GUIDE.format(howto_uri_id, step_uri_id, ref_id), verify = RSV)
+def view_step(request, sequence_api_id, step_api_id, ref_id):
+    r = requests.get(API_STEP_GUIDE.format(sequence_api_id, step_api_id, ref_id), verify = RSV)
 
     if r.status_code == 200:
         step = r.json()
-        return render(request, './view_step.html', {'howto_uri_id': howto_uri_id, 'step': step})
+        return render(request, './view_step.html', {'sequence_api_id': sequence_api_id, 'step': step})
     else:
-        return HttpResponseRedirect(reverse('view-howto', args=[howto_uri_id]))
+        return HttpResponseRedirect(reverse('view-sequence', args=[sequence_api_id]))

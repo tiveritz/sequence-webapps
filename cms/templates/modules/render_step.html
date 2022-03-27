@@ -1,0 +1,50 @@
+<div id="guide-wrapper" class="mainsection pos-c-c bg-shade242">
+    <div id="guide">
+        <div>
+            {% if step.previous %}
+            <a id="guide-previous" href="javascript:;" onclick="viewerActionPrevious('{{step.previous}}')">
+                <div class="round-btn" id="btn-previous">&lt;</div>
+                <div>Previous Step</div>
+            </a>
+            {% endif %}
+        </div>
+        <div>
+            {% if step.next %}
+            <a id="guide-next" href="javascript:;" onclick="viewerActionNext('{{step.next}}')">
+                <div>Next Step</div>
+                <div class="round-btn" id="btn-next">&gt;</div>
+            </a>
+            {% endif %}
+        </div>
+        <div id="guide-content">
+            <h3>{{ step.title }}</h3>
+            {% if step.decision_steps %}
+                <div id="decision-steps">
+                    {% for decision_step in step.decision_steps %}
+                    <div>
+                        <a href="javascript:;" onclick="viewerActionNext('{{decision_step}}')">{{decision_step}}</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div>{{ step.content|safe }}</div>
+        </div>
+        <div id="guide-steps">
+            <h3>{{ step.sequence_title }}</h3>
+            <br>
+            {% for pos, data in step.steps.items %}
+                <div class="steps-indent-{{ data.level }}">
+                    <a id="{% if data.current == True %}step-current{% endif %}" class="step-number" href="javascript:;" onclick="viewerActionGoTo('{{data.api_id}}', '{{data.ref_id}}')">
+                        <div>
+                            {{ data.number }}
+                        </div>
+                        <div>
+                            {{ data.title }}
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+            <a class="round-btn" id="btn-restart" href="javascript:;" onclick="viewerActionGoTo('{{step.first}}')">&#x21bb;</a>
+        </div>
+    </div>
+</div>

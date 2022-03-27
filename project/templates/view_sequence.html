@@ -20,12 +20,19 @@
             </div>
         </div>
         <div id="sequence" class="mainsection pos-c-c bg-shade242">
-            {% if not sequences %}
-            <div>No Guides published</div>
-            {% endif %}
-            {% for sequence in sequences %}
-            <a href="{% url 'view-sequence' sequence.sequence_api_id %}"><div class="viewer-sequence-box">{{ sequence.title }}</div></a>
-            {% endfor %}
-        </div>
+            <h3>{{ sequence.title }}</h3>
+            <br>
+            <div id="guide-steps">
+                {% for pos, data in sequence.steps.items %}
+                <div class="steps-indent-{{ data.level }}">
+                    <a href="{% url 'view-step' sequence.sequence_api_id data.api_id data.ref_id %}">{{ data.number }} {{ data.title }}</a>
+                </div>
+                {% endfor %}
+            </div>
+            <br>
+            <div>
+                <a class="btn btn-dark" href="{% url 'view-step' sequence.sequence_api_id sequence.first sequence.first_ref %}">Start</a>
+            </div>
+        </div> 
     </body>
 </html>

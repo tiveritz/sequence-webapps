@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<div id="content">
+        <h1>Information</h1>
+        <div class="void-l"></div>
+        <h3>Dashboard</h3>
+        <p>Displays statistical data about the content</p>
+        <div class="void-l"></div>
+        <h3>Sequence</h3>
+        <p>A Sequence is a step-by-step instruction with the goal of reaching a certain objective. This page lets you edit the entry points in the user application.</p>
+        <div class="void-l"></div>
+        <h3>Step</h3>
+        <p>A step is part of a Sequence. Steps either have a description or linked substeps. These steps can be re-used.</p>
+        <div class="void-l"></div>
+        <h3>Superstep</h3>
+        <p>A superstep is a step that has one or more steps connected to it. A superstep can be used as substep of another superstep.</p>
+        <div class="void-l"></div>
+        <h3>Substep</h3>
+        <p>A substep is a step that is used in a superstep. A substep can be a superstep.</p>
+    </div>
+{% endblock content %}

@@ -34,4 +34,4 @@ COPY . .
 # Networking
 EXPOSE 8080
 
-CMD gunicorn --bind :8080 --workers 3 howtos.wsgi:application
+CMD gunicorn --bind :8080 --workers 3 sequence.wsgi:application

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="content">
+    <h1>Delete Sequence</h1>
+    <div class="box-wrapper border-warn">
+        <div class="box-header bg-warn">WARNING</div>
+        <div class="box">
+            <p>Are you sure you wan't to delete the Sequence<strong>{{ title }}</strong>?</p>
+            <div>
+                <a href="{% url 'sequences-delete-confirm' api_id %}">
+                    <button class="btn-warn">Yes</button>
+                </a>
+                <a href="{% url 'sequences' %}">
+                    <button class="btn-warn">No</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

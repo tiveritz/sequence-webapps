@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div id="content">
+        <h1>Sequences</h1>
+        <p>Create new Sequence</p>
+        <div class="void-l"></div>
+        <p>Title</p>
+        <div class="void-s"></div>
+        <form action="{% url 'sequences-create' %}" method="post" class="title-form-new">
+            {% csrf_token %}
+            {{ form }}
+            <input class="input-submit" type="submit" value="Create">
+        </form>
+        
+    </div>
+{% endblock %}

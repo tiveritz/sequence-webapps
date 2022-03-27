@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div id="content">
+        <h1>Texts</h1>
+        <a href="{% url 'text-create' %}" class="add-button">+</a>
+        {% for text in texts %}
+            {% if text.type == 'text' %}
+                <div class="list-box">
+                    <div class="list-box-clickable" onclick="showChangeBox('change-box-{{ text.api_id }}');">
+                        <div class="list-box-title">{{ text.title }}</div>
+                        <div id="change-box-{{ text.api_id }}" class="change-box">
+                            <a href="{% url 'explanation-edit' text.api_id %}" class="change-box-edit">edit</a>
+                            <a href="#" class="change-box-tag"><s>tag</s></a>
+                            <a href="{% url 'explanation-delete' text.api_id %}" class="change-box-delete">delete</a>
+                        </div>
+                    </div>
+                <a href="{% url 'explanation-edit' text.api_id %}" class="list-box-edit">✎</a>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static './project/style/style.css' %}">
-    <title>How To's</title>
+    <title>Sequences</title>
 </head>
     <body>
         <!--version: {{ version }}-->
@@ -15,8 +15,8 @@
                 <ul>
                     <li><a href="{% url 'home' %}" class="header-link">Home</a></li>
                     <li><a href="https://github.com/users/tiveritz/projects/1" target="_black" class="header-link">Project</a></li>
-                    <li><a href="https://github.com/tiveritz/how-tos-api" target="_black" class="header-link">API Code</a></li>
-                    <li><a href="https://github.com/tiveritz/how-tos-webapps" target="_black" class="header-link">Frontend Code</a></li>
+                    <li><a href="https://github.com/tiveritz/sequence-api" target="_black" class="header-link">API Code</a></li>
+                    <li><a href="https://github.com/tiveritz/sequence-webapps" target="_black" class="header-link">Frontend Code</a></li>
                 </ul>
             </div>
         </div>
@@ -24,13 +24,13 @@
             <div class="sectioncontent col-2">
                 <div>
                     <div>
-                        <p>The project <strong>How to's</strong> consists of a collection of web applications that allow to create, manage, edit and view <strong>Step-by-Step</strong> instructions.</p>
+                        <p>The project <strong>Sequences</strong> consists of a collection of web applications that allow to create, manage, edit and view <strong>Step-by-Step</strong> instructions.</p>
                         <br>
                         <p>An important key aspect ist the modularity of the documentation. Reusable steps, explanations, pictures, links and so on are a core concept of the technology behind it.</p>
                     </div>
                 </div>
                 <div>
-                    <img src="{% static './project/img/demo_viewer.png' %}" alt="How Tos on various deivces" id="pic-demo">
+                    <img src="{% static './project/img/demo_viewer.png' %}" alt="Sequences on various deivces" id="pic-demo">
                 </div>
             </div>
         </div>
@@ -39,17 +39,17 @@
                 <div class="pos-c-c">
                     <div class="webapps-link">
                         <h3>Viewer</h3>
-                        <img src="{% static './project/img/demo_viewer.png' %}" alt="How Tos on various deivces" id="pic-demo">
-                        <p>The <strong>Viewer</strong> is a web application to consume the content. View comprehensive How To Step-by-Step Instructions and get things done quicker.</s></p>
+                        <img src="{% static './project/img/demo_viewer.png' %}" alt="Sequences on various deivces" id="pic-demo">
+                        <p>The <strong>Viewer</strong> is a web application to consume the content. View comprehensive Sequence Step-by-Step Instructions and get things done quicker.</s></p>
                         <a href="{% url 'viewer' %}" class="btn btn-dark" target="_blank">Viewer</s></a>
                     </div>
                 </div>
                 <div class="pos-c-c">
                     <div class="webapps-link">
-                        <h3>Administration</h3>
-                        <img src="{% static './project/img/demo_admin.png' %}" alt="How Tos on various deivces" id="pic-demo">
-                        <p>The <strong>Administration</strong> is a web application where collaborators create content.</p>
-                        <a href="{% url 'login' %}" class="btn btn-dark" target="_blank">Administration</a>
+                        <h3>CMS</h3>
+                        <img src="{% static './project/img/demo_admin.png' %}" alt="Sequences on various deivces" id="pic-demo">
+                        <p>The <strong>CMS</strong> is a web application where collaborators create content.</p>
+                        <a href="{% url 'login' %}" class="btn btn-dark" target="_blank">CMS</a>
                     </div>
                 </div>
             </div>
