@@ -7,14 +7,61 @@ from django.conf import settings
 import requests
 import json
 
-from ..functions.apptime import convert_datetime_api_to_app
 from ..functions.tree import render_tree, get_substep_tree_as_nested_list, get_decision_tree_as_nested_list
 from ..forms import EditStep, CreateStep
+
+from cms.serializers import StepsSerializer, StepSerializer
 
 
 API_URL = settings.API_URL
 RSV = settings.REQUESTS_SSL_VERIFICATION
 API_STEPS =  API_URL + '/sequence/steps/'
+API_STEP = API_URL + '/sequence/steps/{}/'
+
+
+def steps(request):
+    page = int(request.GET.get('page', 1))
+    ordering = request.GET.get('ordering')
+    
+    params = {'page': page, 'ordering': ordering}
+    r = requests.get(API_STEPS, verify=RSV, params=params)
+    data = r.json()
+    
+    serializer = StepsSerializer(data)
+    context = serializer.data
+    
+    context['site'] = 'steps'
+    context['ordering'] = ordering
+
+    template_name = 'pages/steps.html'
+    return render(request, template_name, context)
+
+
+def step(request, uuid):
+    if request.method == 'POST':
+        form = EditStep(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            url = API_STEP.format(uuid)
+            requests.patch(url, json = {'title': title}, verify=RSV)
+
+        return HttpResponseRedirect(reverse('step', args=[uuid]))
+        
+    r = requests.get(API_STEP.format(uuid), verify=RSV)
+    data = r.json()
+    
+    serializer = StepSerializer(data)
+    context = serializer.data
+
+    form = EditStep(initial={'title': context['title']})
+    context['form'] = form
+    
+    template_name = 'pages/step.html'
+    return render(request, template_name, context=context)
+    
+
+
+'''
 API_STEP = API_URL + '/sequence/steps/{}/'
 API_SUPER_STEPS =  API_URL + '/sequence/steps/{}/steps/'
 API_DECISION_STEPS =  API_URL + '/sequence/steps/{}/decisions/'
@@ -385,3 +432,4 @@ def save_decision_order(request, id):
     if r.status_code == 200:
         return JsonResponse({'message' : 'Saving order successful'})
     return r.status_code
+'''

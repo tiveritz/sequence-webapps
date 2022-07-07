@@ -1,58 +1,66 @@
-from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from django.core.paginator import Paginator
 from django.urls import reverse
 from django.conf import settings
 import requests
 import json
 
-from ..forms import EditSequence, CreateSequence
-from ..functions.apptime import convert_datetime_api_to_app
-from ..functions.tree import render_tree
+from cms.forms import EditSequence, CreateSequence
+
+from cms.serializers import SequenceSerializer, SequencesSerializer
 
 
 API_URL = settings.API_URL
 RSV = settings.REQUESTS_SSL_VERIFICATION
-API_SEQUENCES =          API_URL + '/sequence/sequences/'
+API_SEQUENCES = API_URL + '/sequence/sequences/'
+API_SEQUENCE = API_URL + '/sequence/sequences/{}/'
+
+def sequences(request):
+    page = int(request.GET.get('page', 1))
+    ordering = request.GET.get('ordering')
+    
+    params = {'page': page, 'ordering': ordering}
+    r = requests.get(API_SEQUENCES, verify=RSV, params=params)
+    data = r.json()
+    
+    serializer = SequencesSerializer(data)
+    context = serializer.data
+    
+    context['site'] = 'sequences'
+    context['ordering'] = ordering
+
+    template_name = 'pages/sequences.html'
+    return render(request, template_name, context)
+
+
+def sequence(request, uuid):
+    if request.method == 'POST':
+        form = EditSequence(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            url = API_SEQUENCE.format(uuid)
+            requests.patch(url, json = {'title': title}, verify=RSV)
+
+        return HttpResponseRedirect(reverse('sequence', args=[uuid]))
+        
+    r = requests.get(API_SEQUENCE.format(uuid), verify=RSV)
+    data = r.json()
+    
+    serializer = SequenceSerializer(data)
+    context = serializer.data
+
+    form = EditSequence(initial={'title': context['title']})
+    context['form'] = form
+    
+    template_name = 'pages/sequence.html'
+    return render(request, template_name, context=context)
+
+
+'''
 API_SEQUENCE =           API_URL + '/sequence/sequences/{}/'
 API_SEQUENCE_STEPS =     API_URL + '/sequence/sequences/{}/steps/'
 API_SEQUENCE_LINKABLE =  API_URL + '/sequence/sequences/{}/linkable/'
 API_SEQUENCE_PUBLISH =   API_URL + '/sequence/sequences/{}/publish/'
-
-def sequences(request):
-    current_page = 1
-    if request.GET.get('page'):
-        current_page = int(request.GET.get('page'))
-    r = requests.get(API_SEQUENCES, verify=RSV, params={'page': current_page})
-    sequences = r.json()
-    pages = int(sequences['count'])
-    
-    previous, next = 'null', 'null'
-    
-    if current_page != 1:
-        previous = int(current_page) - 1
-
-    if current_page < sequences['pages']:
-        next = int(current_page) + 1
-    
-    paginator = {
-        'count': sequences['count'],
-        'pages': range(1, sequences['pages']+1),
-        'current': current_page,
-        'previous': previous,
-        'next': next
-    }
-
-    for sequence in sequences['results']:
-        sequence['created'] = convert_datetime_api_to_app(sequence['created'])
-        sequence['updated'] = convert_datetime_api_to_app(sequence['updated'])
-
-    return render(request, 'pages/sequences.html', {
-        'menu' : 'sequences',
-        'paginator': paginator,
-        'sequences' : sequences['results']
-        })
 
 def sequences_edit(request, id):
     if request.method == 'POST':
@@ -171,3 +179,4 @@ def sequence_publish(request, id):
              'publish_date': data['publish_date'],
             })
     return r.status_code
+'''

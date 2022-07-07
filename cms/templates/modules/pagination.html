@@ -1,0 +1,48 @@
+{% load pagination %}
+
+
+<ul class="pagination">
+    {# ---------- previous page ---------- #}
+    {% if previous != None %}
+        <li>
+            <a href="?page={{ previous }}&ordering={{ ordering }}">
+                <i class="material-icons">chevron_left</i>
+            </a>
+        </li>
+    {% else %}
+        <li class="disabled">
+            <a href="#">
+                <i class="material-icons">chevron_left</i>
+            </a>
+        </li>
+    {% endif %}
+
+    {# ---------- pages ---------- #}
+    {% for page in pages|pages_list %}
+        {% if page == current %}
+            <li class="active blue">
+                <a href="#">{{ page }}</a>
+            </li>
+            {% else %}
+            <li>
+                <a href="?page={{ page }}&ordering={{ ordering }}">{{ page }}</a>
+            </li>
+        {% endif %}
+    {% endfor %}
+
+    {# ---------- next page ---------- #}
+    {% if next != None %}
+        <li>
+        <a href="?page={{ next }}&ordering={{ ordering }}">
+            <i class="material-icons">chevron_right</i>
+        </a>
+        </li>
+    {% else %}
+        <li class="disabled">
+        <a href="#">
+            <i class="material-icons">chevron_right</i>
+        </a>
+        </li>
+    {% endif %}
+
+</ul>

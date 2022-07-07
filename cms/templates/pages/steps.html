@@ -1,53 +1,89 @@
 {% extends 'base.html' %}
 {% load static %}
 
+
 {% block content %}
-    <div id="content">
+
+<div class="container">
+    <div class="row">
         <h1>Steps</h1>
-        <div class="d-flex justify-content-between">
-            {% include 'modules/paginator.html' %}
-            <a href="{% url 'steps-create' %}" class="add-button">+</a>
-        </div>
-        <div class="list-box">
-            <div class="list-box-header">
-                <div class="list-box-title">
-                    <div>
-                        <p>Title</p>                       
-                        <a href="?page={{ paginator.current }}&ordering=title">&#8595;</a>
-                        <a href="?page={{ paginator.current }}&ordering=-title">&#8593;</a>
-                    </div>
-                </div>
-                <div class="list-box-added">
-                    <div>
-                        <p>Date Added</p>                       
-                        <a href="?page={{ paginator.current }}&ordering=created">&#8595;</a>
-                        <a href="?page={{ paginator.current }}&ordering=-created">&#8593;</a>
-                    </div>
-                </div>
-                <div class="list-box-last-edit">
-                    <div>
-                        <p>Date Updated</p>                       
-                        <a href="?page={{ paginator.current }}&ordering=updated">&#8595;</a>
-                        <a href="?page={{ paginator.current }}&ordering=-updated">&#8593;</a>
-                    </div>
-                </div>
+        <div class="nothing-1"></div>
+
+        <div class="row">
+
+            <div id="list-header">    
+                {% include 'modules/pagination.html' %}
+                <a class="btn-floating btn-large blue">
+                    <i class="material-icons">add</i>
+                </a>
             </div>
-            <div class="list-box-edit"></div>
+
+            <div class="nothing-1"></div>
+            <table class="highlight">
+                <thead>
+                    <tr>
+                        <th class="table-edit">
+                            {% if ordering != None %}
+                            <div><br></div>
+                            <a class="black-text" href="{% url 'steps' %}">
+                                <i class="material-icons">clear</i>
+                            </a>
+                            {% endif %}
+                        </th>
+                        <th class="table-sort">
+                            <div >Title</div>
+                            <div class="table-sort-control">
+                                <a class="{% if ordering == 'title' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=title">
+                                    <i class="material-icons">expand_less</i>
+                                </a>
+                                <a class="{% if ordering == '-title' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=-title">
+                                    <i class="material-icons">expand_more</i>
+                                </a>
+                            </div>
+                        </th>
+                        <th class="table-created">
+                            <div>Created</div>
+                            <div class="table-sort-control">
+                                <a class="{% if ordering == 'created' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=created">
+                                    <i class="material-icons">expand_less</i>
+                                </a>
+                                <a class="{% if ordering == '-created' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=-created">
+                                    <i class="material-icons">expand_more</i>
+                                </a>
+                            </div>
+                        </th>
+                        <th class="table-updated">
+                            <div>Updated</div>
+                            <div class="table-sort-control">
+                                <a class="{% if ordering == 'updated' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=updated">
+                                    <i class="material-icons">expand_less</i>
+                                </a>
+                                <a class="{% if ordering == '-updated' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=-updated">
+                                    <i class="material-icons">expand_more</i>
+                                </a>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+
+                </tr>
+                    {% for step in steps %}
+                        <tr>    
+                            <td>
+                                <a class="btn-floating btn-small grey" href="{% url 'step' step.uuid %}">
+                                    <i class="material-icons">create</i>
+                                </a>
+                            </td>
+                            <td>{{ step.title }}</td>
+                            <td>{{ step.created }}</td>
+                            <td>{{ step.updated }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
         </div>
-        {% for step in steps %}
-            <div class="list-box">
-                <div class="list-box-clickable{% if step.is_super %} is-super{% endif %}{% if step.is_decision %} is-decision{% endif %}" onclick="showChangeBox('change-box-{{ step.api_id }}');">
-                    <div class="list-box-title">{{ step.title }}</div>
-                    <div class="list-box-added">{{ step.created }}</div>
-                    <div class="list-box-last-edit">{{ step.updated }}</div>
-                    <div id="change-box-{{ step.api_id }}" class="change-box">
-                        <a href="{% url 'steps-edit' step.api_id %}" class="change-box-edit">edit</a>
-                        <a href="#" class="change-box-tag"><s>tag</s></a>
-                        <a href="{% url 'steps-delete' step.api_id %}" class="change-box-delete">delete</a>
-                    </div>
-                </div>
-                <a href="{% url 'steps-edit' step.api_id %}" class="list-box-edit">✎</a>
-            </div>
-        {% endfor %}
     </div>
-{% endblock %}
+</div>
+
+{% endblock content %}

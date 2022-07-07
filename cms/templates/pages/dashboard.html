@@ -2,78 +2,34 @@
 {% load static %}
 
 {% block content %}
-	<div id="content">
+<div class="container">
+    <div class="row">
         <h1>Dashboard</h1>
-        <div class="void-xl"></div>
-        <div class="dashboard-table">
-            <div class="dashboard-section dashboard-main-section">
-                <img class="dashboard-icon" src="{% static './cms/icons/sequence.png' %}" alt="">
-                <div class="dashboard-entry">
-                    <div>Sequences</div>
-                    <div class="dashboard-number">{{ statistics.sequence }}</div>
+
+        <div id="dashboard" class="row">
+
+            <div class="card small waves-effect waves-orange">
+                <div class="card-content">
+                    <span class="card-title">Sequences</span>
+                    <p>{{ statistics.sequences }}</p>
+                </div>
+                <div class="card-action">
+                    <a href="{% url 'sequences' %}">Sequences</a>
                 </div>
             </div>
+
+            <div class="card small waves-effect waves-orange">
+                <div class="card-content">
+                    <span class="card-title">Steps</span>
+                    <p>{{ statistics.steps }}</p>
+                </div>
+                <div class="card-action">
+                    <a href="{% url 'steps' %}">Steps</a>
+                </div>
+            </div>
+
         </div>
-        <div class="dashboard-table">
-            <div class="dashboard-section dashboard-main-section">
-                <img class="dashboard-icon" src="{% static './cms/icons/steps.png' %}" alt="">
-                <div class="dashboard-entry">
-                    <div>Steps</div>
-                    <div class="dashboard-number">{{ statistics.steps }}</div>
-                </div>
-            </div>
-            <div class="dashboard-section">
-                <img class="dashboard-icon" src="{% static './cms/icons/supersteps.png' %}" alt="">
-                <div class="dashboard-entry">
-                    <div>Supersteps</div>
-                    <div class="dashboard-number">{{ statistics.supersteps }}</div>
-                </div>
-            </div>
-            <div class="dashboard-section">
-                <img class="dashboard-icon" src="{% static './cms/icons/substeps.png' %}" alt="">
-                <div class="dashboard-entry">
-                    <div>Substeps</div>
-                    <div class="dashboard-number">{{ statistics.substeps }}</div>
-                </div>
-            </div>
-            <div class="dashboard-section">
-                <img class="dashboard-icon" src="{% static './cms/icons/decision.png' %}" alt="">
-                <div class="dashboard-entry">
-                    <div>Decisions</div>
-                    <div class="dashboard-number">{{ statistics.decisions }}</div>
-                </div>
-            </div>
-        </div>
-        <div class="dashboard-table">
-            <div class="dashboard-section dashboard-main-section">
-                <img class="dashboard-icon" src="{% static './cms/icons/modules.png' %}" alt="">
-                <div class="dashboard-entry">
-                    <div>Modules</div>
-                    <div class="dashboard-number">{{ statistics.modules }}</div>
-                </div>
-            </div>
-            <div class="dashboard-section">
-                <img class="dashboard-icon" src="{% static './cms/icons/explanations.png' %}" alt="">
-                <div class="dashboard-entry">
-                    <div>Text Modules</div>
-                    <div class="dashboard-number">{{ statistics.text_modules }}</div>
-                </div>
-            </div>
-            <div class="dashboard-section">
-                <img class="dashboard-icon" src="{% static './cms/icons/codes.png' %}" alt="">
-                <div class="dashboard-entry">
-                    <div>Code Modules</div>
-                    <div class="dashboard-number">{{ statistics.code_modules }}</div>
-                </div>
-            </div>
-            <div class="dashboard-section">
-                <img class="dashboard-icon" src="{% static './cms/icons/pictures.png' %}" alt="">
-                <div class="dashboard-entry">
-                    <div>Images</div>
-                    <div class="dashboard-number">{{ statistics.images }}</div>
-                </div>
-            </div>
-        </div>
-        <div class="version">API version: {{ statistics.version }}</div>
     </div>
+</div>
+
 {% endblock content %}

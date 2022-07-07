@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h1>Step</h1>
+        <div class="nothing-1"></div>
+
+        <div class="row">
+            <form class="title-form" action="" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <input class="input-submit" type="submit" value="Change">
+            </form>
+        </div>
+
+        <div class="row">
+            <div>linked:</div>
+            <div>{{ linked }}</div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

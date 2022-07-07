@@ -4,7 +4,7 @@
 {% block content %}
     <div id="content">
         <h1>Link Step</h1>
-        <a href="{% url 'sequences-edit' api_id %}" class="add-button">Back</a>
+        <a href="{% url 'sequence' api_id %}" class="add-button">Back</a>
         {% for step in steps %}
             <div class="list-box">
                 <div class="list-box-clickable{% if step.is_super %} is-super{% endif %}{% if step.is_decision %} is-decision{% endif %}" onclick="showChangeBox('change-box-{{ step.api_id }}');">

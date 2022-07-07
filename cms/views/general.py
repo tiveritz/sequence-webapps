@@ -20,7 +20,7 @@ def dashboard(request):
     statistics = r.json()
 
     return render(request, 'pages/dashboard.html', {
-        'menu' : 'dashboard',
+        'site' : 'dashboard',
         'statistics' : statistics
         })
 
