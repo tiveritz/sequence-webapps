@@ -1,10 +1,10 @@
 <th class="table-sort">
     <div >Title</div>
     <div class="table-sort-control">
-        <a class="{% if ordering == 'title' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=title">
+        <a class="{% if ordering == 'title' %}blue-text{% else %}black-text{% endif %}" onclick="filter_steps(event, {{ current }}, 'title')" href="#">
             <i class="material-icons">expand_less</i>
         </a>
-        <a class="{% if ordering == '-title' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=-title">
+        <a class="{% if ordering == '-title' %}blue-text{% else %}black-text{% endif %}" onclick="filter_steps(event, {{ current }}, '-title')" href="#">
             <i class="material-icons">expand_more</i>
         </a>
     </div>

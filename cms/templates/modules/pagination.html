@@ -5,7 +5,7 @@
     {# ---------- previous page ---------- #}
     {% if previous != None %}
         <li>
-            <a href="?page={{ previous }}{% if ordering %}{% if ordering %}&ordering={{ ordering }}{% endif %}{% endif %}">
+            <a onclick="filter_steps(event, {{ previous }}, '{{ ordering }}')" href="#">
                 <i class="material-icons">chevron_left</i>
             </a>
         </li>
@@ -19,21 +19,15 @@
 
     {# ---------- pages ---------- #}
     {% for page in pages|pages_list %}
-        {% if page == current %}
-            <li class="active blue">
-                <a href="#">{{ page }}</a>
-            </li>
-            {% else %}
-            <li>
-                <a href="?page={{ page }}{% if ordering %}&ordering={{ ordering }}{% endif %}">{{ page }}</a>
-            </li>
-        {% endif %}
+        <li class="{% if page == current %}active blue{% endif %}">
+            <a onclick="filter_steps(event, {{ page }}, '{{ ordering }}')" href="#">{{ page }}</a>
+        </li>
     {% endfor %}
 
     {# ---------- next page ---------- #}
     {% if next != None %}
         <li>
-        <a href="?page={{ next }}{% if ordering %}&ordering={{ ordering }}{% endif %}">
+        <a onclick="filter_steps(event, {{ next }}, '{{ ordering }}')" href="#">
             <i class="material-icons">chevron_right</i>
         </a>
         </li>

@@ -22,6 +22,8 @@ urlpatterns = [
     
     # AJAX
     path('steps/<uuid:uuid>/steps/order/', step.linked_step_order, name='linked-steps-order'),
+    path('steps/filter/', step.steps_filter, name='steps-filter'),
+    
 
 ]
 

@@ -1,10 +1,10 @@
 <th class="table-created">
     <div>Created</div>
     <div class="table-sort-control">
-        <a class="{% if ordering == 'created' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=created">
+        <a class="{% if ordering == 'created' %}blue-text{% else %}black-text{% endif %}" onclick="filter_steps(event, {{ current }}, 'created')" href="#">
             <i class="material-icons">expand_less</i>
         </a>
-        <a class="{% if ordering == '-created' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=-created">
+        <a class="{% if ordering == '-created' %}blue-text{% else %}black-text{% endif %}" onclick="filter_steps(event, {{ current }}, '-created')" href="#">
             <i class="material-icons">expand_more</i>
         </a>
     </div>

@@ -94,24 +94,24 @@
         })
 
         function ajax_reorder(url, oldIndex, newIndex) {
-        fetch(url, {
-            method: 'POST',
-            body : JSON.stringify({'from_index': oldIndex, 'to_index' : newIndex}),
-            headers: {
-                'X-CSRFToken' : CSRFToken,
-                'contentType' : 'application/json; charset=UTF-8'}
-            })
-            .then(response => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response.json();
-                } else {
-                    throw Error(response.statusText);
+            fetch(url, {
+                method: 'POST',
+                body : JSON.stringify({'from_index': oldIndex, 'to_index' : newIndex}),
+                headers: {
+                    'X-CSRFToken' : CSRFToken,
+                    'contentType' : 'application/json; charset=UTF-8'}
+                })
+                .then(response => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw Error(response.statusText);
+                    }
+                })
+                .then(jsonResponse => {
+                    location.reload(false);
                 }
-            })
-            .then(jsonResponse => {
-                location.reload(false);
-            }
-        )
-    }
+            )
+        }
     </script>
 {% endblock %}

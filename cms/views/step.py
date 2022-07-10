@@ -1,6 +1,6 @@
-from django.http.response import JsonResponse
+from django.http.response import JsonResponse, HttpResponse, HttpResponseRedirect
+from django.template.loader import render_to_string
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.conf import settings
 import requests
@@ -32,7 +32,8 @@ def steps(request):
             return HttpResponseRedirect(reverse('step', kwargs=kwargs))
 
     page = int(request.GET.get('page', 1))
-    ordering = request.GET.get('ordering')
+    #ordering = request.GET.get('ordering', '')
+    ordering = request.GET.get('ordering', '')
     
     params = {'page': page, 'ordering': ordering}
     r = requests.get(API_STEPS, verify=RSV, params=params)
@@ -42,9 +43,7 @@ def steps(request):
     context = serializer.data
     
     context['site'] = 'steps'
-    
-    if ordering is not None:
-        context['ordering'] = ordering
+    context['ordering'] = ordering
 
     form = CreateStep()
     context['form'] = form
@@ -110,6 +109,29 @@ def linked_step_order(request, uuid):
     if r.status_code == 200:
         return JsonResponse({'message' : 'Saving order successful'})
     return r.status_code
+
+
+def steps_filter(request):
+    page = int(request.GET.get('page', 1))
+    ordering = request.GET.get('ordering', '')
+    
+    params = {'page': page, 'ordering': ordering}
+    r = requests.get(API_STEPS, verify=RSV, params=params)
+    data = r.json()
+    
+    serializer = StepsSerializer(data)
+    context = serializer.data
+    
+    context['site'] = 'steps'
+    context['ordering'] = ordering
+
+    form = CreateStep()
+    context['form'] = form
+
+    template_name = 'modules/step_list.html'
+
+    html = render_to_string(template_name, context)
+    return HttpResponse(html)
 
 
 

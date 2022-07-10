@@ -1,0 +1,35 @@
+{% include 'modules/list/pagination_header.html' %}
+
+<div class="nothing-1"></div>
+<table class="highlight">
+    <thead>
+        <tr>
+            <th class="table-edit">
+                {% if ordering != '' %}
+                <div><br></div>
+                <a class="black-text" onclick="filter_steps(event, {{ current }}, '')" href="#">
+                    <i class="material-icons">clear</i>
+                </a>
+                {% endif %}
+            </th>
+            {% include 'modules/list/th_title.html' %}
+            {% include 'modules/list/th_created.html' %}
+            {% include 'modules/list/th_updated.html' %}
+        </tr>
+    </thead>
+
+    </tr>
+        {% for step in steps %}
+            <tr>    
+                <td>
+                    <a class="btn-floating btn-small grey" href="{% url 'step' step.uuid %}">
+                        <i class="material-icons">create</i>
+                    </a>
+                </td>
+                <td>{{ step.title }}</td>
+                <td>{{ step.created }}</td>
+                <td>{{ step.updated }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
