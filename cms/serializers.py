@@ -1,9 +1,14 @@
 from datetime import datetime, timezone
 from rest_framework.serializers import (Serializer,
-                                        BooleanField,
                                         IntegerField,
                                         SerializerMethodField,
                                         UUIDField)
+
+
+class RecursiveSerializer(Serializer):
+    def to_representation(self, value):
+        serializer = self.parent.parent.__class__(value, context=self.context)
+        return serializer.data
 
 
 class ListPaginationSerializer(Serializer):
@@ -14,7 +19,7 @@ class ListPaginationSerializer(Serializer):
     count = IntegerField()
 
 
-class StepListBaseSerializer(Serializer):
+class ListBaseSerializer(Serializer):
     title = SerializerMethodField()
     uuid = UUIDField()
     created = SerializerMethodField()
@@ -38,7 +43,7 @@ class StepListBaseSerializer(Serializer):
         return dt.strftime(self.APP_TIME_FORMAT)
 
 
-class SequenceSerializer(StepListBaseSerializer):
+class SequenceListSerializer(ListBaseSerializer):
     is_published = SerializerMethodField()
     published = SerializerMethodField()
 
@@ -62,13 +67,18 @@ class SequenceSerializer(StepListBaseSerializer):
         return dt.strftime(self.APP_TIME_FORMAT)
 
 
-class SequencesSerializer(ListPaginationSerializer):
-    sequences = SequenceSerializer(many=True, source='results')
-
-
 class StepsSerializer(ListPaginationSerializer):
-    steps = StepListBaseSerializer(many=True, source='results')
-    
-    
-class StepSerializer(StepListBaseSerializer):
-    linked = StepListBaseSerializer(many=True)
+    steps = ListBaseSerializer(many=True, source='results')
+
+
+class StepSerializer(ListBaseSerializer):
+    linked = RecursiveSerializer(many=True)
+
+
+class SequencesSerializer(ListPaginationSerializer):
+    sequences = SequenceListSerializer(many=True, source='results')
+
+
+class SequenceSerializer(ListBaseSerializer):
+    step = UUIDField()
+    linked = StepSerializer(many=True)

@@ -1,0 +1,11 @@
+<th class="table-created">
+    <div>Created</div>
+    <div class="table-sort-control">
+        <a class="{% if ordering == 'created' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=created">
+            <i class="material-icons">expand_less</i>
+        </a>
+        <a class="{% if ordering == '-created' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=-created">
+            <i class="material-icons">expand_more</i>
+        </a>
+    </div>
+</th>

@@ -12,11 +12,17 @@ urlpatterns = [
     
     # Sequences
     path('sequences/', sequence.sequences, name='sequences'),
-    path('sequences/<str:uuid>/', sequence.sequence, name='sequence'),
+    path('sequences/<uuid:uuid>/', sequence.sequence, name='sequence'),
+    path('sequences/<uuid:uuid>/steps/<uuid:super>/delete/<uuid:sub>/', sequence.delete_linked, name='sequence-delete-linked'),
     
     # Steps
     path('steps/', step.steps, name='steps'),
-    path('steps/<str:uuid>/', step.step, name='step'),
+    path('steps/<uuid:uuid>/', step.step, name='step'),
+    path('steps/<uuid:uuid>/steps/delete/<uuid:sub>/', step.delete_linked, name='step-delete-linked'),
+    
+    # AJAX
+    path('steps/<uuid:uuid>/steps/order/', step.linked_step_order, name='linked-steps-order'),
+
 ]
 
 

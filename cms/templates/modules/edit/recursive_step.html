@@ -1,0 +1,20 @@
+<li class="collection-item sortable-item{% if not first %} collection-inner{% endif %}">
+    <div class="linked-wrapper">
+        <div>
+            <div class="linked">
+                <div>{{ link.pos }}</div>
+                <div>{{ link.title }}</div>
+            </div>
+            <ul>
+                {% for link in  link.linked %}
+                    {% include 'modules/edit/recursive_step.html' with first=False linked=link %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% if first %}
+            <a id="delete-btn" data-target="add" class="btn-floating btn-small modal-trigger grey" href="{% url 'step-delete-linked' uuid link.uuid %}">
+                <i class="material-icons">delete</i>
+            </a>
+        {% endif %}
+    </div>
+</li>

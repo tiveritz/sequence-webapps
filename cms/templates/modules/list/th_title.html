@@ -1,0 +1,11 @@
+<th class="table-sort">
+    <div >Title</div>
+    <div class="table-sort-control">
+        <a class="{% if ordering == 'title' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=title">
+            <i class="material-icons">expand_less</i>
+        </a>
+        <a class="{% if ordering == '-title' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=-title">
+            <i class="material-icons">expand_more</i>
+        </a>
+    </div>
+</th>

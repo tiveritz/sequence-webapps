@@ -5,7 +5,7 @@
     {# ---------- previous page ---------- #}
     {% if previous != None %}
         <li>
-            <a href="?page={{ previous }}&ordering={{ ordering }}">
+            <a href="?page={{ previous }}{% if ordering %}{% if ordering %}&ordering={{ ordering }}{% endif %}{% endif %}">
                 <i class="material-icons">chevron_left</i>
             </a>
         </li>
@@ -25,7 +25,7 @@
             </li>
             {% else %}
             <li>
-                <a href="?page={{ page }}&ordering={{ ordering }}">{{ page }}</a>
+                <a href="?page={{ page }}{% if ordering %}&ordering={{ ordering }}{% endif %}">{{ page }}</a>
             </li>
         {% endif %}
     {% endfor %}
@@ -33,7 +33,7 @@
     {# ---------- next page ---------- #}
     {% if next != None %}
         <li>
-        <a href="?page={{ next }}&ordering={{ ordering }}">
+        <a href="?page={{ next }}{% if ordering %}&ordering={{ ordering }}{% endif %}">
             <i class="material-icons">chevron_right</i>
         </a>
         </li>

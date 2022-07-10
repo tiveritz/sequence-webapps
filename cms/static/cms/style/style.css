@@ -70,3 +70,33 @@ body {
 .table-sort-control {
 	margin-top: 4px;
 }
+
+.create-control,
+.linked-wrapper {
+	display: flex;
+	justify-content: space-between;
+}
+
+.title-form {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+/* form */
+#id_title:focus {
+	border-bottom: 1px solid var(--maincolor);
+}
+
+.linked {
+	display: flex;
+	gap: 1ch;
+}
+
+.sortable-item {
+	cursor: grab;
+}
+
+.collection .collection-inner {
+	border-bottom: none;
+}

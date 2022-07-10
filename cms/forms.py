@@ -2,30 +2,28 @@ from django import forms
 
 
 class EditSequence(forms.Form):
-    title = forms.CharField(
-        initial='',
-        label='',
-        max_length=100,
-        widget=forms.TextInput(attrs={'class': ""}))
+    title = forms.CharField(initial='',
+                            label='',
+                            max_length=100,
+                            widget=forms.TextInput())
 
-class EditStep(forms.Form):
-    title = forms.CharField(
-        initial='',
-        label='',
-        max_length=100,
-        widget=forms.TextInput(attrs={'class': ""}))
 
 class CreateSequence(forms.Form):
-    sequence_title = forms.CharField(
-        label='',
-        max_length=100,
-        widget=forms.TextInput(attrs={'class': "input-text", 'autofocus' : "autofocus"}))
+    title = forms.CharField(label='',
+                            max_length=100,
+                            widget=forms.TextInput())
+
+
+class EditStep(forms.Form):
+    title = forms.CharField(label='',
+                            max_length=100,
+                            widget=forms.TextInput())
+
     
 class CreateStep(forms.Form):
-    step_title = forms.CharField(
-        label='',
-        max_length=100,
-        widget=forms.TextInput(attrs={'class': "input-text", 'autofocus' : "autofocus"}))
+    title = forms.CharField(label='',
+                            max_length=100,
+                            widget=forms.TextInput())
 
 class CreateText(forms.Form):
     title = forms.CharField(

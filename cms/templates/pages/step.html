@@ -7,20 +7,111 @@
     <div class="row">
         <h1>Step</h1>
         <div class="nothing-1"></div>
+        {% include 'modules/edit/title_form.html' %}
+        <div class="nothing-2"></div>
 
         <div class="row">
-            <form class="title-form" action="" method="post">
-                {% csrf_token %}
-                {{ form }}
-                <input class="input-submit" type="submit" value="Change">
-            </form>
+            <ul id="sortable" class="collection">
+                {% for link in linked %}
+                    {% include 'modules/edit/recursive_step.html' with first=True %}
+                {% endfor %}
+              </ul>
         </div>
+        <button id="add-linked-btn" data-target="add" class="btn-floating btn-large modal-trigger blue">
+            <i class="material-icons">add</i>
+        </button>
 
-        <div class="row">
-            <div>linked:</div>
-            <div>{{ linked }}</div>
-
-        </div>
     </div>
 </div>
+
+<div id="add" class="modal">
+    <div class="modal-content">
+        <h4>Link Step</h4>
+        <div class="nothing-2"></div>
+        <div class="row">
+            {% include 'modules/pagination.html' with next=linkable.next previous=linkable.previous current=linkable.current pages=linkable.pages count=linkable.count results=linkable.results only %}
+            <table class="highlight">
+                <thead>
+                    <tr>
+                        <th class="table-edit">
+                            {% if ordering != None %}
+                            <div><br></div>
+                            <a class="black-text" href="?page={{ current }}">
+                                <i class="material-icons">clear</i>
+                            </a>
+                            {% endif %}
+                        </th>
+                        {% include 'modules/list/th_title.html' %}
+                        {% include 'modules/list/th_created.html' %}
+                        {% include 'modules/list/th_updated.html' %}
+                    </tr>
+                </thead>
+            
+                </tr>
+                    {% for step in linkable.steps %}
+                        <tr>    
+                            <td>
+                                <a class="btn-floating btn-small grey" href="{% url 'step' step.uuid %}">
+                                    <i class="material-icons">create</i>
+                                </a>
+                            </td>
+                            <td>{{ step.title }}</td>
+                            <td>{{ step.created }}</td>
+                            <td>{{ step.updated }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        </div>
+        <div class="nothing-2"></div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block page-script %}
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.modal');
+            var instances = M.Modal.init(elems);
+
+            elem = document.querySelector('#add-linked-btn');
+            var instance = M.Modal.getInstance(elem);
+        });
+    </script>
+    <script type="text/javascript" src="{% static './cms/js/src/sortable.js' %}"></script>
+    <script type="text/javascript">
+        const URL_LINKED_STEPS_ORDER = "{% url 'linked-steps-order' uuid=uuid %}"
+        const CSRFToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        new Sortable.create(sortable, {
+            animation: 150,
+            ghostClass: 'hovering-background-class',
+            onUpdate: function (evt) {
+                ajax_reorder(URL_LINKED_STEPS_ORDER, evt.oldIndex, evt.newIndex)
+            },
+        })
+
+        function ajax_reorder(url, oldIndex, newIndex) {
+        fetch(url, {
+            method: 'POST',
+            body : JSON.stringify({'from_index': oldIndex, 'to_index' : newIndex}),
+            headers: {
+                'X-CSRFToken' : CSRFToken,
+                'contentType' : 'application/json; charset=UTF-8'}
+            })
+            .then(response => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw Error(response.statusText);
+                }
+            })
+            .then(jsonResponse => {
+                location.reload(false);
+            }
+        )
+    }
+    </script>
 {% endblock %}

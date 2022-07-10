@@ -1,0 +1,17 @@
+<form action="" method="post">
+    {% csrf_token %}
+
+    {{ form.non_field_errors }}
+    {{ form.source.errors }}
+    {{ form.source }}
+
+    {{ form.first_name.errors }}
+    {{ form.first_name }}
+    <div class="form-error">{{ form.title.errors }}</div>
+    <input placeholder="Title" type="text" name="title" maxlength="100" required="" id="id_title">
+
+    <div class="create-control">
+        <input class="btn-flat" type="submit" value="Create">
+        <a href="#" class="modal-close btn-flat">Cancel</a>
+    </div>
+</form>

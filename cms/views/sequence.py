@@ -5,8 +5,8 @@ from django.conf import settings
 import requests
 import json
 
+from cms.base.utils import apply_positions
 from cms.forms import EditSequence, CreateSequence
-
 from cms.serializers import SequenceSerializer, SequencesSerializer
 
 
@@ -14,8 +14,19 @@ API_URL = settings.API_URL
 RSV = settings.REQUESTS_SSL_VERIFICATION
 API_SEQUENCES = API_URL + '/sequence/sequences/'
 API_SEQUENCE = API_URL + '/sequence/sequences/{}/'
+API_LINKED_STEPS_DELETE = API_URL + '/sequence/steps/{}/steps/delete/'
 
 def sequences(request):
+    if request.method == 'POST':
+        form = CreateSequence(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            r = requests.post(API_SEQUENCES, json = {'title': title}, verify=RSV)
+            data = r.json()
+
+            kwargs = {'uuid': data['uuid']}
+            return HttpResponseRedirect(reverse('sequence', kwargs=kwargs))
+
     page = int(request.GET.get('page', 1))
     ordering = request.GET.get('ordering')
     
@@ -28,6 +39,9 @@ def sequences(request):
     
     context['site'] = 'sequences'
     context['ordering'] = ordering
+
+    form = CreateSequence()
+    context['form'] = form
 
     template_name = 'pages/sequences.html'
     return render(request, template_name, context)
@@ -48,12 +62,25 @@ def sequence(request, uuid):
     
     serializer = SequenceSerializer(data)
     context = serializer.data
+    
+    apply_positions(context)
 
     form = EditSequence(initial={'title': context['title']})
     context['form'] = form
     
     template_name = 'pages/sequence.html'
     return render(request, template_name, context=context)
+
+
+def delete_linked(request, uuid, super, sub):
+    # this is +- duplicate with steps -> refactor!
+    url = API_LINKED_STEPS_DELETE.format(super)
+    payload = {
+        'sub': str(sub),
+        }
+    r = requests.delete(url, json = payload, verify = RSV)
+
+    return HttpResponseRedirect(reverse('sequence', args=[uuid]))
 
 
 '''

@@ -1,0 +1,11 @@
+<th class="table-updated">
+    <div>Updated</div>
+    <div class="table-sort-control">
+        <a class="{% if ordering == 'updated' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=updated">
+            <i class="material-icons">expand_less</i>
+        </a>
+        <a class="{% if ordering == '-updated' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=-updated">
+            <i class="material-icons">expand_more</i>
+        </a>
+    </div>
+</th>

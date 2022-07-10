@@ -10,13 +10,7 @@
         <div class="nothing-1"></div>
 
         <div class="row">
-
-            <div id="list-header">    
-                {% include 'modules/pagination.html' %}
-                <a class="btn-floating btn-large blue">
-                    <i class="material-icons">add</i>
-                </a>
-            </div>
+            {% include 'modules/list/pagination_header.html' %}
 
             <div class="nothing-1"></div>
             <table class="highlight">
@@ -25,48 +19,15 @@
                         <th class="table-edit">
                             {% if ordering != None %}
                             <div><br></div>
-                            <a class="black-text" href="{% url 'sequences' %}">
+                            <a class="black-text" href="?page={{ current }}">
                                 <i class="material-icons">clear</i>
                             </a>
                             {% endif %}
                         </th>
-                        <th class="table-sort">
-                            <div >Title</div>
-                            <div class="table-sort-control">
-                                <a class="{% if ordering == 'step__title' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=step__title">
-                                    <i class="material-icons">expand_less</i>
-                                </a>
-                                <a class="{% if ordering == '-step__title' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=-step__title">
-                                    <i class="material-icons">expand_more</i>
-                                </a>
-                            </div>
-                        </th>
-                        <th class="table-created">
-                            <div>Created</div>
-                            <div class="table-sort-control">
-                                <a class="{% if ordering == 'created' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=created">
-                                    <i class="material-icons">expand_less</i>
-                                </a>
-                                <a class="{% if ordering == '-created' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=-created">
-                                    <i class="material-icons">expand_more</i>
-                                </a>
-                            </div>
-                        </th>
-                        <th class="table-updated">
-                            <div>Updated</div>
-                            <div class="table-sort-control">
-                                <a class="{% if ordering == 'updated' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=updated">
-                                    <i class="material-icons">expand_less</i>
-                                </a>
-                                <a class="{% if ordering == '-updated' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=-updated">
-                                    <i class="material-icons">expand_more</i>
-                                </a>
-                            </div>
-                        </th>
-                        <th class="table-published">
-                            <div>Published</div>
-                            <div><br></div>
-                        </th>
+                        {% include 'modules/list/th_title.html' %}
+                        {% include 'modules/list/th_created.html' %}
+                        {% include 'modules/list/th_updated.html' %}
+                        {% include 'modules/list/th_published.html' %}
                     </tr>
                 </thead>
 
@@ -96,29 +57,19 @@
     </div>
 </div>
 
+<div id="add" class="modal">
+    <div class="modal-content">
+        <h4>Create New Sequence</h4>
+        <div class="nothing-2"></div>
+        <div class="row">
+            {% include 'modules/list/add_form.html' %}
+        </div>
+        <div class="nothing-2"></div>
+    </div>
+</div>
+
 {% endblock content %}
 
-
-
-{% comment %}
-<div class="d-flex justify-content-between">
-    {% include 'modules/paginator.html' %}
-    <a href="{% url 'sequences-create' %}" class="add-button">+</a>
-</div>
-{% for sequence in sequences %}
-    <div class="list-box">
-        <div class="list-box-clickable" onclick="showChangeBox('change-box-{{ sequence.api_id }}');">
-            <div class="list-box-title">{{ sequence.title }}</div>
-            <div class="list-box-added">{{ sequence.created }}</div>
-            <div class="list-box-last-edit">{{ sequence.updated }}</div>
-            <div id="change-box-{{ sequence.api_id }}" class="change-box">
-                <a href="{% url 'sequence' sequence.api_id %}" class="change-box-edit">edit</a>
-                <a href="#" class="change-box-tag"><s>tag</s></a>
-                <a href="{% url 'sequences-delete' sequence.api_id %}" class="change-box-delete">delete</a>
-            </div>
-        </div>
-    <a href="{% url 'sequence' sequence.api_id %}" class="list-box-edit">✎</a>
-</div>
-{% endfor %}
-</div>
-{% endcomment %}
+{% block page-script %}
+    {% include 'modules/list/add_form_script.html' %}
+{% endblock page-script %}
