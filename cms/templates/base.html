@@ -18,6 +18,16 @@
         </main>
 
         <script type="text/javascript" src="{% static './cms/js/src/materialize.js' %}"></script>
+        <script type="text/javascript">
+            /* force reload when using browser back */
+            (function () {
+                window.onpageshow = function(event) {
+                    if (event.persisted) {
+                        window.location.reload();
+                    }
+                };
+            })();
+        </script>
 
         {% comment %}
         <script src="{% static './cms/js/functions.js' %}" type="text/javascript"></script>

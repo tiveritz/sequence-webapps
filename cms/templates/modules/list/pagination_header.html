@@ -1,6 +1,8 @@
 <div id="list-header">    
     {% include 'modules/pagination.html' %}
-    <button id="add-btn" data-target="add" class="btn-floating btn-large modal-trigger blue">
-        <i class="material-icons">add</i>
-    </button>
+    {% if type != 'linkable' %}
+        <button id="add-btn" data-target="add" class="btn-floating btn-large modal-trigger blue">
+            <i class="material-icons">add</i>
+        </button>
+    {% endif %}
 </div>

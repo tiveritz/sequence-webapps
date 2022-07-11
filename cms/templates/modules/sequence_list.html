@@ -15,29 +15,29 @@
             {% include 'modules/list/th_title.html' %}
             {% include 'modules/list/th_created.html' %}
             {% include 'modules/list/th_updated.html' %}
+            {% include 'modules/list/th_published.html' %}
             <th></th>
         </tr>
     </thead>
 
     </tr>
-        {% for step in steps %}
+        {% for sequence in sequences %}
             <tr>    
                 <td>
-                    {% if type == 'linkable' %}
-                        <a class="btn-floating btn-small grey" href="#" onclick="link_step(event, '{{ step.uuid }}')">
-                            <i class="material-icons">add</i>
-                        </a>
-                    {% else %}
-                        <a class="btn-floating btn-small grey" href="{% url 'step' step.uuid %}">
-                            <i class="material-icons">create</i>
-                        </a>
+                    <a class="btn-floating btn-small grey" href="{% url 'sequence' sequence.uuid %}">
+                        <i class="material-icons">create</i>
+                    </a>
+                </td>
+                <td>{{ sequence.title }}</td>
+                <td>{{ sequence.created }}</td>
+                <td>{{ sequence.updated }}</td>
+                <td>
+                    {% if sequence.is_published %}
+                        {{ sequence.published }}
                     {% endif %}
                 </td>
-                <td>{{ step.title }}</td>
-                <td>{{ step.created }}</td>
-                <td>{{ step.updated }}</td>
                 <td>
-                    <a id="delete-btn" class="btn-flat btn-small white" href="{% url 'step-delete' step.uuid %}">
+                    <a id="delete-btn" class="btn-flat btn-small white" href="{% url 'sequence-delete' sequence.uuid %}">
                         <i class="material-icons red-text darken-2">delete</i>
                     </a>
                 </td>

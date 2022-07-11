@@ -71,7 +71,11 @@ body {
 	margin-top: 4px;
 }
 
-.create-control,
+.create-control {
+	display: flex;
+	justify-content: space-between;
+}
+
 .linked-wrapper {
 	display: flex;
 	justify-content: space-between;

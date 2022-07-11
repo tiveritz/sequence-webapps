@@ -17,7 +17,7 @@
                 {% endfor %}
               </ul>
         </div>
-        <button id="add-linked-btn" data-target="add" class="btn-floating btn-large modal-trigger blue">
+        <button id="add-linked-btn" data-target="add" class="btn-floating btn-large modal-trigger blue" onclick="filter_steps(event, {{ page }}, '{{ ordering }}')">
             <i class="material-icons">add</i>
         </button>
 
@@ -26,44 +26,12 @@
 
 <div id="add" class="modal">
     <div class="modal-content">
-        <h4>Link Step</h4>
-        <div class="nothing-2"></div>
-        <div class="row">
-            {% include 'modules/pagination.html' with next=linkable.next previous=linkable.previous current=linkable.current pages=linkable.pages count=linkable.count results=linkable.results only %}
-            <table class="highlight">
-                <thead>
-                    <tr>
-                        <th class="table-edit">
-                            {% if ordering != None %}
-                            <div><br></div>
-                            <a class="black-text" href="?page={{ current }}">
-                                <i class="material-icons">clear</i>
-                            </a>
-                            {% endif %}
-                        </th>
-                        {% include 'modules/list/th_title.html' %}
-                        {% include 'modules/list/th_created.html' %}
-                        {% include 'modules/list/th_updated.html' %}
-                    </tr>
-                </thead>
-            
-                </tr>
-                    {% for step in linkable.steps %}
-                        <tr>    
-                            <td>
-                                <a class="btn-floating btn-small grey" href="{% url 'step' step.uuid %}">
-                                    <i class="material-icons">create</i>
-                                </a>
-                            </td>
-                            <td>{{ step.title }}</td>
-                            <td>{{ step.created }}</td>
-                            <td>{{ step.updated }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            
+        <div class="create-control">
+            <h4>Link Step</h4>
+            <a href="#" class="modal-close btn-flat">Cancel</a>
         </div>
+        <div class="nothing-2"></div>
+        <div id="list" class="row"></div>
         <div class="nothing-2"></div>
     </div>
 </div>
@@ -113,5 +81,62 @@
                 }
             )
         }
+
+        function filter_steps(event, page, ordering) {
+            event.preventDefault();
+            
+            url = "{% url 'step-linkable-filter' uuid %}?page=" + page + "&ordering=" + ordering
+            list = document.querySelector('#list')
+            ajax_filter_and_sort(url, list)
+        }
+
+        function ajax_filter_and_sort(url, element) {
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'contentType' : 'application/json; charset=UTF-8'}
+                })
+                .then(response => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.text();
+                    } else {
+                        throw Error(response.statusText);
+                    }
+                })
+                .then(html => {
+                    element.innerHTML = html
+                }
+            )
+        }
+
+        function link_step(event, sub) {
+            event.preventDefault();
+            
+            url = "{% url 'link-step' uuid %}"
+            list = document.querySelector('#list')
+            ajax_link_step(url, sub)
+        }
+
+        function ajax_link_step(url, sub) {
+            fetch(url, {
+                method: 'POST',
+                body : JSON.stringify({'sub': sub}),
+                headers: {
+                    'X-CSRFToken' : CSRFToken,
+                    'contentType' : 'application/json; charset=UTF-8'}
+                })
+                .then(response => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw Error(response.statusText);
+                    }
+                })
+                .then(jsonResponse => {
+                    location.reload(false);
+                }
+            )
+        }
+
     </script>
 {% endblock %}

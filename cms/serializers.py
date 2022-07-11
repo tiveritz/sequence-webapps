@@ -27,10 +27,10 @@ class ListBaseSerializer(Serializer):
 
     APP_TIME_FORMAT = '%Y-%m-%d %H:%M'
     API_TIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%fZ'
-    
+
     def get_title(self, obj):
         return obj['title'] or '-'
-        
+
     def get_created(self, obj):
         return self.convert_datetime(obj['created'])
 
@@ -38,8 +38,8 @@ class ListBaseSerializer(Serializer):
         return self.convert_datetime(obj['updated'])
 
     def convert_datetime(self, to_convert):
-        dt = datetime.strptime(to_convert, self.API_TIME_FORMAT) \
-                    .replace(tzinfo=timezone.utc)
+        dt = datetime.strptime(to_convert, self.API_TIME_FORMAT).replace(
+            tzinfo=timezone.utc)
         return dt.strftime(self.APP_TIME_FORMAT)
 
 
@@ -49,7 +49,7 @@ class SequenceListSerializer(ListBaseSerializer):
 
     def get_is_published(self, obj):
         published = obj['published']
-        
+
         if published is not None:
             return self.convert_datetime(published)
         else:
@@ -63,7 +63,7 @@ class SequenceListSerializer(ListBaseSerializer):
 
     def convert_datetime(self, to_convert):
         dt = datetime.strptime(to_convert, self.API_TIME_FORMAT) \
-                    .replace(tzinfo=timezone.utc)
+            .replace(tzinfo=timezone.utc)
         return dt.strftime(self.APP_TIME_FORMAT)
 
 
@@ -77,8 +77,3 @@ class StepSerializer(ListBaseSerializer):
 
 class SequencesSerializer(ListPaginationSerializer):
     sequences = SequenceListSerializer(many=True, source='results')
-
-
-class SequenceSerializer(ListBaseSerializer):
-    step = UUIDField()
-    linked = StepSerializer(many=True)

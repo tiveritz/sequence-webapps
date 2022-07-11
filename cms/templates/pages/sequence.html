@@ -13,19 +13,44 @@
         <div class="row">
             <ul id="sortable" class="collection">
                 {% for link in linked %}
-                    {% include 'modules/edit/recursive_step_sequence.html' with first=True %}
+                    {% include 'modules/edit/recursive_step.html' with first=True %}
                 {% endfor %}
               </ul>
         </div>
+        <button id="add-linked-btn" data-target="add" class="btn-floating btn-large modal-trigger blue" onclick="filter_steps(event, {{ page }}, '{{ ordering }}')">
+            <i class="material-icons">add</i>
+        </button>
 
     </div>
 </div>
+
+<div id="add" class="modal">
+    <div class="modal-content">
+        <div class="create-control">
+            <h4>Link Step</h4>
+            <a href="#" class="modal-close btn-flat">Cancel</a>
+        </div>
+        <div class="nothing-2"></div>
+        <div id="list" class="row"></div>
+        <div class="nothing-2"></div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block page-script %}
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.modal');
+            var instances = M.Modal.init(elems);
+
+            elem = document.querySelector('#add-linked-btn');
+            var instance = M.Modal.getInstance(elem);
+        });
+    </script>
     <script type="text/javascript" src="{% static './cms/js/src/sortable.js' %}"></script>
     <script type="text/javascript">
-        const URL_LINKED_STEPS_ORDER = "{% url 'linked-steps-order' uuid=step %}"
+        const URL_LINKED_STEPS_ORDER = "{% url 'linked-steps-order' uuid=uuid %}"
         const CSRFToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
         new Sortable.create(sortable, {
@@ -56,5 +81,62 @@
             }
         )
     }
+
+    function filter_steps(event, page, ordering) {
+            event.preventDefault();
+            
+            url = "{% url 'step-linkable-filter' uuid %}?page=" + page + "&ordering=" + ordering
+            console.log(url)
+            list = document.querySelector('#list')
+            ajax_filter_and_sort(url, list)
+        }
+
+        function ajax_filter_and_sort(url, element) {
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'contentType' : 'application/json; charset=UTF-8'}
+                })
+                .then(response => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.text();
+                    } else {
+                        throw Error(response.statusText);
+                    }
+                })
+                .then(html => {
+                    element.innerHTML = html
+                }
+            )
+        }
+
+        function link_step(event, sub) {
+            event.preventDefault();
+            
+            url = "{% url 'link-step' uuid %}"
+            list = document.querySelector('#list')
+            ajax_link_step(url, sub)
+        }
+
+        function ajax_link_step(url, sub) {
+            fetch(url, {
+                method: 'POST',
+                body : JSON.stringify({'sub': sub}),
+                headers: {
+                    'X-CSRFToken' : CSRFToken,
+                    'contentType' : 'application/json; charset=UTF-8'}
+                })
+                .then(response => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw Error(response.statusText);
+                    }
+                })
+                .then(jsonResponse => {
+                    location.reload(false);
+                }
+            )
+        }
     </script>
 {% endblock %}

@@ -3,6 +3,9 @@
         <div>
             <div class="linked">
                 <div>{{ link.pos }}</div>
+                <a class="btn-floating btn-flat btn-small white" href="{% url 'step' link.uuid %}">
+                    <i class="material-icons blue-text">edit</i>
+                </a>
                 <div>{{ link.title }}</div>
             </div>
             <ul>
@@ -11,10 +14,12 @@
                 {% endfor %}
             </ul>
         </div>
-        {% if first %}
-            <a id="delete-btn" data-target="add" class="btn-floating btn-small modal-trigger grey" href="{% url 'step-delete-linked' uuid link.uuid %}">
-                <i class="material-icons">delete</i>
-            </a>
-        {% endif %}
+        <div>
+            {% if first %}
+                <a id="delete-btn" class="btn-flat btn-small white" href="{% url 'step-delete-linked' uuid link.uuid %}">
+                    <i class="material-icons red-text darken-2">delete</i>
+                </a>
+            {% endif %}
+        </div>
     </div>
 </li>

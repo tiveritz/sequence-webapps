@@ -8,51 +8,8 @@
     <div class="row">
         <h1>Sequences</h1>
         <div class="nothing-1"></div>
-
-        <div class="row">
-            {% include 'modules/list/pagination_header.html' %}
-
-            <div class="nothing-1"></div>
-            <table class="highlight">
-                <thead>
-                    <tr>
-                        <th class="table-edit">
-                            {% if ordering != None %}
-                            <div><br></div>
-                            <a class="black-text" href="?page={{ current }}">
-                                <i class="material-icons">clear</i>
-                            </a>
-                            {% endif %}
-                        </th>
-                        {% include 'modules/list/th_title.html' %}
-                        {% include 'modules/list/th_created.html' %}
-                        {% include 'modules/list/th_updated.html' %}
-                        {% include 'modules/list/th_published.html' %}
-                    </tr>
-                </thead>
-
-                </tr>
-                    {% for sequence in sequences %}
-                        <tr>    
-                            <td>
-                                <a class="btn-floating btn-small grey" href="{% url 'sequence' sequence.uuid %}">
-                                    <i class="material-icons">create</i>
-                                </a>
-                            </td>
-                            <td>{{ sequence.title }}</td>
-                            <td>{{ sequence.created }}</td>
-                            <td>{{ sequence.updated }}</td>
-                            <td>
-                                {% if sequence.is_published %}
-                                    {{ sequence.published }}
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-
-
+        <div id="list" class="row">
+            {% include 'modules/sequence_list.html' %}
         </div>
     </div>
 </div>
@@ -72,4 +29,33 @@
 
 {% block page-script %}
     {% include 'modules/list/add_form_script.html' %}
+    <script type="text/javascript">
+        function filter_steps(event, page, ordering) {
+            event.preventDefault();
+            
+            url = "{% url 'sequences-filter' %}?page=" + page + "&ordering=" + ordering
+            list = document.querySelector('#list')
+            ajax_filter_and_sort(url, list)
+        }
+
+        function ajax_filter_and_sort(url, element) {
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'contentType' : 'application/json; charset=UTF-8'}
+                })
+                .then(response => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.text();
+                    } else {
+                        throw Error(response.statusText);
+                    }
+                })
+                .then(html => {
+                    element.innerHTML = html
+                }
+            )
+        }
+
+    </script>
 {% endblock page-script %}

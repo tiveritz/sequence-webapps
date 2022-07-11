@@ -36,8 +36,6 @@
             url = "{% url 'steps-filter' %}?page=" + page + "&ordering=" + ordering
             list = document.querySelector('#list')
             ajax_filter_and_sort(url, list)
-
-
         }
 
         function ajax_filter_and_sort(url, element) {
@@ -61,5 +59,3 @@
 
     </script>
 {% endblock page-script %}
-
-

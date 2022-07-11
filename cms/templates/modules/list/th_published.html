@@ -1,10 +1,10 @@
-<th class="table-updated">
-    <div>Published</div>
+<th class="table-sort">
+    <div >Published</div>
     <div class="table-sort-control">
-        <a class="{% if ordering == 'published' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=published">
+        <a class="{% if ordering == 'published' %}blue-text{% else %}black-text{% endif %}" onclick="filter_steps(event, {{ current }}, 'published')" href="#">
             <i class="material-icons">expand_less</i>
         </a>
-        <a class="{% if ordering == '-published' %}blue-text{% else %}black-text{% endif %}" href="?page={{ current }}&ordering=-published">
+        <a class="{% if ordering == '-published' %}blue-text{% else %}black-text{% endif %}" onclick="filter_steps(event, {{ current }}, '-published')" href="#">
             <i class="material-icons">expand_more</i>
         </a>
     </div>
