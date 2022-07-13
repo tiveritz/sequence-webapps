@@ -104,3 +104,8 @@ body {
 .collection .collection-inner {
 	border-bottom: none;
 }
+
+.decision-list {
+	display: flex;
+	justify-content: space-between;
+}

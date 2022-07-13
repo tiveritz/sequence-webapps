@@ -2,7 +2,7 @@ from django.shortcuts import render, reverse
 from django.conf import settings
 import requests
 from django.http import HttpResponseRedirect
-from ..forms import CreateText, CreateCode, EditExplanation
+from ...forms import CreateText, CreateCode, EditExplanation
 
 
 API_URL = settings.API_URL

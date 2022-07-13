@@ -1,8 +1,10 @@
 from datetime import datetime, timezone
-from rest_framework.serializers import (Serializer,
-                                        IntegerField,
-                                        SerializerMethodField,
-                                        UUIDField)
+from rest_framework.serializers import (
+    CharField,
+    Serializer,
+    IntegerField,
+    SerializerMethodField,
+    UUIDField)
 
 
 class RecursiveSerializer(Serializer):
@@ -73,6 +75,7 @@ class StepsSerializer(ListPaginationSerializer):
 
 class StepSerializer(ListBaseSerializer):
     linked = RecursiveSerializer(many=True)
+    type = CharField(default=None)
 
 
 class SequencesSerializer(ListPaginationSerializer):

@@ -6,11 +6,15 @@
                 <a class="btn-flat btn-small white" href="{% url 'step' link.uuid %}">
                     <i class="material-icons blue-text">edit</i>
                 </a>
-                <div>{{ link.title }}</div>
+                <div class="{% if link.type == 'DECISION' %}green-text{% endif %}">{{ link.title }}</div>
             </div>
-            <ul>
+            <ul class="{% if link.type == 'DECISION' %}decision-list{% endif %}">
                 {% for link in  link.linked %}
-                    {% include 'modules/edit/recursive_step.html' with first=False linked=link %}
+                    {% if link.type == 'DECISION' %}
+                        {% include 'modules/edit/recursive_step.html' with first=False linked=link %}
+                    {% else %}
+                        {% include 'modules/edit/recursive_step.html' with first=False linked=link %}
+                    {% endif %}
                 {% endfor %}
             </ul>
         </div>
